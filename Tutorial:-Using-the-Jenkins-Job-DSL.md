@@ -5,12 +5,10 @@ Instead of creating each job from scratch, we recommend creating a "template" jo
 This tutorial will actually focus on creating three jobs, one for release, one for testing on every commit, and one for running Sonar once a day. We're assuming you have an existing Maven project.
 
 ## 1. Creating Template Jobs
-
 * From the Jenkins main page, select "Create Job". Name it "TMPL-Release", base it on the Maven 2/3 template, and configure it to run the Maven release:release goal
 * From the Jenkins main page, select "Create Job". Name it "TMPL-Test", base it on the Maven 2/3 template, and configure it to run the Maven test goal
 
 ## 2. Creating a Jenkins Job DSL Script
-
 Add the following to source control and check it in:
 
 ```
@@ -32,9 +30,7 @@ job {
 ```
 
 ## 3. Configuring the Jenkins Job DSL Manager
-
-We need a job which will look at the DSL file and generate the jobs, this is called a "Seed" job. Go the Jenkins main page and click "Create Job". Add the build step called "Job DSL Manager". In the single text field, enter the path to the dsl file you checked into source control.
+We need a job which will look at the DSL file and generate the jobs, this is called a "Seed" job. Go the Jenkins main page and click "Create Job". Call this new job "Job DSL Manager" and select the free-style template. Once it is created, add a build step called "Job DSL". In the single text field, enter the path to the dsl script file you checked into source control in step 2 above.
 
 ## 4. Creating Jenkins Jobs from your DSL Script
-
 Run "Build Now" on your (Seed) job. Look at the build result to see a link to the job which has been created.
