@@ -4,13 +4,11 @@ job {
    configure { project ->
        properties {
              'hudson.security.AuthorizationMatrixProperty' {
-                add {
-                    permission { 'hudson.model.Item.Configure:jryan' }
-                }
+                add { permission { 'hudson.model.Item.Configure:jryan' } }
                 permission { hudson.model.Run.Delete:jryan } // Not sure what to do here, since parent is a list, maybe we need a << syntax
             }
        }
-       assignedNode { remove() } // doing it this way, so that we first identify node, then remove
+       canRoam { remove() } // doing it this way, so that we first identify node, then remove
        triggers(class:'vector') {
            add { generateTrigger('*/10 * * * *') }        
        }
@@ -18,13 +16,14 @@ job {
    }
 }
 
-// Replaces trigger
+// Replaces trigger - Convenience Method
 def generateTrigger(String cron) {
         'hudson.triggers.SCMTrigger' {
             spec { cron }
          }
 }
 
+// Configures SCM (GIT) - Convenience Method
 def configureScm(project) {
   project.with {
     scm(class:'hudson.plugins.git.GitSCM') {
