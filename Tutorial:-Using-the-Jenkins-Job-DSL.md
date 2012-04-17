@@ -30,7 +30,7 @@ job {
 ```
 
 ## 3. Configuring the Jenkins Job DSL Manager
-We need a job which will look at the DSL file and generate the jobs, this is called a "Seed" job. Go the Jenkins main page and click "Create Job". Call this new job "Job DSL Manager" and select the free-style template. Once it is created, add a build step called "Job DSL". In the single text field, enter the path to the dsl script file you checked into source control in step 2 above.
+We need a job which will look at the DSL file and generate the jobs, this is called a "Seed" job. Go the Jenkins main page and click "Create Job". Call this new job "Job DSL Manager" and select the free-style template. Once it is created, add a build step called "Process Job DSLs". In the single text field, enter the path to the dsl script file you checked into source control in step 2 above.
 
 ## 4. Creating Jenkins Jobs from your DSL Script
 Run "Build Now" on your (Seed) job. Look at the build result to see a link to the job which has been created.
