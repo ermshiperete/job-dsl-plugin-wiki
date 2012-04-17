@@ -21,7 +21,7 @@ job {
     }
 }
 job {
-    name 'DSL-Tutorial-UnitTest
+    name 'DSL-Tutorial-UnitTest'
     using 'TMPL-Test'
     configure {
          // TBD
