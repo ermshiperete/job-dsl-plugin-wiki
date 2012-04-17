@@ -1,13 +1,13 @@
 Before proceeding, make sure to have the latest plugin installed. Install from update center or .hpi file provided from this site.
 
-Instead of creating each job from scratch, we recommend create a "template" job. These are normal Jenkins job, configured with the Jenkins UI. An example could include one template for running tests on every commit and a daily sonar job. These templates wouldn't include anything specific to a project, like SCM. One strength of the DSL is that you only have to specify what is has changed from the template, and in this example only SCM would have to be provided.
+Instead of creating each job from scratch, we recommend creating a "template" job. These are normal Jenkins jobs, configured via the Jenkins UI. An example could include one template for running tests on every commit and a daily sonar job. These templates wouldn't include anything specific to a project, like SCM. One strength of the DSL is that you only have to specify what is has changed from the template, and in this example only SCM information would have to be provided.
 
 This tutorial will actually focus on creating three jobs, one for release, one for testing on every commit, and one for running Sonar once a day. We're assuming you have an existing Maven project.
 
 ## 1. Creating Template Jobs
 
-* From the Jenkins main page, select "Create Job". Name it "TMPL-Release", and configure maven with release:release.
-* From the Jenkins main page, select "Create Job". Name it "TMPL-Test", and configure maven with test
+* From the Jenkins main page, select "Create Job". Name it "TMPL-Release", base it on the Maven 2/3 template, and configure it to run the Maven release:release goal
+* From the Jenkins main page, select "Create Job". Name it "TMPL-Test", base it on the Maven 2/3 template, and configure it to run the Maven test goal
 
 ## 2. Creating a Jenkins Job DSL Script
 
