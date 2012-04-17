@@ -33,7 +33,7 @@ job {
 
 ## 3. Configuring the Jenkins Job DSL Plugin
 
-We need a job which will look at the DSL file and generate the jobs, this is called a "Seed" job. Go the Jenkins main page and click "Create Job". Add the build step called "Job DSL". In the single text field, enter the path to the dsl file you checked into source control.
+We need a job which will look at the DSL file and generate the jobs, this is called a "Seed" job. Go the Jenkins main page and click "Create Job". Add the build step called "Job DSL Manager". In the single text field, enter the path to the dsl file you checked into source control.
 
 ## 4. Creating Jenkins Jobs from your DSL Script
 
