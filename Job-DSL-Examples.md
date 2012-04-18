@@ -8,7 +8,9 @@ job {
                 permission { hudson.model.Run.Delete:jryan } // Not sure what to do here, since parent is a list, maybe we need a << syntax
             }
        }
-       canRoam { remove() } // doing it this way, so that we first identify node, then remove
+       remove {
+           canRoam // relative to project, which is remove's parent
+       }
        triggers(class:'vector') {
            add { generateTrigger('*/10 * * * *') }        
        }
