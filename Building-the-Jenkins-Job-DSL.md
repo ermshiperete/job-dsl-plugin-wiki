@@ -1,4 +1,4 @@
-This page covers the steps required to build and package the job-dsl-plugin from source.  These are command-line instructions. If you have a IDE, go for your life. The steps should be very similar.
+This page covers the steps required to build and package the job-dsl-plugin from source.  These are command-line instructions. If you have an IDE, go for your life. The steps should be very similar.
 
 ## Pre-Requisites
 * Java 1.6 JDK (or above)
