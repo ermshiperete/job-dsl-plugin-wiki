@@ -1,12 +1,12 @@
 Targeted supported features:
-```
+```groovy
 job {
    name = "${JOBNAME}-tests"
    configure { project ->
        properties {
              'hudson.security.AuthorizationMatrixProperty' {
                 add { permission { 'hudson.model.Item.Configure:jryan' } }
-                permission { hudson.model.Run.Delete:jryan } // Not sure what to do here, since parent is a list, maybe we need a << syntax
+                permission { hudson.model.Run.Delete:jryan } // Not sure what to do here, since parent is a list, maybe we need a < < syntax
             }
        }
        remove {
