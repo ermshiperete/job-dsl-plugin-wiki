@@ -71,7 +71,7 @@ def configureGit(project, url, branch) {
             }
         }
         branches {
-           'hudson.plugins.git.BranchSpec {
+           'hudson.plugins.git.BranchSpec' {
                name { branch }
            }
         }
