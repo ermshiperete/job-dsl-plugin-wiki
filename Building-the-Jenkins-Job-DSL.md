@@ -10,7 +10,11 @@ This page covers the steps required to build and package the job-dsl-plugin from
 4. Open a browser and navigate to http://localhost:8080 to see the Jenkins UI
 
 ## Creating an IDEA project
-Type: ./gradlew cleanIdea idea
+1. ./gradlew clean cleanIdea
+2. ./gradlew idea
+3. In IntelliJ, "Open Project" and open the .ipr file
+4. Open Ant side window and add build.xml
+5. Run "All in job-dsl" task
 
 ## Creating an Eclipse project
 Type: ./gradlew cleanEclipse eclipse
