@@ -9,12 +9,15 @@ This page covers the steps required to build and package the job-dsl-plugin from
 3. Run "./gradlew server". This will first download the appropriate version of Gradle. Then it compile and package the plugin .jpi and also start a local Jenkins server with the plugin installed
 4. Open a browser and navigate to http://localhost:8080 to see the Jenkins UI
 
-## Creating an IDEA project
+## IDEs
+IntelliJ and Eclipse (STS) has the ability to open Gradle projects directly, but they both have their own issues actually running Gradle and running tests. So below are some instructions until Gradle/IDE support gets better.
+
+### Creating an IDEA project
 1. ./gradlew clean cleanIdea
 2. ./gradlew idea
 3. In IntelliJ, "Open Project" and open the .ipr file
 4. Open Ant side window and add build.xml
 5. Run "All in job-dsl" task
 
-## Creating an Eclipse project
+### Creating an Eclipse project
 Type: ./gradlew cleanEclipse eclipse
