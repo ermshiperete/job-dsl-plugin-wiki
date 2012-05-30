@@ -8,3 +8,9 @@ This page covers the steps required to build and package the job-dsl-plugin from
 2. Open a command line window and cd to the jenkins-job-dsl directory that you cloned to
 3. Run "./gradlew server". This will first download the appropriate version of Gradle. Then it compile and package the plugin .jpi and also start a local Jenkins server with the plugin installed
 4. Open a browser and navigate to http://localhost:8080 to see the Jenkins UI
+
+## Creating an IDEA project
+Type: ./gradlew cleanIdea idea
+
+## Creating an Eclipse project
+Type: ./gradlew cleanEclipse eclipse
