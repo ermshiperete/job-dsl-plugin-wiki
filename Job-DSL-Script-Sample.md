@@ -3,23 +3,24 @@ Targeted supported features:
 job {
     name = "${JOBNAME}-tests"
     configure { project ->
-        // Simple block, adds if it doesn't exists
+        // Simple block which adds if it doesn't already exist, (otherwise replaces(?) - we should document this)
         publishers.'hudson.tasks.JavadocArchiver' {
             // Simple body used in brackets
             javadocDir { 'build/javadoc' }
 
-            // Simple asssignment of text used via equals
+            // Simple assignment of text used via equals
             title = 'Java Documentation'
 
-            // Support native boolean and other native types.
+            // Support native boolean and other native types
             keepAll = true
         }
 
-        // Updating of existing node, e.g. properties
+        // Updating an existing node, e.g. 'properties'
         properties {
-            // Further navigation of existing nodes
+            // Further navigation of existing sub-nodes
             'hudson.security.AuthorizationMatrixProperty' {
                 // Add a new permission to existing Authorization Matrix
+                // Suggestion - could we replace the '++' with 'add'/'append' and provide '++' as an alias?
                 permission { 'hudson.model.Item.Configure:jryan' } ++
 
                 // Replace all existing permissions since we assume everything is an update
@@ -28,25 +29,28 @@ job {
         }
 
         // Remove property from project
+        // Suggestion - what about 'canRoam remove' with an alias of '--'?)
         canRoam--
 
+        // Suggestion - could we change '++' to 'append'? I can see me missing / mis-interpreting the former.  We could always alias in the shorthand...
         builders {
             'hudson.tasks.Ant' {
                 targets { 'sanitize findbugs build' }
                 antName { 'Ant 1.8' }
                 buildFile = 'build.xml'
             } ++ // This appends the hudson.tasks.Ant node to builders
-       }
+        }
 
-       // Append a trigger, using a function
-       triggers(class:'vector') + generateTrigger('*/10 * * * *')
+        // Use a custom function to append a trigger (which works within the current context)
+        // Suggestion: could we clean this up a little?  The 'triggers(class:'vector')' piece is a repeat or is this just an error in this page?...
+        triggers(class:'vector') + generateTrigger('*/10 * * * *')
 
-       configureGit(project, 'git://github.com/jenkinsci/analysis-collector-plugin.git', 'origin/master')
+        // Use another custom function to configure Git which has an XML node passed in to it
+        configureGit(project, 'git://github.com/jenkinsci/analysis-collector-plugin.git', 'origin/master')
    }
 }
 
-// Convenience Methods, examples
-
+// Convenience Method Examples:
 // Function to add trigger, generate a node inside of current context, which in this case is triggers(class:'vector')
 def generateTrigger(String cron) {
     'hudson.triggers.SCMTrigger' {
