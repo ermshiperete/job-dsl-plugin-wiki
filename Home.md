@@ -4,7 +4,7 @@ Overview: [[Jenkins-Job-DSL-Architecture]]
 
 Step-by-step tutorial: [[Tutorial:-Using-the-Jenkins-Job-DSL]]
 
-Our ideal form of the DSL: [[Job DSL Sample]]
+Our ideal form of the DSL: [[Job DSL Script Sample]]
 
 How to build: [[Building-the-Jenkins-Job-DSL]]
 
