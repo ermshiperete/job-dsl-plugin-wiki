@@ -63,7 +63,7 @@ Result:
 </project>
 ```
 
-## Configurate Log Rotator Plugin
+## Configure Log Rotator Plugin
 
 withXml:
 ```groovy
@@ -88,4 +88,55 @@ Result:
     <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
 </project>
+```
+
+## Configure Email Notification - TBC
+
+withXml:
+```groovy
+```
+Result:
+```XML
+
+```
+
+## Configure Checkstyle, Findbugs and PMD - TBC
+
+withXml:
+```groovy
+```
+Result:
+```XML
+
+```
+
+## Configure
+
+withXml:
+```groovy
+```
+Result:
+```XML
+
+```
+
+## Configure Downstream Build - TBC
+
+withXml:
+```groovy
+```
+Result:
+```XML
+
+```
+
+
+## Configure SVN - TBC
+
+withXml:
+```groovy
+```
+Result:
+```XML
+
 ```
