@@ -1,10 +1,21 @@
 # Overview
 
-A closure is passed to withXml to transform the Jenkins configuration XML. This provides very low level access to the underlying XML using groovy.util.Node. All standard documentation for Node applies here, the delegate and object passed in is a Node representing the Jenkins root object, <project/>. Transforming XML via Node is no fun, and quite ugly. The general groovy use-cases are to consume this structure or build it up (via NodeBuilder). Use the samples below to help navigate the Jenkins XML, but keep in mind that the actual syntax is Groovy syntax: http://groovy.codehaus.org/Updating+XML+with+XmlParser. Things to keep in mind:
+withXml is a method inside the Job DSL to give direct access to underlying XML of the Jenkins config.xml. The method is provided a closure to manipulate the groovy.util.Node that is passed in. All standard documentation for Node applies here, the object passed in represents the Jenkins root object, <project/>. 
+
+# Caveat
+
+Transforming XML via Node is no fun, and quite ugly. The general groovy use-cases are to consume this structure or build it up via NodeBuilder. Use the samples below to help navigate the Jenkins XML, but keep in mind that the actual syntax is Groovy syntax: http://groovy.codehaus.org/Updating+XML+with+XmlParser. Things to keep in mind:
 
 * All queries (methodMissing or find) assume that a NodeList is being returned, so if you need a single Node get the first element, e.g. [0]
 * plus() adds siblings, so once we have one node, you can keep adding siblings, but will need an initial peer to add to.
 * Children can be easily accessed if they exist, if they don't exist you have to append them. This means accessing deep trees
+
+# Add-ons
+
+The ease navigation, two key operators have been overridden. Try to use them as much as possible:
+
+* div() - finds a child node by name, always returning the first child. If no child exists, one will be created
+* leftshift() - appends as a child. If a Node is provided, it is directly added. A string is created as a node. A closure is processed like a NodeBuilder, allowing many nodes to be appended.
 
 # Specification
 
@@ -21,7 +32,7 @@ All samples are given in the context of a withXml block, e.g.
 ```
 job {
     name = "Job-Name"
-    withXml {
+    withXml { project ->
         // Put Sample here
     }
 }
@@ -31,10 +42,8 @@ job {
 
 withXml:
 ```
-// Ideal: def matrix = properties.'hudson.security.AuthorizationMatrixProperty' + { permission('hudson.model.Item.Configure:jryan') }
-def props = (project.properties?:project.appendNode('properties'))[0]
-def matrix = props.'hudson.security.AuthorizationMatrixProperty'?:props.appendNode('hudson.security.AuthorizationMatrixProperty')
-matrix.appendNode('permission', 'hudson.model.Item.Configure:jryan') + {
+def matrix = project / builders / 'hudson.security.AuthorizationMatrixProperty'
+matrix << {
     permission('hudson.model.Item.Configure:jill')
     permission('hudson.model.Item.Configure:jack')
 }
@@ -46,7 +55,6 @@ Result:
 <project>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
-      <permission>hudson.model.Item.Configure:jryan</permission>
       <permission>hudson.model.Item.Configure:jill</permission>
       <permission>hudson.model.Item.Configure:jack</permission>
       <permission>hudson.model.Run.Delete:jryan</permission>
@@ -59,20 +67,22 @@ Result:
 
 withXml:
 ```groovy
-// This doesn't take into account an existing node
-NodeBuilder b = NodeBuilder.newInstance();
-project.append (b.logRotator {
+// Doesn't take into account existing node
+project << logRotator {
     daysToKeep(-1)
     numToKeep(10)
     artifactDaysToKeep(-1)
     artifactNumToKeep(-1)
-})
+}
+
+// Alters existing value
+(project / logRotator / daysToKeep) = -2
 ```
 Result:
 ```XML
 <project>  
   <logRotator>
-    <daysToKeep>-1</daysToKeep>
+    <daysToKeep>-2</daysToKeep>
     <numToKeep>10</numToKeep>
     <artifactDaysToKeep>-1</artifactDaysToKeep>
     <artifactNumToKeep>-1</artifactNumToKeep>
