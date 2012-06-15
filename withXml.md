@@ -1,6 +1,6 @@
 # Overview
 
-withXml is a method inside the Job DSL to give direct access to underlying XML of the Jenkins config.xml. The method is provided a closure to manipulate the groovy.util.Node that is passed in. All standard documentation for Node applies here, the object passed in represents the Jenkins root object, <project/>. 
+withXml is a method inside the Job DSL to give direct access to underlying XML of the Jenkins config.xml. The method is provided a closure to manipulate the groovy.util.Node that is passed in. All standard documentation for Node applies here, the object passed in represents the Jenkins root object<project/>. 
 
 # Caveat
 
@@ -12,7 +12,7 @@ Transforming XML via Node is no fun, and quite ugly. The general groovy use-case
 
 # Add-ons
 
-The ease navigation, two key operators have been overridden. Try to use them as much as possible:
+To ease navigation, two key operators have been overridden. Try to use them as much as possible:
 
 * div() - finds a child node by name, always returning the first child. If no child exists, one will be created
 * leftshift() - appends as a child. If a Node is provided, it is directly added. A string is created as a node. A closure is processed like a NodeBuilder, allowing many nodes to be appended.
