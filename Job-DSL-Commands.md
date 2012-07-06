@@ -1,5 +1,20 @@
 # Supported commands
 
+## Job
+
+```
+name(String jobName)
+```
+
+Name of the job, required. This could be a static name but given the power of Groovy you could get very fancy with the name.
+
+```
+using(String templateName)
+```
+
+Refers to a template job as the basis for this job.
+
+
 ## Security
 
 ```
