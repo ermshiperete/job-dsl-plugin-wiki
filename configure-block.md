@@ -224,9 +224,6 @@ _configure_:
 Result:
 ```XML
 <builders>
-<hudson.tasks.Shell>
-<command>curl "http://artifacts.netflix.com/build-gradle/netflix-oss.gradle" > ${WORKSPACE}/netflix-oss.gradle</command>
-</hudson.tasks.Shell>
   <hudson.plugins.gradle.Gradle>
     <description/>
     <switches>-Dtiming-multiple=5 -P${Status}=true -I ${WORKSPACE}/netflix-oss.gradle ${Option}</switches>
