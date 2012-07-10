@@ -126,9 +126,9 @@ maven {
 ```
 ## Job Settings
 
-Most are too easy to access with withXml 
+Most are very easy to access with configure directly:
 ```
-withXml {
+configure {
     description 'My Description'
     jdk = 'JDK 6'
     disabled false
@@ -136,14 +136,15 @@ withXml {
 }
 ```
 
+## To Be Implemented
+
 ```
 archive(String include, String exclude)
 enum DownstreamTrigger { Succeeds, Unstable, Fails }
 downstream(String projects, DownstreamTrigger trigger)
 ```
-## 
 
-## TBD
+## To Be Designed
 
 * Checkstyle, FindBugs, PMD, Cobertura
 * Publish
