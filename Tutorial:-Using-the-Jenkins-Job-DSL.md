@@ -12,8 +12,9 @@ We use a Free-style project as a place to run the DSL, which means you'll get al
 * Select the "Build a free-style software project" radio button.
 * Click OK button
 
-[[/images/createjob.png]]
 [[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/createjob.png]]
+[[../../raw/master/images/createjob.png]]
+[[../raw/master/images/createjob.png]]
 
 ## 2. Adding a DSL Script
 
