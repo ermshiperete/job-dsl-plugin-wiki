@@ -1,6 +1,6 @@
-----------------------------
-Before proceeding, make sure to have the latest plugin installed. Install from update center or .hpi file provided from this site.
-----------------------------
+
+>**Before proceeding, make sure to have the latest plugin installed. Install from update center or .hpi file provided from this site.**
+
 
 This tutorial will walk you through create a single job from the DSL, then to add a few more.
 
