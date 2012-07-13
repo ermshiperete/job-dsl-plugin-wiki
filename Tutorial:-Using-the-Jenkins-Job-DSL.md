@@ -9,22 +9,23 @@ We use a Free-style project as a place to run the DSL, which means you'll get al
 
 * From the Jenkins main page, select "Create Job". A new job creation page will show up.
 
-[[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/newjob.png]]
+[[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/newjob.png|center|frame]]
 
 * Fill in the name field, e.g. "tutorial-job-dsl-1"
 * Select the "Build a free-style software project" radio button.
 * Click OK button
 
-[[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/createjob.png]]
+[[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/createjob.png|center|frame]]
 
 ## 2. Adding a DSL Script
 
 Now that we have a job, we're going to add a build step to execute the Job DSL. Then we can paste in an example job.
 
 * From the confiure screen, scroll down the "Add build step"
-* From the pull down menu, select "Process Job DSLs". You should be presented with two radio buttons. The default should be "Use the provided DSL script" and be showing a text input box.
+[[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/AddBuildStep.png|center|frame]]
 
-[[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/AddBuildStepSelected.png]]
+* From the pull down menu, select "Process Job DSLs". You should be presented with two radio buttons. The default should be "Use the provided DSL script" and be showing a text input box.
+[[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/AddBuildStepSelected.png|center|frame]]
 
 * Copy the following block into the input box. (Note: This job will be called DSL-Tutorial-1-Test. It'll check a GitHub repo every 15 minutes, then run 'clean test' if there's any change.)
 ```
@@ -41,20 +42,21 @@ job {
     }
 }
 ```
-[[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/DslBuildStep.png]]
+[[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/DslBuildStep.png|center|frame]]
 
-# Click "Save" button.
+* Click "Save" button.
 
-[[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/EmptySeed.png]]
+[[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/EmptySeed.png|center|frame]]
 
 ## 3. Run Seed Job
 
 The Seed Job is all setup now and needs to be run. As it stands right now, we didn't setup any triggers to run the job, but we could have using the standard Jenkins UI in Step 2. Let's run it.
 
 * Click "Build Now" from tutorial-job-dsl-1. It should only take a second to run.
+[[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/Build1.png|center|frame]]
+
 * Look at the build result to see a link to the job which has been created. You should see a section called "Generated Jobs".
 * Follow this link to the new job. You can run the job manually or wait 15 minutes for the scm trigger to kick in. (Note: if you have a new Jenkins server, you might be missing the Git plugin or a Maven install. That could cause this job to fail when running.)
-
 
 ## 4. Adding additional Jobs
 
