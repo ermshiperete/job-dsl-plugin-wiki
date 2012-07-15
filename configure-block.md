@@ -1,6 +1,6 @@
 # Overview
 
-_configure_ is a method inside the Job DSL to give direct access to underlying XML of the Jenkins config.xml. The method is provided a closure to manipulate the groovy.util.Node that is passed in. All standard documentation for Node applies here, the object passed in represents the Jenkins root object<project/>. 
+_configure_ is a method inside the Job DSL to give direct access to underlying XML of the Jenkins config.xml. The method is provided a closure to manipulate the groovy.util.Node that is passed in. All standard documentation for Node applies here, the object passed in represents the Jenkins root object <project/>. 
 
 # Caveat
 
@@ -8,22 +8,22 @@ Transforming XML via Node is no fun, and quite ugly. The general groovy use-case
 
 * All queries (methodMissing or find) assume that a NodeList is being returned, so if you need a single Node get the first element, e.g. [0]
 * plus() adds siblings, so once we have one node, you can keep adding siblings, but will need an initial peer to add to.
-* Children can be easily accessed if they exist, if they don't exist you have to append them. This means accessing deep trees
+* Children can be easily accessed if they exist, if they don't exist you have to append them. This means accessing deep trees is laborious.
 
 # Add-ons
 
 To ease navigation, two key operators have been overridden. Try to use them as much as possible:
 
-* div() - finds a child node by name, always returning the first child. If no child exists, one will be created
-* leftshift() - appends as a child. If a Node is provided, it is directly added. A string is created as a node. A closure is processed like a NodeBuilder, allowing many nodes to be appended.
+* div() - finds a child node by name, always returning the first child. If no child exists, one will be created. E.g. project/description will find the description node, creating it if it doesn't exist.
+* leftshift() - appends as a child. If a Node is provided, it is directly added. A string is created as a node. A closure is processed like a NodeBuilder, allowing many nodes to be appended. 
 
 # Specification
 
 * _configure_ can be stated multiple times
 * execution order is maintained
 * Closure (fragments) can be passed in
-* If no template is specified via using() then a simple project structure is provided. 
-* _configure_ blocks are run before any DSL commands are run. 
+* If no template is specified via using() then a simple free-style project structure is provided. 
+* _configure_ blocks are run in the order they are provided with DSL commands. 
 
 # Samples
 
@@ -37,6 +37,8 @@ job {
     }
 }
 ```
+
+All DSL commands started as samples here. So, hint, hint, if you want a DSL command, add a working sample here. If a DSL sample is provided, that means we've written it directly into the plugin. It's highly recommended to use a DSL command is possible.
 
 ## Add permissions
 
@@ -75,7 +77,7 @@ job {
 
 ## Configure Log Rotator Plugin
 
-withXml:
+Configure:
 ```groovy
 // Doesn't take into account existing node
 project << logRotator {
@@ -219,6 +221,15 @@ job {
 
 _configure_:
 ```groovy
+project / builders / 'hudson.plugins.gradle.Gradle' {
+    description ''
+    switches '-Dtiming-multiple=5'
+    tasks 'test'
+    rootBuildScriptDir ''
+    buildFile ''
+    useWrapper 'true'
+    wrapperScript 'gradlew'
+}
 ```
 
 Result:
@@ -226,24 +237,59 @@ Result:
 <builders>
   <hudson.plugins.gradle.Gradle>
     <description/>
-    <switches>-Dtiming-multiple=5 -P${Status}=true -I ${WORKSPACE}/netflix-oss.gradle ${Option}</switches>
+    <switches>-Dtiming-multiple=5</switches>
     <tasks>clean${Task}</tasks>
     <rootBuildScriptDir/>
     <buildFile/>
     <useWrapper>true</useWrapper>
-    <wrapperScript/>
+    <wrapperScript>gradlew</wrapperScript>
   </hudson.plugins.gradle.Gradle>
 </builders>
 ```
+
+DSL:
+```groovy
+steps {
+    gradle('test', '-Dtiming-multiple-5', true) {
+        wrapperScript 'gradlew'
+    }
+}
 
 ## Configure SVN - TBC
 
 _configure_:
 ```groovy
+project / scm('hudson.scm.SubversionSCM') {
+    locations {
+        'hudson.scm.SubversionSCM_-ModuleLocation' {
+            remote 'http://svn.apache.org/repos/asf/tomcat/maven-plugin/trunk'
+            local '.'
+        }
+    excludedRegions ''
+    includedRegions ''
+    excludedUsers ''
+    excludedRevprop ''
+    excludedCommitMessages ''
+    workspaceUpdater(class="hudson.scm.subversion.UpdateUpdater")
+}
 ```
 
 Result:
 ```XML
+<scm class="hudson.scm.SubversionSCM">
+    <locations>
+        <hudson.scm.SubversionSCM_-ModuleLocation>
+            <remote>http://svn.apache.org/repos/asf/tomcat/maven-plugin/trunk</remote>
+            <local>.</local>
+        </hudson.scm.SubversionSCM_-ModuleLocation>
+    </locations>
+    <excludedRegions/>
+    <includedRegions/>
+    <excludedUsers/>
+    <excludedRevprop/>
+    <excludedCommitMessages/>
+    <workspaceUpdater class="hudson.scm.subversion.UpdateUpdater"/>
+</scm>
 ```
 
 ## Configure GIT - TBC

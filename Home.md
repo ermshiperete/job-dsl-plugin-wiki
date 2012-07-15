@@ -1,9 +1,7 @@
 Welcome to the jenkins-job-dsl wiki!
 
 ***********************************
-***********************************
-**In Progress as of July 10, 2012**
-***********************************
+**In Progress as of July 13, 2012**
 ***********************************
 
 Highly recommended starting point is the tutorial, [[Tutorial: Using the Jenkins Job DSL]] 

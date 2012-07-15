@@ -1,6 +1,10 @@
 # Supported commands
 
-## Job
+All commands exist in a 'job' block.  We currently only support free-form projects.
+
+Many commands will provide some "common use case" scenarios as simple method calls, but sometimes you'll need to access additional properties not provided in the DSL, in these cases the call will support a Closure as the last parameter, this will give native access to the XML, which is typically very straight forward. The full XML can be found for any job by taking the Jenkins URL and appending "/config.xml" to it. We find that creating a job the way you like it, then viewing the XML is the best way to learn what fields you need.
+
+## Name
 
 ```
 name(String jobName)
@@ -8,50 +12,58 @@ name(String jobName)
 
 Name of the job, required. This could be a static name but given the power of Groovy you could get very fancy with the name.
 
+## Using
+
 ```
 using(String templateName)
 ```
 
-Refers to a template job as the basis for this job.
-
+Refers to a template job as the basis for this job. Loaded before any configure blocks or DSL commands.
 
 ## Security
+
+```
+authorization {
+    permission(String)
+    permission(Permissions perm, String user)
+    permission(String permEnumName, String user)
+}
+```
+
+A helper Enum called Permissions is availabe as javaposse.jobdsl.dsl.helpers.Permissions. Import to get some basic type checking, and to learn your options. It looks like this:
 
 ```
 Enum Permissions { 
     ItemConfigure, ItemWorkspace, ItemDelete, ItemBuild, ItemRead, ItemRelease, ItemExtendedRead
     RunDelete, RunUpdate, etc
 ```
-```
-authorization {
-    permission(String)
-    permission(Permissions perm, String user)
-}
-```
 
 ## SCM
 
-Only one scm is supported, so any existing SCM will be replaced. In the case of multiple scm calls in the DSL, the last one will win.
+Only one scm is supported, so any existing SCM will be replaced. In the case of multiple scm calls in the DSL, the last one will win. We currently only support git, but will be supporting perforce and subversion. File a defect if you want them sooner than later.
+
 ```groovy
 scm {
-    git(String url, Closure configure) // configure is optional
-    perforce(Closure configure)
-    subverison(Closure configure)
+    git(String url, String branch = null, Closure configure = null)
+    perforce(String viewspec, Closure configure)
+    subverison(String url, Closure configure)
 }
 
-git {
-    String url
-    String branch
-    // TODO Pull all fields from GitSCM
+// Examples of what can be accessed from the closure block
+git { // Is hudson.plugins.git.GitSCM
+    gitConfigName
+    gitConfigEmail
 }
 
-subversion {
-    String url
-    // Strategy
-    // TODO Pull all fields from SubversionSCM
+subversion { // Is hudson.scm.SubversionSCM
+    excludedRegions ''
+    includedRegions ''
+    excludedUsers ''
+    excludedRevprop ''
+    excludedCommitMessages ''
 }
 
-perforce {
+perforce { // Is hudson.plugins.perforce.PerforceSCM
     // Uses PerforceSCM almost directly
     p4User // Default: rolem
     p4Passwd
@@ -91,7 +103,7 @@ perforce {
 triggers {
     scm(String cronString)
     cron(String cronString)
-    // TODO
+    // TODO, what are the others?
 }
 ```
 
@@ -99,11 +111,12 @@ triggers {
 ```
 step {
     shell(String command)
+    maven(String targetsArg = null, String pomArg = null, Closure configure = null) 
+    gradle(String tasksArg = null, String switchesArg = null, Boolean useWrapperArg = true, Closure configure = null)
+    // TODO
     groovy(String command)
-    ant(String version, String targets, String buildFile, String properties, String javaOptions)
-    ant(Closure configure)
-    gradle(Closure configure)
-    maven(Closure configure)
+    grails(String version)
+    ant(String version, String targets, String buildFile, String properties, String javaOptions, Closure configure)
 }
 
 ant {
@@ -119,14 +132,30 @@ gradle {
     // TODO
 }
 
-maven {
-    String pomLocation
-    // TODO
+maven { // Is hudson.tasks.Maven
+    targets
+    mavenName
+    pom
+    usePrivateRepository
+}
+
+grails { // Is com.g2one.hudson.grails.GrailsBuilder
+    name
+    grailsWorkDir
+    projectWorkDir
+    projectBaseDir
+    serverPort
+    properties
+    forceUpgrade
+    nonInteractive
 }
 ```
-## Job Settings
+##  Configure
 
-Most are very easy to access with configure directly:
+_This is primarily defined in the [configure block] page. This is a short overview._
+
+A lot of property directory on a project are best accessed directly with the configure block and via a DSL command.
+Here are some simple examples:
 ```
 configure {
     description 'My Description'
