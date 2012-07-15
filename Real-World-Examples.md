@@ -44,6 +44,23 @@ job {
 }
 ```
 
+* Set jobs for suites of tests
+
+```groovy
+def giturl = 'git://github.com/quidryan/aws-sdk-test.git'
+for(i in 0..10) {   
+    job {
+        name "DSL-Tutorial-1-Test-${i}"
+        scm {
+            git(giturl)
+        }
+        steps {
+            maven("test -Dtest.suite=${i}")
+        }
+    }
+}
+```
+
 * Set Perforce View Spec
 ```
 def viewspec = '''
