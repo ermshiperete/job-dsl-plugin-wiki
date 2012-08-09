@@ -1,18 +1,19 @@
+>**Before proceeding, make sure to have the latest Job DSL plugin installed. Install it from the update center or use the .hpi file provided from [this site](https://github.com/downloads/JavaPosseRoundup/job-dsl-plugin/job-dsl.hpi).**
 
->**Before proceeding, make sure to have the latest plugin installed. Install from update center or the .hpi file provided from [this site](https://github.com/downloads/JavaPosseRoundup/job-dsl-plugin/job-dsl.hpi).**
+This tutorial will walk you through how to create a single job using a DSL script; and then add a few more.
 
-This tutorial will walk you through how to create a single job using a DSL, then to add a few more.
+## 1. Creating the Seed Job
+We use a Free-style Jenkins Job as a place to run the DSL scrpits. We call this a "Seed Job". Since it's a normal Job you'll get all the standard benefits of Jenkins: history, logs, emails, etc. We further enhance the Seed Job to show which Jobs got created from the DSL script, in each build and on the Seed Job page. 
 
-## 1. Creating Seed Job
-We use a Free-style project as a place to run the DSL, we call this a seed job. Since it's a normal job you'll get all the standard benefits of Jenkins: history, logs, emails, etc. We further enhance the job to show which jobs got created from the DSL, in each build and on the Seed Job page. The first step is to create this job.
+The first step is to create this Job.
 
-* From the Jenkins main page, select "Create Job". A new job creation page will show up.
+* From the Jenkins main page, select either the "New Job" or "Create new Jobs" link. A new job creation page will be displayed.
 
 [[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/newjob.png|center|frame]]
 
 * Fill in the name field, e.g. "tutorial-job-dsl-1"
 * Select the "Build a free-style software project" radio button.
-* Click OK button
+* Click the OK button
 
 [[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/createjob.png|center|frame]]
 
