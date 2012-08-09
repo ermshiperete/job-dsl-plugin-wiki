@@ -100,4 +100,4 @@ branches.each {
 
 ## 5. Enjoy the results
 
-That's it. Now you know how to make Seed Jobs, which can create a multitude of Scripted child Jobs. Read up on the DSL or follow the other tutorials for more fun.
+That's it. Now you know how to make Seed Jobs, which can create a multitude of Scripted child Jobs. Take a look at some [Real World Examples](https://github.com/jenkinsci/job-dsl-plugin/wiki/Real-World-Examples) or jump ahead and [read up on the DSL commands in detail](https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-DSL-Commands) for more fun.
