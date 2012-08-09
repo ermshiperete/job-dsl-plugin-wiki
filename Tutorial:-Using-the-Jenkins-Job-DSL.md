@@ -100,4 +100,4 @@ branches.each {
 
 ## 5. Enjoy the results
 
-Now you know how to make Seed Jobs, which can create a multitude of child jobs. Read up on the DSL or follow the other tutorials for more fun.
+That's it. Now you know how to make Seed Jobs, which can create a multitude of Scripted child Jobs. Read up on the DSL or follow the other tutorials for more fun.
