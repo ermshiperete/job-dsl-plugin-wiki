@@ -152,7 +152,7 @@ grails { // Is com.g2one.hudson.grails.GrailsBuilder
 }
 ```
 ##  Configure
-_This is primarily defined in the [configure block] page. This is a short overview._
+_This is primarily defined in the [[configure block]] page. This is a short overview._
 
 A lot of property directory on a project are best accessed directly with the configure block and via a DSL command.
 Here are some simple examples:
