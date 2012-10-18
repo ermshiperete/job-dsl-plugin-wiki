@@ -3,7 +3,7 @@
 This tutorial will walk you through how to create a single job using a DSL script; and then add a few more.
 
 ## 1. Creating the Seed Job
-We use a Free-style Jenkins Job as a place to run the DSL scrpits. We call this a "Seed Job". Since it's a normal Job you'll get all the standard benefits of Jenkins: history, logs, emails, etc. We further enhance the Seed Job to show which Jobs got created from the DSL script, in each build and on the Seed Job page. 
+We use a Free-style Jenkins Job as a place to run the DSL scripts. We call this a "Seed Job". Since it's a normal Job you'll get all the standard benefits of Jenkins: history, logs, emails, etc. We further enhance the Seed Job to show which Jobs got created from the DSL script, in each build and on the Seed Job page. 
 
 The first step is to create this Job.
 
