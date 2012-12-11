@@ -34,11 +34,11 @@ job {
 job {
     name 'GitJobXmlConfigured'
     scm {
-        git('git://github.com/JavaPosseRoundup/job-dsl-plugin') {
+        git('git://github.com/JavaPosseRoundup/job-dsl-plugin') { node ->
             // These names come straight from the xml, <scm class="hudson.plugins.git.GitSCM">
-            authorOrCommitter 'true'
-            gitConfigName 'Justin Ryan'
-            gitConfigEmail 'justin@halfempty.org'
+            node / authorOrCommitter << 'true'
+            node / gitConfigName << 'Justin Ryan'
+            node / gitConfigEmail << 'justin@halfempty.org'
         }
     }
 }
@@ -95,12 +95,12 @@ branches.each {
 
 * Set up a chain of builds - compile & unit test, integration test, static analysis; each passing the build results of the former to the next step in the chain - TBD
 
-* Add Gradle Build Step - TBD
+* Add Gradle Build Step 
 ```
 job {
     name 'GradleJob'
     steps {
-        gradle()
+        gradle('build')
     }
 }
 ```
