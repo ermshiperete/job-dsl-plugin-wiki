@@ -177,6 +177,7 @@ git('git@git') { node -> // Is hudson.plugins.git.GitSCM
     node / gitConfigName('DSL User')
     node / gitConfigEmail('me@me.com') 
 }
+```
 
 ## Subversion
 ```groovy
@@ -185,7 +186,7 @@ svn(String svnUrl, Closure configure = null)
 
 Add Subversion source. Configure block is handed a hudson.scm.SubversionSCM.
 
-## Performce
+## Perforce
 ```groovy
 p4(String viewspec, String user = 'rolem', String password = '', Closure configure = null)
 ```
