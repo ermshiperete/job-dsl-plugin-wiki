@@ -334,9 +334,8 @@ ant(String targets, String buildFile = 'build.xml', String antName = null)
 ## To Be Designed
 
 * Checkstyle, FindBugs, PMD, Cobertura
-* Publish
-** Junit
-** Javadoc
-** xUnit
-** TestNG
+* Publish - Junit
+* Publish - Javadoc
+* Publish - xUnit
+* Publish - TestNG
 * Parameterized Builds
