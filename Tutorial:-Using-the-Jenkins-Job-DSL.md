@@ -70,6 +70,8 @@ Let's just run it ourselves manually.
 
 (Note: if you have a new Jenkins server, you might be missing the Git plugin or a Maven installation which Jenkins knows about. That could cause this job to fail when run.  If you need to add these, be sure to re-run the Seed Job to make sure the Scripted Job is configured correctly - it won't be if you ran without all the necessary plugins installed in Jenkins.)
 
+(Additional Note: if the build still fails with these plugins / config set up, it may be because the new job is using a "default" maven rather than the one you just added.)
+
 ## 4. Adding additional Jobs to the DSL Script
 
 To show some more of the power of the DSL Plugin, let's create a bunch more Jobs.
