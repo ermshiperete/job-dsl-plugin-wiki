@@ -64,7 +64,7 @@ Let's just run it ourselves manually.
 
 [[https://github.com/JavaPosseRoundup/job-dsl-plugin/raw/master/images/Build1.png|center|frame]]
 
-* Look at the build result to see a link to the new Job which has been created by the running of your DSL script in the Seed Job. You should see this in the section called "Generated Jobs".
+* Look at the build result to see a link to the new Job which has been created by the running of your DSL script in the Seed Job. You should see this in the section called "Generated Jobs". (If you don't see it, you probably have Auto-Refresh disabled.  Enable it, or just refresh the page and then you'll see the new job.)
 
 * Follow this link to your new Job. You can run this new script-generated Job manually or wait the 15 minutes for the scm trigger to kick in. 
 
