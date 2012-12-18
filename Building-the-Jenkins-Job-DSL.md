@@ -16,8 +16,8 @@ IntelliJ and Eclipse (STS) has the ability to open Gradle projects directly, but
 1. ./gradlew clean cleanIdea
 2. ./gradlew idea
 3. In IntelliJ, "Open Project" and open the .ipr file
-4. Open Ant side window and add build.xml
-5. Run the "compileXxx" target applicable to your platform
+4. Open the "Ant Build" side window and add job-dsl-plugin/build.xml
+5. Run the "compile" target
 
 ### Creating an Eclipse project
 Type: ./gradlew cleanEclipse eclipse
