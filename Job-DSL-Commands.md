@@ -340,4 +340,7 @@ ant(String targets, String buildFile = 'build.xml', String antName = null)
 * Publish - TestNG
 * Publish - DeployPublisher
 * Parameterized Builds
-* Builder - Copy Artifact
+* Build - CopyArtifact
+* Report - MavenMailer
+* Publish - BuildTrigger
+* Extend SCM (SVN and others?) to handle browser URL's nicely
