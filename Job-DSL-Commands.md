@@ -338,4 +338,6 @@ ant(String targets, String buildFile = 'build.xml', String antName = null)
 * Publish - Javadoc
 * Publish - xUnit
 * Publish - TestNG
+* Publish - DeployPublisher
 * Parameterized Builds
+* Builder - Copy Artifact
