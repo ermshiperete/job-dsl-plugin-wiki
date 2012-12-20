@@ -59,7 +59,7 @@ job {
         svn(svnUrl) {}
         p4(viewspec, user, password) {}
     }
-    multiscm { 
+    multiscm {
         hg(url, branch) {}
         git(url, branch) {}
         svn(svnUrl) {}
@@ -76,7 +76,7 @@ job {
 }
 ```
 
-The plugin tries to provide dsl methods to cover "common use case" scenarios as simple method calls. When these methods fail you, you can always generate the XML yourself via the [[configure block]]. Sometimes, a DSL method will provide a configure block of its own, which will set the a good context to help modify a few fields.  This gives native access to the Job config XML, which is typically very straight forward to understand. 
+The plugin tries to provide dsl methods to cover "common use case" scenarios as simple method calls. When these methods fail you, you can always generate the XML yourself via the [[configure block]]. Sometimes, a DSL method will provide a configure block of its own, which will set the a good context to help modify a few fields.  This gives native access to the Job config XML, which is typically very straight forward to understand.
 
 (Note: The full XML can be found for any job by taking the Jenkins URL and appending "/config.xml" to it. We find that creating a job the way you like it, then viewing the XML is the best way to learn what fields you need.)
 
@@ -144,7 +144,7 @@ Creates permission records. The first form adds a specific permission, e.g. 'hud
 Permissions looks like this:
 
 ```java
-Enum Permissions { 
+Enum Permissions {
     ItemConfigure, ItemWorkspace, ItemDelete, ItemBuild, ItemRead, ItemRelease, ItemExtendedRead
     RunDelete, RunUpdate, etc.
 ```
@@ -175,7 +175,7 @@ Add Git SCM source. The Git plugin has a lot of configurable options, which are 
 ```groovy
 git('git@git') { node -> // Is hudson.plugins.git.GitSCM
     node / gitConfigName('DSL User')
-    node / gitConfigEmail('me@me.com') 
+    node / gitConfigEmail('me@me.com')
 }
 ```
 
@@ -240,7 +240,7 @@ gerrit {
         DraftPublished
     }
     project('reg_exp:myProject', ['ant:feature-branch', 'plain:origin/refs/mybranch'])
-    project('test-project', '**') 
+    project('test-project', '**')
     configure { node ->
         node / gerritBuildSuccessfulVerifiedValue << '10'
     }
@@ -268,7 +268,7 @@ Runs Gradle, defaulting to the Gradle Wrapper. Configure block is handed a hudso
 
 ## Maven
 ```groovy
-maven(String targetsArg = null, String pomArg = null, Closure configure = null) 
+maven(String targetsArg = null, String pomArg = null, Closure configure = null)
 ```
 
 Runs Apache Maven. Configure block is handed hudson.tasks.Maven.
@@ -306,6 +306,41 @@ extendedEmail('me@halfempty.org', 'Oops', 'Something broken') {
 }
 ```
 
+## Archive Artifacts
+```groovy
+archiveArtifacts(String glob, String excludeGlob = null, Boolean latestOnlyBoolean = false)
+```
+
+Supports archiving artifacts with each build. Simple example:
+
+```groovy
+publishers {
+    archiveArtifacts 'build/test-output/**/*.html'
+}
+```
+
+## HTML Publisher
+```groovy
+publishHtml {
+    report(String reportDir, String reportName = null, String reportFiles = 'index.html', Boolean keepAll = false)
+    report(Map args) // same names as the method above
+}
+
+```
+
+Provides context to add html reports to be archive. The report method can be called multiple times in the closure. Simple
+example with variations on how to call the report method:
+
+```groovy
+publishers {
+    publishHtml {
+        report('build/test-output/*', 'Test Output')
+        report 'build/coverage/*', 'Coverage Report', 'coverage.html' // Without parens
+        report reportName: 'Gradle Tests', reportDir: 'test/*', keepAll: true // Map synxtax
+    }
+}
+```
+
 #  Configure
 _This is primarily defined in the [[configure block]] page. This is a short overview._
 
@@ -322,25 +357,27 @@ configure {
 
 ## To Be Implemented
 
-```
-archive(String include, String exclude)
-enum DownstreamTrigger { Succeeds, Unstable, Fails }
-downstream(String projects, DownstreamTrigger trigger)
-groovy(String script)
-systemGroovy(String script)
-ant(String targets, String buildFile = 'build.xml', String antName = null)
-```
+These are the ones in pipeline, and will be implemented sooner than later. If you're looking on working on one, claim it.
 
-## To Be Designed
-* Maven projects
+* Publish - Downstream job
+* Steps - groovy
+* Steps - System Groovy
+* Publish - xUnit
+* Publish - TestNG
+
+@quidryan:
+* Steps - Ant
 * Publish - Checkstyle, FindBugs, PMD, Cobertura, Emma, Analysis
 * Publish - Junit
 * Publish - Javadoc
-* Publish - xUnit
-* Publish - TestNG
-* Publish - DeployPublisher
-* Parameterized Builds
+* Jabber
+* Publish to scp
+
+## To Be Designed
 * Build - CopyArtifact
+* Parameterized Builds
+* Maven projects
+* Publish - DeployPublisher
 * Build - Python
 * Report - MavenMailer
 * Publish - BuildTrigger
