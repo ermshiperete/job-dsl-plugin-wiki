@@ -131,6 +131,13 @@ disabled(Boolean shouldDisable)
 
 Provides ability to disable a job.
 
+## Build History
+```groovy
+logRotator(int daysToKeepInt = -1, int numToKeepInt = -1, int artifactDaysToKeepInt = -1, int artifactNumToKeepInt = -1)
+```
+
+Sets up the number of builds to keep.
+
 ## Security
 ```groovy
 permission(String)
