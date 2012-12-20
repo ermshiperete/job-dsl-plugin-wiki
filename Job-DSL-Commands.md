@@ -47,6 +47,7 @@ job {
     timeout(timeoutInMinutes, shouldFailBuild)
     chucknorris() // Really important
     disabled(shouldDisable)
+    logRotator(daysToKeepInt, numToKeepInt, artifactDaysToKeepInt, artifactNumToKeepInt)
     authorization {
         permission(permissionStr) // e.g. hudson.model.Item.Workspace:authenticated
         permission(String permEnumName, String user)
@@ -72,6 +73,10 @@ job {
     }
     publishers {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
+        archiveArtifacts(glob, excludeGlob, latestOnlyBoolean)
+        publishHtml {
+            report(reportDir, reportName, reportFiles, keepAll)
+        }
     }
 }
 ```
