@@ -3,7 +3,7 @@ The DSL execution engine exposes only one method, called 'job'. This 'job' metho
 
 ```
 job {
-    name 'Simpliest Job Possible'
+    name 'Simplest Job Possible'
 }
 ```
 
