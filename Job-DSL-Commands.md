@@ -333,7 +333,7 @@ ant(String targets, String buildFile = 'build.xml', String antName = null)
 
 ## To Be Designed
 * Maven projects
-* Checkstyle, FindBugs, PMD, Cobertura
+* Publish - Checkstyle, FindBugs, PMD, Cobertura, Emma, Analysis
 * Publish - Junit
 * Publish - Javadoc
 * Publish - xUnit
@@ -344,5 +344,8 @@ ant(String targets, String buildFile = 'build.xml', String antName = null)
 * Build - Python
 * Report - MavenMailer
 * Publish - BuildTrigger
-* Extend SCM (SVN and others?) to handle browser URL's nicely
+* Publish - SVNTagPublisher
+* Publish - RedeployPublisher
+* Extend SCM (SVN and others?) to handle browser URL's nicely and multiple Module Locations
 * Configure - LogRotator
+* Publish - JoinTrigger
