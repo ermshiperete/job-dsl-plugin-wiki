@@ -1,5 +1,5 @@
 # Job Factory
-The DSL execution engine exposes only one method, called 'job'. This 'job' method implies the creation of a Jenkins job and the closure to this method then further exposed some methods where things get interesting. See the later sections to learn the specific available methods available, for when a DSL helper method isn't available, look to the [[configure block]]. Below is the simpliest job possible:
+The DSL execution engine exposes only one method, called 'job'. This 'job' method implies the creation of a Jenkins job and the closure to this method then further exposed some methods where things get interesting. See the later sections to learn the specific available methods available, for when a DSL helper method isn't available, look to the [[configure block]]. Below is the simplest job possible:
 
 ```
 job {
@@ -332,7 +332,7 @@ ant(String targets, String buildFile = 'build.xml', String antName = null)
 ```
 
 ## To Be Designed
-
+* Maven projects
 * Checkstyle, FindBugs, PMD, Cobertura
 * Publish - Junit
 * Publish - Javadoc
