@@ -341,6 +341,8 @@ ant(String targets, String buildFile = 'build.xml', String antName = null)
 * Publish - DeployPublisher
 * Parameterized Builds
 * Build - CopyArtifact
+* Build - Python
 * Report - MavenMailer
 * Publish - BuildTrigger
 * Extend SCM (SVN and others?) to handle browser URL's nicely
+* Configure - LogRotator
