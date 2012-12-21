@@ -10,6 +10,7 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 
 ## Release Notes
 
+* 1.11 - Ant - Apache Ant Build Step
 * 1.11 - logRotator - How long to keep builds
 * 1.11 - publishHtml - Publish HTML Files
 * 1.11 - archiveArtifacts - Archive artifacts into the build
