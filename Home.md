@@ -1,6 +1,6 @@
 Welcome to the jenkins-job-dsl wiki!
 
-Highly recommended starting point is the tutorial, [[Tutorial: Using the Jenkins Job DSL]] 
+Highly recommended starting point is the tutorial, [[Tutorial: Using the Jenkins Job DSL]]
 
 Once you know how to create a "seed" job from the tutorial, start looking at the [[Real World Examples]] for examples to steal from.  For formal documentation, the [[Job DSL Commands]] page has what is available directly in the DSL at this time.
 
@@ -10,6 +10,7 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 
 ## Release Notes
 
+* 1.11 - Archive Junit - Archiving the results from JUnit
 * 1.11 - Ant - Apache Ant Build Step
 * 1.11 - logRotator - How long to keep builds
 * 1.11 - publishHtml - Publish HTML Files

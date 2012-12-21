@@ -75,6 +75,7 @@ job {
     publishers {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
         archiveArtifacts(glob, excludeGlob, latestOnlyBoolean)
+        archiveJunit(glob, retainLongStdout, allowClaimingOfFailedTests, publishTestAttachments)
         publishHtml {
             report(reportDir, reportName, reportFiles, keepAll)
         }
@@ -370,6 +371,13 @@ publishers {
     archiveArtifacts 'build/test-output/**/*.html'
 }
 ```
+
+## Archive JUnit
+```groovy
+archiveJunit(String glob, boolean retainLongStdout = false, boolean allowClaimingOfFailedTests = false, boolean publishTestAttachments = false)
+```
+
+Supports archiving JUNit results for each build.
 
 ## HTML Publisher
 ```groovy
