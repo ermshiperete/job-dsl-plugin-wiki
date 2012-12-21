@@ -70,6 +70,7 @@ job {
         shell(String commandStr)
         gradle(tasksArg, switchesArg, useWrapperArg) {}
         maven(targetsArg, pomArg) {}
+        ant(targetsArg, buildFileArg, antInstallation, antClosure) // See below for antClosure syntax
     }
     publishers {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
@@ -284,6 +285,45 @@ maven(String targetsArg = null, String pomArg = null, Closure configure = null)
 ```
 
 Runs Apache Maven. Configure block is handed hudson.tasks.Maven.
+
+## Ant
+```groovy
+ant(String targetsArg = null, String buildFileArg = null, String antInstallation = '(Default)', Closure antClosure = null) {
+    target(targetName)
+    targets(Iterable<String> targets)
+    prop(Object key, Object value)
+    props(Map<String, String> map)
+    buildFile(String buildFile)
+    javaOpt(String opt)
+    javaOpts(Iterable<String> opts)
+    antInstallation(String antInstallationName)
+}
+```
+
+Runs Apache Ant. Ant Closure block can be used for all configuration, and it's the only way to add Java Options and System
+Properties.
+* Target argument - Available as an argument or closure method, each call is cumulative. The target argument can be space or newline delimited.
+* Properties - Available via closure method calls. All calls are cumulative. A Map is used to back it, which will enforce unique keys for the properties.
+* Ant Installation - Available as an argument or closure method. Refers to the pull down box in the UI to select which installation of Ant to use, specify the exact string seen in the UI. The last call will be the one used.
+* Build File - Available as an argument or closure method. Specifies which build.xml file to use, this should be relative to the workspace.
+* Java Options - Available via closure method calls. Arguments to be passed directly to the JVM.
+
+From the unit tests, it'll use the targets "build test publish deploy":
+
+```groovy
+steps {
+    ant('build') {
+        target 'test'
+        targets(['publish', 'deploy'])
+        prop 'logging', 'info'
+        props 'test.threads': 10, 'input.status':'release'
+        buildFile 'dir1/build.xml'
+        javaOpt '-Xmx1g'
+        javaOpts(['-Dprop2=value2', '-Dprop3=value3'])
+        antInstallation 'Ant 1.8'
+    }
+}
+```
 
 # Publishers
 
