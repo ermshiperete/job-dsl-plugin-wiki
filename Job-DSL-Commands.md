@@ -79,6 +79,7 @@ job {
         publishHtml {
             report(reportDir, reportName, reportFiles, keepAll)
         }
+        publishJabber(target, strategyName, channelNotificationName, jabberClosure) // See beflow for jabberClosure syntax
     }
 }
 ```
@@ -398,6 +399,19 @@ publishers {
         report 'build/coverage/*', 'Coverage Report', 'coverage.html' // Without parens
         report reportName: 'Gradle Tests', reportDir: 'test/*', keepAll: true // Map synxtax
     }
+}
+```
+
+## Jabber Publisher
+```groovy
+publishJabber(String target, String strategyName, String channelNotificationName, Closure jabberClosure) {
+    strategyName 'ALL' // ALL,  FAILURE_AND_FIXED, ANY_FAILURE, STATECHANGE_ONLY
+    notifyOnBuildStart false
+    notifySuspects false
+    notifyCulprits false
+    notifyFixers false
+    notifyUpstreamCommitters false
+    channelNotificationName 'Default' // Default, SummaryOnly, BuildParameters, PrintFailingTests
 }
 ```
 
