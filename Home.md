@@ -10,6 +10,9 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 
 ## Release Notes
 
+* 1.11 - Downstream Extended - Extended version of downstream that can also pass in complex parameters
+* 1.11 - Downstream - Specify a downstream job
+* 1.11 - SCP Publisher
 * 1.11 - Jabber Publisher - Publish builds to Jabber
 * 1.11 - Archive Junit - Archiving the results from JUnit
 * 1.11 - Ant - Apache Ant Build Step

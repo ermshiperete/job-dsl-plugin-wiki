@@ -84,7 +84,10 @@ job {
         publishHtml {
             report(reportDir, reportName, reportFiles, keepAll)
         }
-        publishJabber(target, strategyName, channelNotificationName, jabberClosure) // See beflow for jabberClosure syntax
+        publishJabber(target, strategyName, channelNotificationName, jabberClosure) // See below for jabberClosure syntax
+        publishScp(site, scpClosure) // See below for scpClosure syntax
+        downstream(projectName, thresholdName)
+        downstream(downstreamClosure) // See below for downstreamClosure syntax
     }
 }
 ```
@@ -410,7 +413,7 @@ publishers {
 ## Jabber Publisher
 ```groovy
 publishJabber(String target, String strategyName, String channelNotificationName, Closure jabberClosure) {
-    strategyName 'ALL' // ALL,  FAILURE_AND_FIXED, ANY_FAILURE, STATECHANGE_ONLY
+    strategyName 'ALL' // ALL, FAILURE_AND_FIXED, ANY_FAILURE, STATECHANGE_ONLY
     notifyOnBuildStart false
     notifySuspects false
     notifyCulprits false
@@ -419,6 +422,47 @@ publishJabber(String target, String strategyName, String channelNotificationName
     channelNotificationName 'Default' // Default, SummaryOnly, BuildParameters, PrintFailingTests
 }
 ```
+
+Supports <a href="https://wiki.jenkins-ci.org/display/JENKINS/Jabber+Plugin">Jabber Plugin</a>. A few arguments can be specified in the method call or in the closure.
+
+## SCP Publisher
+```groovy
+publishScp(String site, Closure scpClosure) {
+    entry(String source, String destination = '', boolean keepHierarchy = false)
+}
+```
+
+Supports <a href="https://wiki.jenkins-ci.org/display/JENKINS/SCP+plugin">SCP Plugin</a>. First arg, site, is specified globally by the plugin. Each entry is
+individually specified in the closure block, e.g. entry can be called multiple times.
+
+## Downstream
+```groovy
+downstream(String projectName, String thresholdName = 'SUCCESS')
+```
+
+Specifies a downstream job. The second arg, thresholdName, can one of three values: 'SUCCESS', 'UNSTABLE', 'FAILURE'.
+
+## Extended Downstream
+```groovy
+downstreamParameterized(Closure downstreamClosure) {
+     trigger(String projects, String condition = 'SUCCESS', boolean triggerWithNoParameters = false, Closure downstreamTriggerClosure = null) {
+        currentBuild() // Current build parameters
+        propertiesFile(String propFile) // Parameters from properties file
+        gitRevision(boolean combineQueuedCommits = false) // Pass-through Git commit that was built
+        predefinedProp(String key, String value) // Predefined properties
+        predefinedProps(Map<String, String> predefinedPropsMap)
+        predefinedProps(String predefinedProps) // Newline separated
+        matrixSubset(String groovyFilter) // Restrict matrix execution to a subset
+        subversionRevision() // Subversion Revision
+     }
+}
+```
+
+Supports <a href="https://wiki.jenkins-ci.org/display/JENKINS/Downstream-Ext+Plugin">Downstream-Ext plugin</a>. The plugin is configured by adding triggers
+to other projects, multiple triggers can be specified. The projects arg is a comma separated list of downstream projects. The condition arg is one of these
+possible values: SUCCESS, UNSTABLE, UNSTABLE_OR_BETTER, UNSTABLE_OR_WORSE, FAILED.  The methods inside the downstreamTriggerClosure are optional, though it
+makes the most sense to call at least one.  Each one is relatively self documenting, mapping directly to what is seen in the UI. The predefinedProp and
+predefinedProps methods are used to accumulate properties, meaning that they can be called multiple times to build a superset of properties.
 
 #  Configure
 _This is primarily defined in the [[configure block]] page. This is a short overview._
