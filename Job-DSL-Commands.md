@@ -60,6 +60,11 @@ job {
         svn(svnUrl) {}
         p4(viewspec, user, password) {}
     }
+    triggers {
+        cron(cronString)
+        scm(cronString)
+        gerrit(gerritClosure) // See below for gerritClosure syntax
+    }
     multiscm {
         hg(url, branch) {}
         git(url, branch) {}
@@ -433,19 +438,15 @@ configure {
 
 These are the ones in pipeline, and will be implemented sooner than later. If you're looking on working on one, claim it.
 
-* Publish - Downstream job
 * Steps - groovy
 * Steps - System Groovy
 * Publish - xUnit
 * Publish - TestNG
 
 @quidryan:
-* Steps - Ant
 * Publish - Checkstyle, FindBugs, PMD, Cobertura, Emma, Analysis
 * Publish - Junit
 * Publish - Javadoc
-* Jabber
-* Publish to scp
 
 ## To Be Designed
 * Build - CopyArtifact
