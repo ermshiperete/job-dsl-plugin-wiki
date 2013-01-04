@@ -87,7 +87,7 @@ job {
         publishJabber(target, strategyName, channelNotificationName, jabberClosure) // See below for jabberClosure syntax
         publishScp(site, scpClosure) // See below for scpClosure syntax
         downstream(projectName, thresholdName)
-        downstream(downstreamClosure) // See below for downstreamClosure syntax
+        downstreamParameterized(downstreamClosure) // See below for downstreamClosure syntax
     }
 }
 ```
