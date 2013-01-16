@@ -14,3 +14,7 @@ We are always happy for folks to help us out on this project.  Here's the ways y
 
 ## Project Developer Docs
 _Not required for users of the DSL. And like any developer docs, they're probably out of date the moment they're written._
+
+## Our Git Protocol
+If you want to make a change to the code on jenkinsci/job-dsl-plugin, here's the protocol we follow (you need a github account in order to do this):
+1. Fork the jonkinsci/job-dsl-plugin repository to your account
