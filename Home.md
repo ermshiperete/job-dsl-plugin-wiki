@@ -38,10 +38,3 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 * 1.1 - extendedEmail(recipients, subject, content, closure) - Configure email-ext plugin
 * 1.1 - gerrit(closure) - Configure Gerrit Trigger plugin
 * 1.0 - Initial release
-
-## Project Developer Docs
-_Not required for users of the DSL. And like any developer docs, they're probably out of date the moment they're written._
-
-Architecture: [[Jenkins Job DSL Architecture]]
-
-How to build: [[Building the Jenkins Job DSL]]
