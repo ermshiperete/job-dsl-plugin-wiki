@@ -44,7 +44,7 @@ All DSL commands started as samples here. So, hint, hint, if you want a DSL comm
 
 _configure_:
 ```
-def matrix = project / builders / 'hudson.security.AuthorizationMatrixProperty'
+def matrix = project / 'properties' / 'hudson.security.AuthorizationMatrixProperty'
 matrix << {
     permission('hudson.model.Item.Configure:jill')
     permission('hudson.model.Item.Configure:jack')
