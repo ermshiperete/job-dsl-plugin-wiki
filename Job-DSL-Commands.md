@@ -486,14 +486,14 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 * Steps - System Groovy
 * Publish - xUnit
 * Publish - TestNG
-
-@quidryan:
 * Publish - Checkstyle, FindBugs, PMD, Cobertura, Emma, Analysis
 * Publish - Junit
 * Publish - Javadoc
 
-## To Be Designed
+@quidryan:
 * Build - CopyArtifact
+
+## To Be Designed
 * Parameterized Builds
 * Maven projects
 * Publish - DeployPublisher
