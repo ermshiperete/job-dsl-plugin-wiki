@@ -47,6 +47,7 @@ job {
     timeout(timeoutInMinutes, shouldFailBuild)
     chucknorris() // Really important
     disabled(shouldDisable)
+    block(projectNames)
     logRotator(daysToKeepInt, numToKeepInt, artifactDaysToKeepInt, artifactNumToKeepInt)
     authorization {
         permission(permissionStr) // e.g. hudson.model.Item.Workspace:authenticated
@@ -73,9 +74,11 @@ job {
     }
     steps {
         shell(String commandStr)
+        batchFile(String commandStr)
         gradle(tasksArg, switchesArg, useWrapperArg) {}
         maven(targetsArg, pomArg) {}
         ant(targetsArg, buildFileArg, antInstallation, antClosure) // See below for antClosure syntax
+        copyArtifacts(jobName, includeGlob, targetPath, flattenFiles, optionalAllowed, copyArtifactClosure) // See below for copyArtifactClosure syntax
     }
     publishers {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
@@ -88,6 +91,7 @@ job {
         publishScp(site, scpClosure) // See below for scpClosure syntax
         downstream(projectName, thresholdName)
         downstreamParameterized(downstreamClosure) // See below for downstreamClosure syntax
+        violations(perFileDisplayLimit, violationsClosure) // Seed below for violationsClosure
     }
 }
 ```
@@ -146,6 +150,13 @@ disabled(Boolean shouldDisable)
 ```
 
 Provides ability to disable a job.
+
+## Block build
+```groovy
+blockOn(String projectNames)
+```
+
+Block build if certain jobs are running, supported by the <a href="https://wiki.jenkins-ci.org/display/JENKINS/Build+Blocker+Plugin">Build Blocker Plugin</a>. projectNames is comma separated.
 
 ## Build History
 ```groovy
@@ -281,6 +292,13 @@ shell(String commandStr)
 
 Runs a shell command.
 
+## Batch File
+```groovy
+batchFile(String commandStr)
+```
+
+Supports running a Windows batch file as a build step.
+
 ## Gradle
 ```groovy
 gradle(String tasksArg = null, String switchesArg = null, Boolean useWrapperArg = true, Closure configure = null)
@@ -334,6 +352,21 @@ steps {
     }
 }
 ```
+
+## Copy Artifacts
+
+```groovy
+copyArtifacts(String jobName, String includeGlob, String targetPath = '', boolean flattenFiles = false, boolean optionalAllowed = false, Closure copyArtifactClosure = null) {
+    upstreamBuild(boolean fallback = false) // Upstream build that triggered this job
+    latestSuccessful() // Latest successful build
+    latestSaved() // Latest saved build (marked "keep forever")
+    permalink(String linkName) // Specified by permalink: lastBuild, lastStableBuild
+    buildNumber(int buildNumber) // Specific Build
+    workspace() // Copy from WORKSPACE of latest completed build
+    buildParameter(String parameterName) // Specified by build parameter
+}
+
+Supports the Copy Artifact plugin. As per the plugin, the input glob is for files in the workspace. The methods in the closure are considered the selectors, of which only one can be used.
 
 # Publishers
 
@@ -463,6 +496,31 @@ to other projects, multiple triggers can be specified. The projects arg is a com
 possible values: SUCCESS, UNSTABLE, UNSTABLE_OR_BETTER, UNSTABLE_OR_WORSE, FAILED.  The methods inside the downstreamTriggerClosure are optional, though it
 makes the most sense to call at least one.  Each one is relatively self documenting, mapping directly to what is seen in the UI. The predefinedProp and
 predefinedProps methods are used to accumulate properties, meaning that they can be called multiple times to build a superset of properties.
+
+
+## Violations Plugin
+```groovy
+violations(int perFileDisplayLimit = 100, Closure violationsClosure = null) {
+    sourcePathPattern(String sourcePathPattern)
+    fauxProjectPath(String fauxProjectPath)
+    perFileDisplayLimit(Integer perFileDisplayLimit)
+    sourceEncoding(String encoding = 'default')
+    *(Integer min = 10, Integer max = 999, Integer unstable = 999, String pattern = null)
+}
+```
+Supports <a href="https://wiki.jenkins-ci.org/display/JENKINS/Violations">Violations Plugin</a>. The violationsClosure is crucial to configure this DSL method.
+For each supported type, you specify it and a few option parameters, this is represented above with the asterisk (*). If a type isn't specified, then it uses
+defaults. The following example wil
+
+```groovy
+violations(50) {
+   sourcePathPattern 'source pattern'
+   fauxProjectPath 'faux path'
+   perFileDisplayLimit 51
+   checkstyle(10, 11, 10, 'test-report/*.xml')
+   findbugs(12, 13, 12)
+}
+```
 
 #  Configure
 _This is primarily defined in the [[configure block]] page. This is a short overview._

@@ -10,6 +10,11 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 
 ## Release Notes
 
+* 1.12 - Copy Artifacts Plugin
+* 1.12 - Batch File Build Step
+* 1.12 - Violations Publisher Plugin
+* 1.11 - Able to specify description
+* 1.11 - Build Blocker Plugin
 * 1.11 - Downstream Extended - Extended version of downstream that can also pass in complex parameters
 * 1.11 - Downstream - Specify a downstream job
 * 1.11 - SCP Publisher
