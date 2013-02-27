@@ -58,7 +58,7 @@ job {
     scm {
         hg(url, branch) {}
         git(url, branch) {}
-        svn(svnUrl) {}
+        svn(svnUrl, localDir) {}
         p4(viewspec, user, password) {}
     }
     triggers {
@@ -215,10 +215,10 @@ git('git@git') { node -> // Is hudson.plugins.git.GitSCM
 
 ## Subversion
 ```groovy
-svn(String svnUrl, Closure configure = null)
+svn(String svnUrl, String localDir='.', Closure configure = null)
 ```
 
-Add Subversion source. Configure block is handed a hudson.scm.SubversionSCM.
+Add Subversion source. 'svnUrl' is self explanatory. 'localDir' sets the <local> tag (which is set to '.' is you leave this out). The Configure block is handed a hudson.scm.SubversionSCM.
 
 ## Perforce
 ```groovy
