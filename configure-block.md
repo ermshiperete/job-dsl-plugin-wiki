@@ -270,7 +270,7 @@ project / scm('hudson.scm.SubversionSCM') {
     excludedUsers ''
     excludedRevprop ''
     excludedCommitMessages ''
-    workspaceUpdater(class="hudson.scm.subversion.UpdateUpdater")
+    workspaceUpdater(class: "hudson.scm.subversion.UpdateUpdater")
 }
 ```
 
