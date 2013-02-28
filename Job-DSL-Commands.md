@@ -551,9 +551,11 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 @quidryan:
 * Build - CopyArtifact
 
+@daspilker
+* Maven projects
+
 ## To Be Designed
 * Parameterized Builds
-* Maven projects
 * Publish - DeployPublisher
 * Build - Python
 * Report - MavenMailer
