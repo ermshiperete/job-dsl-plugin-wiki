@@ -222,7 +222,7 @@ Add Perforce SCM source. The user probably has to be specified. The password wil
 ```groovy
 p4('//depot/Tools/build') { node ->
     node / p4Port('perforce:1666')
-    node / p4Exec('/usr/bin/p4')
+    node / p4Tool('/usr/bin/p4')
     node / exposeP4Passwd('false')
     node / pollOnlyOnMaster('true')
 }
