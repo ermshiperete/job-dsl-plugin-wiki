@@ -45,7 +45,6 @@ job {
     description(descStr)
     label(labelStr)
     timeout(timeoutInMinutes, shouldFailBuild)
-    chucknorris() // Really important
     disabled(shouldDisable)
     block(projectNames)
     logRotator(daysToKeepInt, numToKeepInt, artifactDaysToKeepInt, artifactNumToKeepInt)
@@ -92,6 +91,7 @@ job {
         downstream(projectName, thresholdName)
         downstreamParameterized(downstreamClosure) // See below for downstreamClosure syntax
         violations(perFileDisplayLimit, violationsClosure) // Seed below for violationsClosure
+        chucknorris() // Really important
     }
 }
 ```
@@ -134,14 +134,6 @@ timeout(int timeoutInMinutes, Boolean shoudFailBuild = true)
 ```
 
 Using the build timeout plugin, it can fail a build after a certain amount of time.
-
-## Chuck Norris
-
-```groovy
-chucknorris()
-```
-
-Enables the Cordell Walker plugin.
 
 ## Disable
 
@@ -365,6 +357,7 @@ copyArtifacts(String jobName, String includeGlob, String targetPath = '', boolea
     workspace() // Copy from WORKSPACE of latest completed build
     buildParameter(String parameterName) // Specified by build parameter
 }
+```
 
 Supports the Copy Artifact plugin. As per the plugin, the input glob is for files in the workspace. The methods in the closure are considered the selectors, of which only one can be used.
 
@@ -521,6 +514,14 @@ violations(50) {
    findbugs(12, 13, 12)
 }
 ```
+
+## Chuck Norris
+
+```groovy
+chucknorris()
+```
+
+Enables the Cordell Walker plugin.
 
 #  Configure
 _This is primarily defined in the [[configure block]] page. This is a short overview._
