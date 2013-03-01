@@ -466,7 +466,7 @@ individually specified in the closure block, e.g. entry can be called multiple t
 downstream(String projectName, String thresholdName = 'SUCCESS')
 ```
 
-Specifies a downstream job. The second arg, thresholdName, can one of three values: 'SUCCESS', 'UNSTABLE', 'FAILURE'.
+Specifies a downstream job. The second arg, thresholdName, can one of four values: 'SUCCESS', 'UNSTABLE', 'FAILURE', 'ALWAYS'.
 
 ## Extended Downstream
 ```groovy
