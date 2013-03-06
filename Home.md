@@ -10,6 +10,7 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 
 ## Release Notes
 
+* 1.14 - Maven Project Support
 * 1.13 - Make it possible to forget generated jobs
 * 1.13 - JENKINS-16931, JENKINS-16998
 * 1.12 - Copy Artifacts Plugin
