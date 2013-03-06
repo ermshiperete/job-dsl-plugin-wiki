@@ -39,7 +39,7 @@ Further sections will define in detail how they work, in a Java-like syntax. If 
 Here's a high level overview of what's available:
 
 ```groovy
-job {
+job(attributes) {
     name(nameStr)
     using(templateNameStr)
     description(descStr)
@@ -48,6 +48,13 @@ job {
     disabled(shouldDisable)
     block(projectNames)
     logRotator(daysToKeepInt, numToKeepInt, artifactDaysToKeepInt, artifactNumToKeepInt)
+    jdk(jdkStr)
+    rootPOM(rootPOMStr)
+    goals(goalsStr)
+    mavenOpts(mavenOptsStr)
+    perModuleEmail(shouldSendEmailPerModule)
+    archivingDisabled(shouldDisableArchiving)
+    runHeadless(shouldRunHeadless)
     authorization {
         permission(permissionStr) // e.g. hudson.model.Item.Workspace:authenticated
         permission(String permEnumName, String user)
@@ -64,6 +71,7 @@ job {
         cron(cronString)
         scm(cronString)
         gerrit(gerritClosure) // See below for gerritClosure syntax
+        snapshotDependencies(checkSnapshotDependencies)
     }
     multiscm {
         hg(url, branch) {}
@@ -99,6 +107,19 @@ job {
 The plugin tries to provide dsl methods to cover "common use case" scenarios as simple method calls. When these methods fail you, you can always generate the XML yourself via the [[configure block]]. Sometimes, a DSL method will provide a configure block of its own, which will set the a good context to help modify a few fields.  This gives native access to the Job config XML, which is typically very straight forward to understand.
 
 (Note: The full XML can be found for any job by taking the Jenkins URL and appending "/config.xml" to it. We find that creating a job the way you like it, then viewing the XML is the best way to learn what fields you need.)
+
+## Job
+```groovy
+job(Map<String, Object> attributes=[:], Closure closure)
+```
+
+A job can have optional attributes. Currently only a 'type' attribute with value 'maven' is supported, which will change the job to a maven2/3 project. When no type attribute is specified, a free-style job will be generated. 
+
+```groovy
+job(type: maven) {
+  name 'maven-job'
+}
+```
 
 ## Name
 ```groovy
@@ -157,6 +178,13 @@ logRotator(int daysToKeepInt = -1, int numToKeepInt = -1, int artifactDaysToKeep
 
 Sets up the number of builds to keep.
 
+## JDK
+```groovy
+jdk(String jdkStr)
+```
+
+Selects the JDK to be used for this project. The jdkStr must match the name of a JDK installation defined in the Jenkins system configuration. The default JDK will be used when the jdk method is omitted.
+
 ## Security
 ```groovy
 permission(String)
@@ -174,6 +202,66 @@ Enum Permissions {
     ItemConfigure, ItemWorkspace, ItemDelete, ItemBuild, ItemRead, ItemRelease, ItemExtendedRead
     RunDelete, RunUpdate, etc.
 ```
+
+# Maven
+
+The 'rootPOM', 'goals', 'mavenOpts', 'perModuleEmail', 'archivingDisabled' and 'runHeadless' methods can only be used in jobs with type 'maven'.
+
+## Root POM
+```groovy
+rootPOM(String rootPOM)
+```
+
+To use a diffenent 'pom.xml' in some other directory than the workspace root.
+
+## Goals
+```groovy
+goals(String goals) 
+```
+
+The Maven goals to execute including other command line options. 
+
+When specified multiple times, the goals and options will be concatenated, e.g.
+
+```groovy
+goals("clean") 
+goals("install") 
+goals("-DskipTests") 
+```
+
+is equivalent to
+
+```groovy
+goals("clean install -DskipTests") 
+```
+
+## MAVEN_OPTS
+```groovy
+mavenOpts(String mavenOpts) 
+```
+
+The JVM options to be used when starting Maven. When specified multiple times, the options will be concatenated.
+
+## Email Per Module
+```groovy
+perModuleEmail(boolean shouldSendEmailPerModule)
+```
+
+Enable or disable email notifications for each Maven module. Is enabled by default.
+
+## Disable Artifact Archiving
+```groovy
+archivingDisabled(boolean shouldDisableArchiving)
+```
+
+Disables automatic Maven artifact archiving. Artifact archiving is enabled by default.
+
+## Run Headless
+```groovy
+runHeadless(boolean shouldRunHeadless)
+```
+
+Specifiy this to run the build in headless mode if desktop access is not required. Headless mode is not enabled by default.
 
 # Source Control
 
@@ -273,9 +361,16 @@ gerrit {
 }
 ```
 
+## Snapshot Dependencies
+```groovy
+snapshotDependencies(boolean checkSnapshotDependencies)
+```
+
+When enabling the snapshot dependencies trigger, Jenkins will check the snapshot dependencies from the  '\<dependency\>', '\<plugin\>' and '\<extension\>' elements used in Maven POMs and setup a job relationship to the jobs building the snapshots. This is enabled by default if the snapshotDependencies method is omitted. This can only be used in jobs with type 'maven'.
+
 # Build Steps
 
-Adds step block to contain an ordered list of build steps.
+Adds step block to contain an ordered list of build steps. Cannot be used for jobs with type 'maven'.
 
 ## Shell command
 ```groovy
@@ -551,9 +646,6 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 
 @quidryan:
 * Build - CopyArtifact
-
-@daspilker
-* Maven projects
 
 ## To Be Designed
 * Parameterized Builds
