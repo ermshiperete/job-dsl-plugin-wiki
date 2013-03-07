@@ -247,7 +247,7 @@ The JVM options to be used when starting Maven. When specified multiple times, t
 perModuleEmail(boolean shouldSendEmailPerModule)
 ```
 
-Enable or disable email notifications for each Maven module. Is enabled by default.
+Enable or disable email notifications for each Maven module.
 
 ## Disable Artifact Archiving
 ```groovy
@@ -366,7 +366,7 @@ gerrit {
 snapshotDependencies(boolean checkSnapshotDependencies)
 ```
 
-When enabling the snapshot dependencies trigger, Jenkins will check the snapshot dependencies from the  '\<dependency\>', '\<plugin\>' and '\<extension\>' elements used in Maven POMs and setup a job relationship to the jobs building the snapshots. This is enabled by default if the snapshotDependencies method is omitted. This can only be used in jobs with type 'maven'.
+When enabling the snapshot dependencies trigger, Jenkins will check the snapshot dependencies from the  '\<dependency\>', '\<plugin\>' and '\<extension\>' elements used in Maven POMs and setup a job relationship to the jobs building the snapshots. This can only be used in jobs with type 'maven'.
 
 # Build Steps
 
@@ -637,7 +637,6 @@ configure {
 These are the ones in pipeline, and will be implemented sooner than later. If you're looking on working on one, claim it.
 
 * Steps - groovy
-* Steps - System Groovy
 * Publish - xUnit
 * Publish - TestNG
 * Publish - Checkstyle, FindBugs, PMD, Cobertura, Emma, Analysis
@@ -646,6 +645,9 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 
 @quidryan:
 * Build - CopyArtifact
+
+@daspilker:
+* Steps - System Groovy
 
 ## To Be Designed
 * Parameterized Builds
