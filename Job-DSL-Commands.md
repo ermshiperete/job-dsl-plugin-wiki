@@ -687,5 +687,5 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 * Publish - BuildTrigger
 * Publish - SVNTagPublisher
 * Publish - RedeployPublisher
-* Extend SCM (SVN and others?) to handle browser URL's nicely and multiple Module Locations
+* Extend SCM (SVN and others?) to handle multiple Module Locations
 * Publish - JoinTrigger
