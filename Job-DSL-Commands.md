@@ -96,6 +96,7 @@ job(attributes) {
         }
         publishJabber(target, strategyName, channelNotificationName, jabberClosure) // See below for jabberClosure syntax
         publishScp(site, scpClosure) // See below for scpClosure syntax
+        publishCloneWorkspace(workspaceGlob, workspaceExcludeGlob, criteria, archiveMethod, overrideDefaultExcludes, cloneWorkspaceClosure)
         downstream(projectName, thresholdName)
         downstreamParameterized(downstreamClosure) // See below for downstreamClosure syntax
         violations(perFileDisplayLimit, violationsClosure) // Seed below for violationsClosure
@@ -212,7 +213,7 @@ The 'rootPOM', 'goals', 'mavenOpts', 'perModuleEmail', 'archivingDisabled' and '
 rootPOM(String rootPOM)
 ```
 
-To use a diffenent 'pom.xml' in some other directory than the workspace root.
+To use a different 'pom.xml' in some other directory than the workspace root.
 
 ## Goals
 ```groovy
@@ -298,7 +299,7 @@ git('git@git') { node -> // Is hudson.plugins.git.GitSCM
 svn(String svnUrl, String localDir='.', Closure configure = null)
 ```
 
-Add Subversion source. 'svnUrl' is self explanatory. 'localDir' sets the <local> tag (which is set to '.' is you leave this out). The Configure block is handed a hudson.scm.SubversionSCM.
+Add Subversion source. 'svnUrl' is self explanatory. 'localDir' sets the <local> tag (which is set to '.' if you leave this arg out). The Configure block is handed a hudson.scm.SubversionSCM node.
 
 ## Perforce
 ```groovy
@@ -555,6 +556,15 @@ publishScp(String site, Closure scpClosure) {
 
 Supports <a href="https://wiki.jenkins-ci.org/display/JENKINS/SCP+plugin">SCP Plugin</a>. First arg, site, is specified globally by the plugin. Each entry is
 individually specified in the closure block, e.g. entry can be called multiple times.
+
+## CloneWorkspace Publisher
+```groovy
+cloneWorkspace(String workspaceGlob, String workspaceExcludeGlob = '', String criteria = 'Any', String archiveMethod = 'TAR', boolean overrideDefaultExcludes = false, Closure cloneWorkspaceClosure = null) {}
+```
+
+Supports the <a href="https://wiki.jenkins-ci.org/display/JENKINS/Clone+Workspace+SCM+Plugin">Clone Workspace SCM Plugin</a>.
+
+Due to the simplicity of this publisher, the closure support is purely provided for creating very specific configs.  Usually the non-closure variants will suffice - the simplest purely requiring the workspaceGlob alone, and the other (equivalent to pressing the "Advanced" button in the Jenkins UI) provided all settings.
 
 ## Downstream
 ```groovy
