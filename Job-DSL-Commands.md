@@ -301,6 +301,26 @@ svn(String svnUrl, String localDir='.', Closure configure = null)
 
 Add Subversion source. 'svnUrl' is self explanatory. 'localDir' sets the <local> tag (which is set to '.' if you leave this arg out). The Configure block is handed a hudson.scm.SubversionSCM node.
 
+You can use the Configure block to configure additional svn nodes such as a <browser> node. First a FishEyeSVN example:
+
+```groovy
+svn('http://svn.apache.org/repos/asf/xml/crimson/trunk/') { svnNode ->
+    svnNode / browser(class:'hudson.scm.browsers.FishEyeSVN') {
+        url 'http://mycompany.com/fisheye/repo_name'
+        rootModule 'my_root_module'
+    }
+}
+```
+
+and now a ViewSVN example:
+```groovy
+svn('http://svn.apache.org/repos/asf/xml/crimson/trunk/') { svnNode ->
+    svnNode / browser(class:'hudson.scm.browsers.ViewSVN') / url << 'http://mycompany.com/viewsvn/repo_name'
+}
+```
+
+For more details on using the configure block syntax, see our [dedicated page](configure-block).
+
 ## Perforce
 ```groovy
 p4(String viewspec, String user = 'rolem', String password = '', Closure configure = null)
