@@ -86,6 +86,8 @@ job(attributes) {
         maven(targetsArg, pomArg) {}
         ant(targetsArg, buildFileArg, antInstallation, antClosure) // See below for antClosure syntax
         copyArtifacts(jobName, includeGlob, targetPath, flattenFiles, optionalAllowed, copyArtifactClosure) // See below for copyArtifactClosure syntax
+        systemGroovyCommand(commandStr) {} // See below for systemGroovyClosure syntax
+        systemGroovyScriptFile(fileName) {} // See below for systemGroovyClosure syntax
     }
     publishers {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
@@ -477,6 +479,20 @@ copyArtifacts(String jobName, String includeGlob, String targetPath = '', boolea
 
 Supports the Copy Artifact plugin. As per the plugin, the input glob is for files in the workspace. The methods in the closure are considered the selectors, of which only one can be used.
 
+## System Groovy Scripts
+```groovy
+systemGroovyCommand(String commandStr, Closure systemGroovyClosure = null) {
+    binding(String name, String value)
+    classpath(String classpathEntry)
+}
+systemGroovyScriptFile(String fileName, Closure systemGroovyClosure = null) {
+    binding(String name, String value)
+    classpath(String classpathEntry)
+}
+```
+
+Runs a system groovy script, which is executed inside the Jenkins master. Thus it will have access to all the internal objects of Jenkins and can be used to alter the state of Jenkins. The `systemGroovyCommand` method will run an inline script and the `systemGroovyScriptFile` will execute a script file from the generated job's workspace. The closure block can be used to add variable bindings and extra classpath entries for a script. The methods in the closure block can be called multiple times to add any number of bindings or classpath entries. The Groovy plugin must be installed to use these build steps.
+
 # Publishers
 
 Block to contain list of publishers.
@@ -666,7 +682,6 @@ configure {
 
 These are the ones in pipeline, and will be implemented sooner than later. If you're looking on working on one, claim it.
 
-* Steps - groovy
 * Publish - xUnit
 * Publish - TestNG
 * Publish - Checkstyle, FindBugs, PMD, Cobertura, Emma, Analysis
@@ -677,7 +692,7 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 * Build - CopyArtifact
 
 @daspilker:
-* Steps - System Groovy
+* Steps - groovy
 
 ## To Be Designed
 * Parameterized Builds
