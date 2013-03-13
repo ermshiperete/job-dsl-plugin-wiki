@@ -86,6 +86,8 @@ job(attributes) {
         maven(targetsArg, pomArg) {}
         ant(targetsArg, buildFileArg, antInstallation, antClosure) // See below for antClosure syntax
         copyArtifacts(jobName, includeGlob, targetPath, flattenFiles, optionalAllowed, copyArtifactClosure) // See below for copyArtifactClosure syntax
+        groovyCommand(commandStr) {} // See below for groovyClosure syntax
+        groovyScriptFile(fileName) {} // See below for groovyClosure syntax
         systemGroovyCommand(commandStr) {} // See below for systemGroovyClosure syntax
         systemGroovyScriptFile(fileName) {} // See below for systemGroovyClosure syntax
     }
@@ -479,6 +481,42 @@ copyArtifacts(String jobName, String includeGlob, String targetPath = '', boolea
 
 Supports the Copy Artifact plugin. As per the plugin, the input glob is for files in the workspace. The methods in the closure are considered the selectors, of which only one can be used.
 
+## Groovy
+```groovy
+groovyCommand(String commandStr = null, String groovyInstallation = '(Default)', Closure groovyClosure = null) {   
+    groovyParam(String param)
+    groovyParams(Iterable<String> params)
+    scriptParam(String param)
+    scriptParams(Iterable<String> params)
+    prop(String key, String value)
+    props(Map<String, String> map)
+    javaOpt(String opt)
+    javaOpts(Iterable<String> opts)
+    groovyInstallation(String groovyInstallationName)
+    classpath(String classpathEntry)
+}
+groovyScriptFile(String fileName = null, String groovyInstallation = '(Default)', Closure groovyClosure = null) {   
+    groovyParam(String param)
+    groovyParams(Iterable<String> params)
+    scriptParam(String param)
+    scriptParams(Iterable<String> params)
+    prop(String key, String value)
+    props(Map<String, String> map)
+    javaOpt(String opt)
+    javaOpts(Iterable<String> opts)
+    groovyInstallation(String groovyInstallationName)
+    classpath(String classpathEntry)
+}
+```
+
+Runs a Groovy script which can either be passed inline ('groovyCommand' method) or by specifying a script file ('groovyScriptFile' method). The closure block can be used for all configuration. All calls are cumulative except for 'groovyInstallation' where the last call will be used.
+* Groovy Parameters - Specifies arguments for the Groovy executable.
+* Script Parameters - Specifies arguments for the script.
+* Properties - Shortcut to define '-D' parameters.
+* Groovy Installation - Also available as an argument. Refers to the pull down box in the UI to select which installation of Groovy to use, specify the exact string seen in the UI.
+* Java Options - Arguments to be passed directly to the JVM.
+* Classpath - Defines the classpath for the script.
+ 
 ## System Groovy Scripts
 ```groovy
 systemGroovyCommand(String commandStr, Closure systemGroovyClosure = null) {
@@ -692,7 +730,7 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 * Environment variables
 
 @daspilker:
-* Steps - groovy
+* Config File Provider Plugin
 
 ## To Be Designed
 * Parameterized Builds
