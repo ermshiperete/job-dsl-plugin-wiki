@@ -10,6 +10,7 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 
 ## Release Notes
 
+* 1.14 - Groovy Build Steps
 * 1.14 - System Groovy Build Steps
 * 1.14 - Maven Project Support
 * 1.13 - Make it possible to forget generated jobs
