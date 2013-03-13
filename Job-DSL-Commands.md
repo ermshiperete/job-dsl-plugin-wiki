@@ -689,7 +689,7 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 * Publish - Javadoc
 
 @quidryan:
-* Build - CopyArtifact
+* Environment variables
 
 @daspilker:
 * Steps - groovy
