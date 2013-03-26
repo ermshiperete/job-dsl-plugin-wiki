@@ -32,9 +32,11 @@ TBD, Current this method is hard-coded to free-form projects. It wouldn't be too
 
 # DSL Methods
 
-This is the formal documentation of the available dsl methods. In the Closure provided to job there are a few top level methods, like label and chucknorris. Others are nested deeper in blocks which represent their role in Jenkins, e.g. the publishers block contains all the publisher steps. The one caveat is that scm and multiscm are mutually exclusive. Likewise, when using the scm block, only one scm can be specified.
+This is the formal documentation of the available DSL methods. In the Closure provided to job there are a few top level methods, like label and chucknorris. Others are nested deeper in blocks which represent their role in Jenkins, e.g. the publishers block contains all the publisher steps. The one caveat is that scm and multiscm are mutually exclusive. Likewise, when using the scm block, only one scm can be specified.
 
 Further sections will define in detail how they work, in a Java-like syntax. If an argument is followed with an equals, this means it's a default value. DSL Methods can be cumulative or overriding, meaning that some methods will add nodes (e.g. publishers and steps) and some will replace nodes (e.g. disabled() will replace any existing disabled tags).
+
+**NOTE: when using these commands, remember tat you need to use them in context.  I.e. to use the "downstream" command, it needs to be enclosed in a "publisher" command block.**
 
 Here's a high level overview of what's available:
 
