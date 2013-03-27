@@ -302,3 +302,95 @@ Result:
 ```XML
 
 ```
+
+## Configure Matrix Job
+
+_configure_:
+```groovy
+project.name = 'matrix-project'
+project / axes / 'hudson.matrix.LabelAxis' {
+    name 'label'
+    values {
+        string 'linux'
+        string 'windows'
+    }
+}
+project / executionStrategy(class: 'hudson.matrix.DefaultMatrixExecutionStrategyImpl') {
+    runSequentially false
+}
+```
+
+Result:
+```XML
+<matrix-project>
+    <actions/>
+    <description/>
+    <keepDependencies>false</keepDependencies>
+    <properties/>
+    <scm class="hudson.scm.NullSCM"/>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers class="vector"/>
+    <concurrentBuild>false</concurrentBuild>
+    <builders/>
+    <publishers/>
+    <buildWrappers/>
+    <axes>
+        <hudson.matrix.LabelAxis>
+            <name>label</name>
+            <values>
+                <string>linux</string>
+                <string>windows</string>
+            </values>
+        </hudson.matrix.LabelAxis>
+    </axes>
+    <executionStrategy class="hudson.matrix.DefaultMatrixExecutionStrategyImpl">
+        <runSequentially>false</runSequentially>
+    </executionStrategy>
+</matrix-project>
+```
+
+# Reusable Configure Blocks
+
+To reuse an configure block for many jobs, the configure block can be moved to a helper class.
+
+The following example shows how to refactor the Matrix job sample above into a reusable helper class.
+
+```Groovy
+package helpers
+
+class MatrixProjectHelper {
+    static Closure matrixProject(Iterable<String> labels) {
+        return { project ->
+            project.name = 'matrix-project'
+            project / axes / 'hudson.matrix.LabelAxis' {
+                name 'label'
+                values {
+                     labels.each { string it }
+                }
+            }
+            project / executionStrategy(class: 'hudson.matrix.DefaultMatrixExecutionStrategyImpl') {
+                runSequentially false
+            }
+        }
+    }
+}
+```
+
+In the job script you can then import the helper method and use it create several matrix jobs.
+
+```Groovy
+import static helpers.MatrixProjectHelper.matrixProject
+
+job {
+    name 'matrix-job-A'
+    configure matrixProject(['label-1', 'label-2'])
+}
+
+job {
+    name 'matrix-job-B'
+    configure matrixProject(['label-3', 'label-4'])
+}
+```
