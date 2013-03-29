@@ -1,7 +1,7 @@
 # Job Factory
 The DSL execution engine exposes only one method, called 'job'. This 'job' method implies the creation of a Jenkins job and the closure to this method then further exposed some methods where things get interesting. See the later sections to learn the specific available methods available, for when a DSL helper method isn't available, look to the [[configure block]]. Below is the simplest job possible:
 
-```
+```groovy
 job {
     name 'Simplest Job Possible'
 }
@@ -9,13 +9,13 @@ job {
 
 Because the engine is just Groovy, you can call other Groovy classes available in the workspace. When in those methods the 'job' method is no longer available, so it is recommended to pass in the current context to make this method available to other context. For example, when making utility methods, you would call them like this:
 
-```
+```groovy
 BuildFramework.ant(this, arg1, arg2)
 ```
 
 Then the BuildFramework class has enough to make 'job' calls, it would look like this:
 
-```
+```groovy
 public class BuildFramework {
     public void static ant(jobFactory, arg1, arg2) {
         jobFactory.job {
@@ -28,7 +28,7 @@ public class BuildFramework {
 }
 ```
 
-TBD, Current this method is hard-coded to free-form projects. It wouldn't be too hard to make it generate maven and ivy projects. File a bug if you'd find this useful.
+TBD, Current this method is hard-coded to free-form and maven projects. It wouldn't be too hard to make it implement multi-job and ivy projects. File a bug if you'd find this useful.
 
 # DSL Methods
 
