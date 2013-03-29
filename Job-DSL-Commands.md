@@ -57,6 +57,8 @@ job(attributes) {
     perModuleEmail(shouldSendEmailPerModule)
     archivingDisabled(shouldDisableArchiving)
     runHeadless(shouldRunHeadless)
+    environmentVariables(vars)
+    environmentVariables(closure) // See below for details of EnvironmentVariablesContext
     authorization {
         permission(permissionStr) // e.g. hudson.model.Item.Workspace:authenticated
         permission(String permEnumName, String user)
@@ -269,6 +271,17 @@ runHeadless(boolean shouldRunHeadless)
 ```
 
 Specifiy this to run the build in headless mode if desktop access is not required. Headless mode is not enabled by default.
+
+## Environment Variables
+```groovy
+environmentVariables(Map<Object,Object> vars, Closure envClosure = null)
+environmentVariables(Closure envClosure) {
+    env(Object key, Object value)
+    envs(Map<Object, Object> map) 
+}
+```
+
+Injects environment variables into the build. They can be provided as a Map or applied as part of a context.
 
 # Source Control
 
