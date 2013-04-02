@@ -736,9 +736,7 @@ configure {
 These are the ones in pipeline, and will be implemented sooner than later. If you're looking on working on one, claim it.
 
 * Publish - xUnit
-* Publish - TestNG
 * Publish - Checkstyle, FindBugs, PMD, Cobertura, Emma, Analysis
-* Publish - Junit
 * Publish - Javadoc
 
 @quidryan:
@@ -746,6 +744,9 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 
 @daspilker:
 * Config File Provider Plugin
+
+@garethbowles:
+* Publish - TestNG
 
 ## To Be Designed
 * Parameterized Builds
