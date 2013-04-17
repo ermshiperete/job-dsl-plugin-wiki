@@ -59,6 +59,7 @@ job(attributes) {
     runHeadless(shouldRunHeadless)
     environmentVariables(vars)
     environmentVariables(closure) // See below for details of EnvironmentVariablesContext
+    priority(value)
     authorization {
         permission(permissionStr) // e.g. hudson.model.Item.Workspace:authenticated
         permission(String permEnumName, String user)
@@ -282,6 +283,13 @@ environmentVariables(Closure envClosure) {
 ```
 
 Injects environment variables into the build. They can be provided as a Map or applied as part of a context.
+
+## Job Priority
+```groovy
+priority(int value)
+```
+
+Allows jobs waiting in the build queue to be sorted by a static priority rather than the standard FIFO. The default priority is 100. A jobs with a higher priority will be executed before jobs with a lower priority. Requires the [Priority Sorter Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Priority+Sorter+Plugin).
 
 # Source Control
 
