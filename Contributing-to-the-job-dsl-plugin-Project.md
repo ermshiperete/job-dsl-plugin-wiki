@@ -28,3 +28,4 @@ If you want to make a change to the code on jenkinsci/job-dsl-plugin, here's the
 ## Our Basic Design Decisions / Conventions
 1. Use com.google.common.base.Preconditions for argument validaton. E.g. Preconditions.checkArgument(name, "Channel name for irc channel is required!")
 1. Use default parameters where appropriate. E.g. def hg(String url, String branch = null, Closure configure = null) 
+1. We write tests using [Spock](http://code.google.com/p/spock/), so if (for example) you add a new Helper (e.g. ScmHelper), then add a corresponding ScmHelperSpec in the tests directory tree
