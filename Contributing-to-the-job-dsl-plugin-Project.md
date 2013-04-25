@@ -24,3 +24,7 @@ If you want to make a change to the code on jenkinsci/job-dsl-plugin, here's the
 4. Switch to the local branch and make your changes.  Commit them as you go,m and when you're happy, push them to your repo branch
 5. Then, on the github website, find the branch you created for your work, and submit a Pull Request.  This will then poke us and we'll take a look at it.
 6. If things are all good, we'll merge the Pull Request straight away.  We might ask you to rebase (if the trunk has moved on and there are some conflicts) or we might suggest some more changes.
+
+## Our Basic Design Decisions / Conventions
+1. Use com.google.common.base.Preconditions for argument validaton. E.g. Preconditions.checkArgument(name, "Channel name for irc channel is required!")
+1. Use default parameters where appropriate. E.g. def hg(String url, String branch = null, Closure configure = null) 
