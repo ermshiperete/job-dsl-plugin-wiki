@@ -121,8 +121,9 @@ job {
 2. Make a file called MyUtilities.groovy in the utilities directory
 3. Put the following contents in it:
 ```
+  package utilities
   import javaposse.jobdsl.dsl.Job
-  class MyUtilities {
+  public class MyUtilities {
     def addEnterpriseFeature(Job job) {
         job.with {
           description('Arbitrary feature')
