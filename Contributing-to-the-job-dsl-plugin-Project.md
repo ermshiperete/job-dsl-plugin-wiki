@@ -29,3 +29,5 @@ If you want to make a change to the code on jenkinsci/job-dsl-plugin, here's the
 1. Use com.google.common.base.Preconditions for argument validaton. E.g. Preconditions.checkArgument(name, "Channel name for irc channel is required!")
 1. Use default parameters where appropriate. E.g. def hg(String url, String branch = null, Closure configure = null) 
 1. We write tests using [Spock](http://code.google.com/p/spock/), so if (for example) you add a new Helper (e.g. ScmHelper), then add a corresponding ScmHelperSpec in the tests directory tree
+1. When the configuration value is a class name, use the unique parts of the possible classnames for brevity and build the FQCN adding the common parts. An example: hudson.plugins.im.build_notify.DefaultBuildToChatNotifier should be "Default".
+1. For enum type options use the values from the config.xml instead of the GUI text, for example 'FAILURE_AND_FIXED' instead of 'failure and fixed'.
