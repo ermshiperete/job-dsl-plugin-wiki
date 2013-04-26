@@ -725,6 +725,24 @@ chucknorris()
 
 Enables the Cordell Walker plugin.
 
+## IRC
+
+Interface for the [IRC plugin](https://wiki.jenkins-ci.org/display/JENKINS/IRC+Plugin). All the options can be set and multiple channels can be added. The channel calls support named parameters as well. The notification settings can be disabled with passing false as a parameter. A complete example:
+
+```groovy
+irc {
+  channel('#channel1', 'password1', true)
+  channel(name: '#channel2', password: 'password2', notificationOnly: false)
+  notifyScmCommitters()
+  notifyScmCulprits()
+  notifyUpstreamCommitters(false)
+  notifyScmFixers()
+  strategy('ALL')
+  notificationMessage('SummaryOnly')
+}
+```
+
+
 #  Configure
 _This is primarily defined in the [[configure block]] page. This is a short overview._
 
