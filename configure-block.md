@@ -14,7 +14,7 @@ Transforming XML via Node is no fun, and quite ugly. The general groovy use-case
 
 To ease navigation, two key operators have been overridden. Try to use them as much as possible:
 
-* div() - finds a child node by name, always returning the first child. If no child exists, one will be created. E.g. project/description will find the description node, creating it if it doesn't exist.
+* div() - finds a child node by name, always returning the first child. If no child exists, one will be created. E.g. project/description will find the description node, creating it if it doesn't exist.  (n.b. "div" stands for the division sign ("/") not the HTML element so named).  And it has a very low precedence in the order of operation, so you need to wrap parenthesis around some operations.
 * leftshift() - appends as a child. If a Node is provided, it is directly added. A string is created as a node. A closure is processed like a NodeBuilder, allowing many nodes to be appended. 
 
 # Specification
@@ -27,7 +27,26 @@ To ease navigation, two key operators have been overridden. Try to use them as m
 
 # Samples
 
-All samples are given in the context of a _configure_ block, e.g.
+Here is an inelegant _configure_ block which may explain what Groovy sees, e.g.
+```
+configure {
+    // "it" is a groovy.util.Node  
+    //    representing the job's config.xml's root "project" element.
+    // aNotherNode is also groovy.util.Node
+    //    obtained with the overloaded "/" operator
+    //    on which we can call "setValue(...)"
+    def aNode = it
+    def aNotherNode = aNode / 'blockBuildWhenDownstreamBuilding'
+    aNotherNode.setValue("true")
+
+    // You can chain these steps,
+    //    but must add wrapping parenthesis
+    //    because the "/" has a very low precedence (lower than the ".")
+    (it / 'blockBuildWhenUpstreamBuilding').setValue("true")
+}
+```
+
+All other samples are given in the context of a _configure_ block, e.g.
 
 ```
 job {
