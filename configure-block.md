@@ -32,12 +32,12 @@ Here is an inelegant _configure_ block which may explain what Groovy sees, e.g.
 configure {
     // "it" is a groovy.util.Node  
     //    representing the job's config.xml's root "project" element.
-    // aNotherNode is also groovy.util.Node
+    // anotherNode is also groovy.util.Node
     //    obtained with the overloaded "/" operator
     //    on which we can call "setValue(...)"
     def aNode = it
-    def aNotherNode = aNode / 'blockBuildWhenDownstreamBuilding'
-    aNotherNode.setValue("true")
+    def anotherNode = aNode / 'blockBuildWhenDownstreamBuilding'
+    anotherNode.setValue("true")
 
     // You can chain these steps,
     //    but must add wrapping parenthesis
