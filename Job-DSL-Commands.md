@@ -81,6 +81,7 @@ job(attributes) {
     multiscm {
         hg(url, branch) {}
         git(url, branch) {}
+        github(ownerAndProject, branch, protocol, host) {}
         svn(svnUrl) {}
         p4(viewspec, user, password) {}
     }
@@ -317,6 +318,20 @@ Add Git SCM source. The Git plugin has a lot of configurable options, which are 
 
 ```groovy
 git('git@git') { node -> // Is hudson.plugins.git.GitSCM
+    node / gitConfigName('DSL User')
+    node / gitConfigEmail('me@me.com')
+}
+```
+
+## GitHub
+```groovy
+github(String ownerAndProject, String branch = null, String protocol = 'https', String host = 'github.com', Closure configure = null)
+```
+
+Add Git SCM source and configure the source brower to point to GitHub. The Git URL is derived from the ownerAndProject, protocol and host parameters. Valid protocols are `https`, `ssh` and `git`. Accepts the same closure as the git method described above.
+
+```groovy
+github('jenkinsci/job-dsl-plugin') { node -> // Is hudson.plugins.git.GitSCM
     node / gitConfigName('DSL User')
     node / gitConfigEmail('me@me.com')
 }
