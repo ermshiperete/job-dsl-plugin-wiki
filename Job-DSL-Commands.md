@@ -279,10 +279,11 @@ environmentVariables(Map<Object,Object> vars, Closure envClosure = null)
 environmentVariables(Closure envClosure) {
     env(Object key, Object value)
     envs(Map<Object, Object> map) 
+    groovy(String groovyScript)
 }
 ```
 
-Injects environment variables into the build. They can be provided as a Map or applied as part of a context.
+Injects environment variables into the build. They can be provided as a Map or applied as part of a context. The optional Groovy script must return a map Java object.
 
 ## Job Priority
 ```groovy
