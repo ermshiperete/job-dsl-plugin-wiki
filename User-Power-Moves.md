@@ -6,7 +6,7 @@ Before you push a new DSL script to jenkins, it's helpful to run it locally and 
 1. git clone https://github.com/jenkinsci/job-dsl-plugin.git
 1. cd job-dsl-plugin
 1. ./gradlew :job-dsl-core:oneJar
-1. DSL_JAR=`find job-dsl-core -name '*standalone.jar'|tail -1
+1. DSL_JAR=$(find job-dsl-core -name '*standalone.jar'|tail -1)
 1. java -jar $DSL_JAR sample.dsl.groovy
 
 If you already have the source code checked out then you can ignore step 1. 
