@@ -122,10 +122,10 @@ job {
 3. Put the following contents in it:
 ```
   package utilities
-  import javaposse.jobdsl.dsl.JobParent
+  import javaposse.jobdsl.dsl.Job
   public class MyUtilities {
-    def addEnterpriseFeature(JobParent jobParent) {
-        jobParent.job {
+    def addEnterpriseFeature(Job job) {
+        job.with {
           description('Arbitrary feature')
        }
     }
@@ -134,5 +134,5 @@ job {
 4. Then from the DSL, add something like this:
 ```
   import utilities.MyUtilities
-  MyUtilities.addEnterpriseFeature(this)
+  MyUtilities.addEnterpriseFeature(job {})
 ```
