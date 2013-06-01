@@ -36,7 +36,7 @@ This is the formal documentation of the available DSL methods. In the Closure pr
 
 Further sections will define in detail how they work, in a Java-like syntax. If an argument is followed with an equals, this means it's a default value. DSL Methods can be cumulative or overriding, meaning that some methods will add nodes (e.g. publishers and steps) and some will replace nodes (e.g. disabled() will replace any existing disabled tags).
 
-**NOTE: when using these commands, remember tat you need to use them in context.  I.e. to use the "downstream" command, it needs to be enclosed in a "publisher" command block.**
+**NOTE: when using these commands, remember that you need to use them in context.  I.e. to use the "downstream" command, it needs to be enclosed in a "publisher" command block.**
 
 Here's a high level overview of what's available:
 
