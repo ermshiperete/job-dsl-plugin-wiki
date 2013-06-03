@@ -112,10 +112,20 @@ job(attributes) {
         violations(perFileDisplayLimit, violationsClosure) // Seed below for violationsClosure
         chucknorris() // Really important
     }
+    parameters {  // Note: Password param is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141
+        // NOTE: For full details of the parameters each method takes (and the expected XML) see https://github.com/jenkinsci/job-dsl-plugin/blob/master/job-dsl-core/src/main/groovy/javaposse/jobdsl/dsl/helpers/BuildParametersContextHelper.groovy
+        booleanParam("myParameterName", true, "A boolean parameter")
+	listTagsParam("myParameterName", String "http://scmurl", "tagFilterRegex", false, false, "all", "theDefaultValue", "theDescription")
+	choiceParam("myParameterName", ["option 1 (default)", "option 2", "option 3"], "theDescription")
+	fileParam("test/upload.zip", "theDescription") // Note:  this has a slightly different syntax
+	runParam("myParameterName", "name_of_the_job_to_run", "theDescription")
+	stringParam("myParameterName", "theDefaultValue", "theDescription")
+	textParam("myParameterName", "theDefaultValue", "theDescription")
+    }
 }
 ```
 
-The plugin tries to provide dsl methods to cover "common use case" scenarios as simple method calls. When these methods fail you, you can always generate the XML yourself via the [[configure block]]. Sometimes, a DSL method will provide a configure block of its own, which will set the a good context to help modify a few fields.  This gives native access to the Job config XML, which is typically very straight forward to understand.
+The plugin tries to provide DSL methods to cover "common use case" scenarios as simple method calls. When these methods fail you, you can always generate the XML yourself via the [[configure block]]. Sometimes, a DSL method will provide a configure block of its own, which will set the a good context to help modify a few fields.  This gives native access to the Job config XML, which is typically very straight forward to understand.
 
 (Note: The full XML can be found for any job by taking the Jenkins URL and appending "/config.xml" to it. We find that creating a job the way you like it, then viewing the XML is the best way to learn what fields you need.)
 
