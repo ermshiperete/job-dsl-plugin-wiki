@@ -113,14 +113,13 @@ job(attributes) {
         chucknorris() // Really important
     }
     parameters {  // Note: Password param is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141
-        // NOTE: For full details of the parameters each method takes (and the expected XML) see https://github.com/jenkinsci/job-dsl-plugin/blob/master/job-dsl-core/src/main/groovy/javaposse/jobdsl/dsl/helpers/BuildParametersContextHelper.groovy
-        booleanParam("myParameterName", true, "A boolean parameter")
-	listTagsParam("myParameterName", String "http://scmurl", "tagFilterRegex", false, false, "all", "theDefaultValue", "theDescription")
-	choiceParam("myParameterName", ["option 1 (default)", "option 2", "option 3"], "theDescription")
-	fileParam("test/upload.zip", "theDescription") // Note:  this has a slightly different syntax
-	runParam("myParameterName", "name_of_the_job_to_run", "theDescription")
-	stringParam("myParameterName", "theDefaultValue", "theDescription")
-	textParam("myParameterName", "theDefaultValue", "theDescription")
+        booleanParam(parameterName, defaultValue, description)
+	listTagsParam(parameterName, scmUrl, tagFilterRegex, sortNewestFirst, sortZtoA, maxTagsToDisplay, defaultValue, description)
+	choiceParam(parameterName, options, description)
+	fileParam(fileLocation, description) // Note:  this has a slightly different syntax from the others
+	runParam(parameterName, jobToRun, description)
+	stringParam(parameterName, defaultValue, description)
+	textParam(parameterName, defaultValue, description)
     }
 }
 ```
@@ -768,7 +767,122 @@ irc {
 }
 ```
 
+# Parameters
+**Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
+_Note: The Password Parameter is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141_
 
+## Boolean Parameter
+Simplest usage (taking advantage of all defaults)
+```groovy
+// In this use case, the value will be "true" and the description will be ''
+booleanParam("myParameterName") 
+```
+Simple usage (omitting the description)
+```groovy
+// In this use case, the value will be "false" and the description will be ''
+booleanParam("myParameterName", false)
+```
+Full usage
+```groovy
+// In this use case, the value will be "false" and the description will be 'the description 
+// of my parameter'
+booleanParam("myParameterName", false, "The description of my parameter") 
+```
+
+## ListTags Parameter
+Simplest usage (taking advantage of all defaults)
+```groovy
+// in this case "maxTags will be set to "all", reverseByDate and reverseByName will be set to "false", 
+// and description and defaultValue xml tags will not be created at all
+listTagesParam("myParameterName", "http://kenai.com/svn/myProject/tags", "^mytagsfilterregex") 
+```
+Simple usage (omitting the description and defaultValue)
+```groovy
+// in this case "maxTags will be set to "all", reverseByDate and reverseByName will be set to "true", 
+// and description and defaultValue xml tags will not be created at all
+listTagesParam("myParameterName", "http://kenai.com/svn/myProject/tags", "^mytagsfilterregex", true, true) 
+```
+Full usage (omitting the description and defaultValue)
+```groovy
+// in this case "maxTags will be set to "all", reverseByDate and reverseByName will be set to "true", 
+// and description and defaultValue xml tags will be set as shown
+listTagesParam("myParameterName", "http://kenai.com/svn/myProject/tags", "^mytagsfilterregex", true, true, "defaultValue", "description") 
+```
+
+## Choice Parameter
+Simplest usage (taking advantage of default description)
+```groovy
+// In this case the description will be set to '' and you will have a 3-option list with 
+// "option 1 (default)" as the default (because it's first, not because it says so in the String 
+choiceParam("myParameterName", ["option 1 (default)", "option 2", "option 3"])
+```
+Full usage
+```groovy
+// In this case the description will be set to 'my description' and you will have a 3-option list with 
+// "option 1 (default)" as the default (because it's first, not because it says so in the String 
+choiceParam("myParameterName", ["option 1 (default)", "option 2", "option 3"], "my description")
+```
+
+## File Parameter
+Simplest usage (taking advantage of default description)
+```groovy
+// In this case the description will be set to ''
+fileParam("test/upload.zip")
+```
+Full usage
+```groovy
+// In this case the description will be set to 'my description'
+fileParam("test/upload.zip", "my description")
+```
+
+## Run Parameter
+Note: The Job Name needs to be an existing Jenkins Job, though we don't check when we generate the XML.
+
+Simplest usage (taking advantage of default description)
+```groovy
+// In this case the description will be set to ''
+runParam("myParameterName", "myJobName")
+```
+Full usage
+```groovy
+// In this case the description will be set to 'my description'
+runParam("myParameterName", "myJobName", "my description")
+```
+
+## String Parameter
+Simplest usage (taking advantage of default defaultValue and default description)
+```groovy
+// In this case the defaultValue and description will be set to ''
+stringParam("myParameterName")
+```
+Simple usage (taking advantage of default description)
+```groovy
+// In this case the description will be set to ''
+stringParam("myParameterName", "my default stringParam value")
+```
+Full usage
+```groovy
+// In this case the defaultValue will be set to 'my default stringParam value' and the description 
+// will be set to 'my description'
+stringParam("myParameterName", "my default stringParam value", "my description")
+```
+
+## Text Parameter
+Simplest usage (taking advantage of default defaultValue and default description)
+```groovy
+// In this case the defaultValue and description will be set to ''
+textParam("myParameterName")
+```
+Simple usage (taking advantage of default description)
+```groovy
+// In this case the description will be set to ''
+textParam("myParameterName", "my default textParam value")
+```
+Full usage
+```groovy
+textParam("myParameterName", "my default textParam value", "my description")
+```
+ 
 #  Configure
 _This is primarily defined in the [[configure block]] page. This is a short overview._
 
@@ -801,7 +915,6 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 * Publish - TestNG
 
 ## To Be Designed
-* Parameterized Builds
 * Publish - DeployPublisher
 * Build - Python
 * Report - MavenMailer
