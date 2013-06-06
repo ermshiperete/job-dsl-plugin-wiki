@@ -13,6 +13,7 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 * 1.15 - [[@Grab Support|Grab Support]]
 * 1.15 - Build Parameters
 * 1.15 - GitHub SCM Context
+* 1.15 - IRC Publisher
 * 1.15 - Environment Variables From Groovy Script
 * 1.15 - Priority Sorter Plugin
 * 1.14 - Environment Variables
