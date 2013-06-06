@@ -109,14 +109,15 @@ job(attributes) {
         publishCloneWorkspace(workspaceGlob, workspaceExcludeGlob, criteria, archiveMethod, overrideDefaultExcludes, cloneWorkspaceClosure)
         downstream(projectName, thresholdName)
         downstreamParameterized(downstreamClosure) // See below for downstreamClosure syntax
-        violations(perFileDisplayLimit, violationsClosure) // Seed below for violationsClosure
+        violations(perFileDisplayLimit, violationsClosure) // See below for violationsClosure syntax
         chucknorris() // Really important
+        irc(ircClosure) // See below for ircClosure syntax
     }
-    parameters {  // Note: Password param is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141
+    parameters {
         booleanParam(parameterName, defaultValue, description)
 	listTagsParam(parameterName, scmUrl, tagFilterRegex, sortNewestFirst, sortZtoA, maxTagsToDisplay, defaultValue, description)
 	choiceParam(parameterName, options, description)
-	fileParam(fileLocation, description) // Note:  this has a slightly different syntax from the others
+	fileParam(fileLocation, description)
 	runParam(parameterName, jobToRun, description)
 	stringParam(parameterName, defaultValue, description)
 	textParam(parameterName, defaultValue, description)
