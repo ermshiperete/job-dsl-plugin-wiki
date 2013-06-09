@@ -48,7 +48,7 @@ job(attributes) {
     label(labelStr)
     timeout(timeoutInMinutes, shouldFailBuild)
     disabled(shouldDisable)
-    block(projectNames)
+    blockOn(projectNames)
     logRotator(daysToKeepInt, numToKeepInt, artifactDaysToKeepInt, artifactNumToKeepInt)
     jdk(jdkStr)
     rootPOM(rootPOMStr)
