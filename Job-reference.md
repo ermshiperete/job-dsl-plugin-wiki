@@ -1,3 +1,5 @@
+This is the in-depth documentation of the methods available on inside the _job_ part of the DSL.
+
 ## Name
 ```groovy
 name(String jobName)
