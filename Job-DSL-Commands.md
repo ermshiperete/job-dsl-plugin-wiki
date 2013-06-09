@@ -129,21 +129,40 @@ The plugin tries to provide DSL methods to cover "common use case" scenarios as 
 
 (Note: The full XML can be found for any job by taking the Jenkins URL and appending "/config.xml" to it. We find that creating a job the way you like it, then viewing the XML is the best way to learn what fields you need.)
 
-## Job
+# Job
 ```groovy
 job(Map<String, Object> attributes=[:], Closure closure)
 ```
 
-A job can have optional attributes. Currently only a 'type' attribute with value 'maven' is supported, which will change the job to a maven2/3 project. When no type attribute is specified, a free-style job will be generated. 
+The above method will return a _Job_ object that can be re-used and passed around. E.g.
 
 ```groovy
-job(type: maven) {
+def myJob = job {
+    name 'SimpleJob'
+}
+myJob.with {
+    description 'A Simple Job'
+}
+```
+
+A job can have optional attributes. Currently only a 'type' attribute with value of 'Freeform', 'Maven', 'Multijob' is supported. When no type attribute is specified, a free-style job will be generated. 
+
+```groovy
+job(type: Maven) {
   name 'maven-job'
 }
 ```
 
 Please see the [[Job Reference]] page for details to the _job_ component.
 
+# Queue
+
+```groovy
+queue(String jobName)
+queue(Job )
+```
+
+This provide the ability to 
 #  Configure
 _This is primarily defined in the [[configure block]] page. This is a short overview._
 
@@ -165,9 +184,6 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 * Publish - xUnit
 * Publish - Checkstyle, FindBugs, PMD, Cobertura, Emma, Analysis
 * Publish - Javadoc
-
-@quidryan:
-* Environment variables
 
 @daspilker:
 * Config File Provider Plugin
