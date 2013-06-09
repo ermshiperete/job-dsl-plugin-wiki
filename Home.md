@@ -10,6 +10,8 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 
 ## Release Notes
 
+* 1.16 - Queue jobs after execution of the DSL
+* 1.16 - MultiJob Support
 * 1.15 - [[@Grab Support|Grab Support]]
 * 1.15 - Build Parameters
 * 1.15 - GitHub SCM Context
