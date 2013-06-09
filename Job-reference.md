@@ -45,10 +45,11 @@ Provides ability to disable a job.
 
 ## Block build
 ```groovy
-blockOn(String projectNames)
+blockOn(String projectName)
+blockOn(Iterable<String> projectNames)
 ```
 
-Block build if certain jobs are running, supported by the <a href="https://wiki.jenkins-ci.org/display/JENKINS/Build+Blocker+Plugin">Build Blocker Plugin</a>. projectNames is comma separated.
+Block build if certain jobs are running, supported by the <a href="https://wiki.jenkins-ci.org/display/JENKINS/Build+Blocker+Plugin">Build Blocker Plugin</a>. If more than one name is provided to projectName, it is newline separated. Per the plugin, regular expressions can be used for the projectNames, e.g. ".*-maintenance" will match all maintenance jobs.
 
 ## Build History
 ```groovy
