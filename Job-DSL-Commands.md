@@ -209,6 +209,9 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 @garethbowles:
 * Publish - TestNG
 
+@andrewharmellaw:
+* Build parameters - password (https://issues.jenkins-ci.org/browse/JENKINS-18141)
+
 ## To Be Designed
 * Publish - DeployPublisher
 * Build - Python
