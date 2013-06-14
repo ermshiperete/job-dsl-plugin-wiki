@@ -50,4 +50,4 @@ Then just `import common` in your script and the DSL command(s) are available.
      }
 }
 ```
-Have a look at source job-dsl-core/src/main/groovy/javaposse/jobdsl/dsl/* to see which Context classes you can monkey-patch to introduce new DSL commands.
+Have a look at source job-dsl-core/src/main/groovy/javaposse/jobdsl/dsl/helpers/* to see which Context classes you can monkey-patch to introduce new DSL commands.
