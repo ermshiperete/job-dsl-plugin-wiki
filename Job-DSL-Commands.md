@@ -212,6 +212,9 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 @andrewharmellaw:
 * Build parameters - password (https://issues.jenkins-ci.org/browse/JENKINS-18141)
 
+bealeaj12414
+* update the defaults and provide convenience methods for setting status values of the gerrit trigger
+
 ## To Be Designed
 * Publish - DeployPublisher
 * Build - Python
