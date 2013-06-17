@@ -20,6 +20,8 @@ job {
     }
 }
 ```
+If you find these monkey-patches useful, consider [submitting them to the Core DSL as an enhancement.](Contributing-to-the-job-dsl-plugin-Project).
+
 ## Using helper files
 
 You can put the code introducing new DSL commands into a separate file (called common.groovy in the example below) and run the monkey-patching code when the file is imported (using a static initializer).
