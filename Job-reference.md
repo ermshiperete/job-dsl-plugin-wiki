@@ -668,6 +668,7 @@ Full usage (omitting the description and defaultValue)
 // and description and defaultValue xml tags will be set as shown
 listTagsParam("myParameterName", "http://kenai.com/svn/myProject/tags", "^mytagsfilterregex", true, true, "defaultValue", "description") 
 ```
+NOTE: The second-to-last parameter needs to be a String, although you are provinding in most cases a number.  This is because the default value for defaultValue is "all".
 
 ## Choice Parameter
 Simplest usage (taking advantage of default description)
