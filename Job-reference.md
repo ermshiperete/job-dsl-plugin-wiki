@@ -654,19 +654,19 @@ Simplest usage (taking advantage of all defaults)
 ```groovy
 // in this case "maxTags will be set to "all", reverseByDate and reverseByName will be set to "false", 
 // and description and defaultValue xml tags will not be created at all
-listTagesParam("myParameterName", "http://kenai.com/svn/myProject/tags", "^mytagsfilterregex") 
+listTagsParam("myParameterName", "http://kenai.com/svn/myProject/tags", "^mytagsfilterregex") 
 ```
 Simple usage (omitting the description and defaultValue)
 ```groovy
 // in this case "maxTags will be set to "all", reverseByDate and reverseByName will be set to "true", 
 // and description and defaultValue xml tags will not be created at all
-listTagesParam("myParameterName", "http://kenai.com/svn/myProject/tags", "^mytagsfilterregex", true, true) 
+listTagsParam("myParameterName", "http://kenai.com/svn/myProject/tags", "^mytagsfilterregex", true, true) 
 ```
 Full usage (omitting the description and defaultValue)
 ```groovy
 // in this case "maxTags will be set to "all", reverseByDate and reverseByName will be set to "true", 
 // and description and defaultValue xml tags will be set as shown
-listTagesParam("myParameterName", "http://kenai.com/svn/myProject/tags", "^mytagsfilterregex", true, true, "defaultValue", "description") 
+listTagsParam("myParameterName", "http://kenai.com/svn/myProject/tags", "^mytagsfilterregex", true, true, "defaultValue", "description") 
 ```
 
 ## Choice Parameter
