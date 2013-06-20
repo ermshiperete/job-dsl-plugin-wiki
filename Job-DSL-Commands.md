@@ -181,6 +181,16 @@ job {
 }
 ```
 
+# Grab
+
+Groovy provides the ability to "grab" dependencies and use them right away, this is called Grape (http://groovy.codehaus.org/Grape). The Job-DSL supports this feature, as long as it's provided at the top of the script. Not only can the @Grab annotation be used, it can be used with @GrabResolver to pull dependencies from custom defined repositories. This means that you can write a set of conventions  specific to your Enterprise, jar them up, distribute them via a repository, then grab them via @Grab. Here is an example of pulling in a utility library.
+
+```groovy
+@Grab(group='commons-lang', module='commons-lang', version='2.4')
+import org.apache.commons.lang.WordUtils
+println "Hello ${WordUtils.capitalize('world')}"
+```
+
 #  Configure
 _This is primarily defined in the [[configure block]] page. This is a short overview._
 
