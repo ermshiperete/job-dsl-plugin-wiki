@@ -58,7 +58,7 @@ job(attributes) {
     archivingDisabled(shouldDisableArchiving)
     runHeadless(shouldRunHeadless)
     environmentVariables(vars)
-    environmentVariables(closure) // See below for details of EnvironmentVariablesContext
+    environmentVariables(closure) // See [[Job Reference]] for details of EnvironmentVariablesContext
     priority(value)
     authorization {
         permission(permissionStr) // e.g. hudson.model.Item.Workspace:authenticated
@@ -75,7 +75,7 @@ job(attributes) {
     triggers {
         cron(cronString)
         scm(cronString)
-        gerrit(gerritClosure) // See below for gerritClosure syntax
+        gerrit(gerritClosure) // See [[Job Reference]] for gerritClosure syntax
         snapshotDependencies(checkSnapshotDependencies)
     }
     multiscm {
@@ -90,12 +90,13 @@ job(attributes) {
         batchFile(String commandStr)
         gradle(tasksArg, switchesArg, useWrapperArg) {}
         maven(targetsArg, pomArg) {}
-        ant(targetsArg, buildFileArg, antInstallation, antClosure) // See below for antClosure syntax
-        copyArtifacts(jobName, includeGlob, targetPath, flattenFiles, optionalAllowed, copyArtifactClosure) // See below for copyArtifactClosure syntax
-        groovyCommand(commandStr) {} // See below for groovyClosure syntax
-        groovyScriptFile(fileName) {} // See below for groovyClosure syntax
-        systemGroovyCommand(commandStr) {} // See below for systemGroovyClosure syntax
-        systemGroovyScriptFile(fileName) {} // See below for systemGroovyClosure syntax
+        ant(targetsArg, buildFileArg, antInstallation, antClosure) // See [[Job Reference]] for antClosure syntax
+        copyArtifacts(jobName, includeGlob, targetPath, flattenFiles, optionalAllowed, copyArtifactClosure) // See [[Job Reference]] for copyArtifactClosure syntax
+        groovyCommand(commandStr, groovyClosure) // See [[Job Reference]] for groovyClosure syntax
+        groovyScriptFile(fileName, groovyClosure)  // See [[Job Reference]] for groovyClosure syntax
+        systemGroovyCommand(commandStr, systemGroovyClosure) // See [[Job Reference]] for systemGroovyClosure syntax
+        systemGroovyScriptFile(fileName, systemGroovyClosure) // See [[Job Reference]] for systemGroovyClosure syntax
+        phase(String name, String continuationConditionArg = 'SUCCESSFUL', Closure phaseClosure = null) // See [[Job Reference]] for phaseClosure syntax
     }
     publishers {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
@@ -104,12 +105,12 @@ job(attributes) {
         publishHtml {
             report(reportDir, reportName, reportFiles, keepAll)
         }
-        publishJabber(target, strategyName, channelNotificationName, jabberClosure) // See below for jabberClosure syntax
-        publishScp(site, scpClosure) // See below for scpClosure syntax
-        publishCloneWorkspace(workspaceGlob, workspaceExcludeGlob, criteria, archiveMethod, overrideDefaultExcludes, cloneWorkspaceClosure)
+        publishJabber(target, strategyName, channelNotificationName, jabberClosure) // See [[Job Reference]] for jabberClosure syntax
+        publishScp(site, scpClosure) // See [[Job Reference]] for scpClosure syntax
+        publishCloneWorkspace(workspaceGlob, workspaceExcludeGlob, criteria, archiveMethod, overrideDefaultExcludes, cloneWorkspaceClosure) // See [[Job Reference]] for cloneWorkspaceClosure
         downstream(projectName, thresholdName)
-        downstreamParameterized(downstreamClosure) // See below for downstreamClosure syntax
-        violations(perFileDisplayLimit, violationsClosure) // See below for violationsClosure syntax
+        downstreamParameterized(downstreamClosure) // See [[Job Reference]] for downstreamClosure syntax
+        violations(perFileDisplayLimit, violationsClosure) // See [[Job Reference]] for violationsClosure syntax
         chucknorris() // Really important
         irc(ircClosure) // See below for ircClosure syntax
     }
@@ -145,7 +146,7 @@ myJob.with {
 }
 ```
 
-A job can have optional attributes. Currently only a 'type' attribute with value of 'Freeform', 'Maven', 'Multijob' is supported. When no type attribute is specified, a free-style job will be generated. 
+A job can have optional attributes. Currently only a 'type' attribute with value of 'Freeform', 'Maven', 'Multijob' is supported. When no type attribute is specified, a free-style job will be generated. Some methods will only be available in some job types, e.g. phase is meant only in Multijob. Each dsl method should document where they are relevant.
 
 ```groovy
 job(type: Maven) {
