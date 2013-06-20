@@ -439,6 +439,59 @@ systemGroovyScriptFile(String fileName, Closure systemGroovyClosure = null) {
 
 Runs a system groovy script, which is executed inside the Jenkins master. Thus it will have access to all the internal objects of Jenkins and can be used to alter the state of Jenkins. The `systemGroovyCommand` method will run an inline script and the `systemGroovyScriptFile` will execute a script file from the generated job's workspace. The closure block can be used to add variable bindings and extra classpath entries for a script. The methods in the closure block can be called multiple times to add any number of bindings or classpath entries. The Groovy plugin must be installed to use these build steps.
 
+# Multijob Phase
+
+```
+phase(String name, String continuationConditionArg = 'SUCCESSFUL', Closure phaseClosure = null) {
+    phaseName(String phaseName)
+    continuationCondition(String continuationCondition)
+    job(String jobName, boolean currentJobParameters = true, boolean exposedScm = true, Closure phaseJobClosure = null)  {
+        currentJobParameters(boolean currentJobParameters = true) 
+        exposedScm(boolean exposedScm = true)
+        boolParam(String paramName, boolean defaultValue = false)
+        fileParam(String propertyFile, boolean failTriggerOnMissing = false)
+        sameNode(boolean nodeParam = true) 
+        matrixParam(String filter)
+        subversionRevision(boolean includeUpstreamParameters = false)
+        gitRevision(boolean combineQueuedCommits = false) 
+        prop(Object key, Object value)
+        props(Map<String, String> map)
+    }
+}
+```
+
+Phases allow jobs to be group together to be run in parallel, they only exist in a Multijob typed job. The name and continuationConditionArg can be set directly in the phase method or in the closure. The job method is used to list each job in the phase, and hence can be called multiple times. Each call can be further configured with the parameters which will be sent to it. The parameters are show above and documented in different parts of this page. See below for an example of multiple phases strung together:
+
+```
+job(type: Multijob) {
+    steps {
+        phase() {
+            phaseName 'Second'
+            job('JobZ') {
+                fileParam('my1.properties')
+                fileParam('my2.properties')
+            }
+        }
+        phase('Third') {
+            job('JobA')
+            job('JobB')
+            job('JobC')
+        }
+        phase('Fourth') {
+            job('JobD', false, true) {
+                boolParam('cParam', true)
+                fileParam('my.properties')
+                sameNode()
+                matrixParam('it.name=="hello"')
+                subversionRevision()
+                gitRevision()
+                prop('prop1', 'value1')
+            }
+        }
+   }
+}
+```
+
 # Publishers
 
 Block to contain list of publishers.
