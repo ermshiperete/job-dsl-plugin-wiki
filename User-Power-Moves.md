@@ -13,6 +13,14 @@ If you already have the source code checked out then you can ignore step 1.
 
 What's going on here is that there's a static main method that can run the DSL, you just have to give it a filename. It'll output all the jobs' XML to the current directory. Likewise, if you use "using" (the templates-like feature) it'll look in the current directory for a file with the name of the job appended with ".xml" at the end of it.
 
+# Generate a Job config.xml without having to fire up Jenkins
+1. Add some job dsl content to a file, say job.dsl
+1. Run the gradle command:  ./gradlew run -Pargs=job.dsl
+Note: the run task loads the file relative to the job-dsl-core directory, so I always just put my test files in there.
+Note2: if your dsl code contains a task named "myJob", the run task will generate myJob.xml.
+
+[The original discussion about this on the Newsgroup](https://groups.google.com/forum/#!msg/job-dsl-plugin/lOYH7bL7AcM/70N1AEW219cJ)
+
 # Access the Jenkins Environment Variables
 To access the Jenkins Environment variables (such as BUILD_NUMBER) from within DSL scripts just wrap them in '${}'. E.g.: 
 
