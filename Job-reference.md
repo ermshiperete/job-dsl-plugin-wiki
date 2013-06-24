@@ -380,7 +380,7 @@ steps {
 
 ## SBT
 
-Executes the Scala Build Tool (SBT) as a build step.
+Executes the Scala Build Tool (SBT) as a build step. (Since 1.17)
 
 ```groovy
 steps {
