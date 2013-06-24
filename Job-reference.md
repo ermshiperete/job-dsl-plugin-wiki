@@ -378,6 +378,19 @@ steps {
 }
 ```
 
+## SBT
+
+Executes the Scala Build Tool (SBT) as a build step.
+
+```groovy
+steps {
+    sbt('SBT 0.12.3',              // name of SBT installation to use (required)
+        'test',                    // actions to execute (optional)
+        '-Dsbt.log.noformat=true', // additional system properties (optional)
+        '-Xmx2G -Xms512M',         // JVM options (optional)
+        'subproject')              // subdirectory to work in (optional)
+}
+```
 ## Copy Artifacts
 
 ```groovy
