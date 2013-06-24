@@ -17,7 +17,7 @@ What's going on here is that there's a static main method that can run the DSL, 
 1. Add some job dsl content to a file, say job.dsl
 1. Run the gradle command:  ./gradlew run -Pargs=job.dsl
 Note: the run task loads the file relative to the job-dsl-core directory, so I always just put my test files in there.
-Note2: if your dsl code contains a task named "myJob", the run task will generate myJob.xml.
+Note2: if your dsl code contains a job named "myJob", the run task will generate myJob.xml.
 
 [The original discussion about this on the Newsgroup](https://groups.google.com/forum/#!msg/job-dsl-plugin/lOYH7bL7AcM/70N1AEW219cJ)
 
