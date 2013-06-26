@@ -90,6 +90,7 @@ job(attributes) {
         batchFile(String commandStr)
         gradle(tasksArg, switchesArg, useWrapperArg) {}
         maven(targetsArg, pomArg) {}
+        sbt(sbtNameArg, actionsArg, sbtFlagsArg, jvmFlagsArg, subdirPathArg) {}
         ant(targetsArg, buildFileArg, antInstallation, antClosure) // See [[Job Reference]] for antClosure syntax
         copyArtifacts(jobName, includeGlob, targetPath, flattenFiles, optionalAllowed, copyArtifactClosure) // See [[Job Reference]] for copyArtifactClosure syntax
         groovyCommand(commandStr, groovyClosure) // See [[Job Reference]] for groovyClosure syntax
