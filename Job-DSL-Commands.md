@@ -75,7 +75,9 @@ job(attributes) {
     triggers {
         cron(cronString)
         scm(cronString)
+        githubPush()
         gerrit(gerritClosure) // See [[Job Reference]] for gerritClosure syntax
+        urlTrigger([cronString,] urlTriggerClosure) // See [[Job Reference]] for closure syntax 
         snapshotDependencies(checkSnapshotDependencies)
     }
     multiscm {
