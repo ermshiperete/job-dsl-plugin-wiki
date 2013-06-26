@@ -391,6 +391,15 @@ steps {
         'subproject')              // subdirectory to work in (optional)
 }
 ```
+
+Currently all options are available via the DSL. If new plugin versions should introduce new parameterts there is the possiblilty to configure them via a configure closure:
+
+```groovy
+sbt(/*standard parameters here*/) {
+  newParameter 'foo'
+}
+```
+
 ## Copy Artifacts
 
 ```groovy
