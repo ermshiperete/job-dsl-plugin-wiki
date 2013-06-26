@@ -349,6 +349,14 @@ urlTrigger {
 }
 ```
 
+There is an alternate syntax for specifying the cronSchedule:
+
+```groovy
+urlTrigger('* 0 * 0 *'){
+  //closure same as above
+}
+```
+
 The trigger can check multiple URLs and virtually all options are combinable, although not all combinations may be sensible or useful (as checking one URL for both XML and JSON/text content or checking both modification date and content changes).
 
 More on JSON path expressions: [http://goessner.net/articles/JsonPath/]
