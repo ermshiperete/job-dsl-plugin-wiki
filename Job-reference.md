@@ -268,6 +268,13 @@ scm(String cronString)
 
 Polls source control for changes at regular intervals.
 
+## Github Push Notification Trigger
+```groovy
+githubPush()
+```
+
+Enables the job to be started whenever a change is pushed to a github repository. Requiers that Jenkins has the github plugin installed and that it is registered as service hook for the repository (also works with Github Enterprise). (Since 1.16)
+
 ## Gerrit
 ```groovy
 gerrit {
@@ -298,6 +305,66 @@ gerrit {
     }
 }
 ```
+
+## URL Trigger
+
+The URL trigger plugin checks one ore more specified URLs and starts a build when a change is detected. (Since 1.16)
+
+```groovy
+urlTrigger {
+  cron '* 0 * 0 *'    // set cron schedule (defaults to : 'H/5 * * * *')
+  restrictLabel 'foo' // restrict execution to the specified label expression
+
+  /* simple configuration statements */
+  url('http://www.example.com/foo/') {
+    proxy true           // use Jenkins Proxy for requests
+    status 404           // set the expected HTTP Response status code (default: 200)
+    timeout 4000         // set the request timeout in seconds (default: 300 seconds)
+    check 'status'       // check the returned status code (not checked by default) 
+    check 'etag'         // check ETag header (not checked by default)
+    check 'lastModified' // check last modified date of resource (not checked by default)
+  }
+
+  /* content inspection (MD5 hash) */
+  url('http://www.example.com/bar/') {
+    inspection 'change' //calculate MD5 sum of URL content and on hash changes
+  }
+
+  /* content inspection for JSON or XML content with detailed checking 
+     using XPath/JSONPath */
+  url('http://www.example.com/baz/') {
+    inspection('json'|'xml') {              // inspect XML or JSON content type
+      path '//div[@class="foo"]'            // XPath for checking XML content
+      path '$.store.book[0].title'          // JSONPath expression (dot syntax) 
+      path "$['store']['book'][0]['title']" // JSONPath expression (bracket syntax)
+    }
+  }
+ 
+  /* content inspection for text content with detailed checking usin regular expressions */
+  url('http://www.example.com/fubar/') {
+    inspection('text') {    // inspect content type text
+      regexp '_(foo|bar).+' // regular expression for checking content changes
+    }
+  }
+}
+```
+
+The trigger can check multiple URLs and virtually all options are combinable, although not all combinations may be sensible or useful (as checking one URL for both XML and JSON/text content or checking both modification date and content changes).
+
+More on JSON path expressions: [http://goessner.net/articles/JsonPath/]
+
+The URL trigger is particularly useful for monitoring snapshot dependencies for non-Maven/Ivy projects like SBT:
+ 
+```groovy
+urlTrigger {
+  url('http://snapshots.repository.codehaus.org/org/picocontainer/picocontainer/2.11-SNAPSHOT/maven-metadata.xml' {
+    check 'etag'
+    check 'lastModified'
+  }
+}
+```
+
+The sample monitors the metadata file of the picocontainer 2.11-SNAPSHOT that changes whenever the snapshot changes and triggers a build of the dependent project.
 
 ## Snapshot Dependencies
 ```groovy
@@ -380,7 +447,7 @@ steps {
 
 ## SBT
 
-Executes the Scala Build Tool (SBT) as a build step. (Since 1.17)
+Executes the Scala Build Tool (SBT) as a build step. (Since 1.16)
 
 ```groovy
 steps {
