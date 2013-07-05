@@ -69,6 +69,7 @@ job(attributes) {
     scm {
         hg(url, branch) {}
         git(url, branch) {}
+        github(ownerAndProject, branch, protocol, host) {}
         svn(svnUrl, localDir) {}
         p4(viewspec, user, password) {}
     }
