@@ -53,3 +53,8 @@ Some of the available variables are as follows:
 * USER
 
 [Original  discussion on the newsgroup](https://groups.google.com/d/msg/job-dsl-plugin/ArgUBsLgumo/v77k5G6fllkJ)
+
+# Reading Files from your Job Workspace
+The job you create could be running on a slave, while the plugin runs on the master. Which means you shouldn't directly reference files on filesystem, since we're in a distributed system. The good news is that we added a method to help with this. See the docs for "Reading Files from Workspace" on https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-DSL-Commands
+
+[Original  discussion on the newsgroup](https://groups.google.com/forum/#!msg/job-dsl-plugin/wjrHEI7BLx8/zxW7j7xcWOcJ)
