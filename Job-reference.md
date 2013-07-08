@@ -7,6 +7,13 @@ name(String jobName)
 
 The Name of the job, **required**. This could be a static name but given the power of Groovy you should get very fancy with the these.
 
+## Display Name
+```groovy
+displayName(String displayName)
+```
+
+The name to display instead of the actual job name. (Available since 1.16)
+
 ## Using
 ```groovy
 using(String templateName)
@@ -29,6 +36,49 @@ label(String labelStr)
 Label which specifies which nodes this job can run on, e.g. 'X86&&Ubuntu'
 
 ## Timeout
+
+```groovy
+timeout(String type) { //type is one of: 'absolute', 'elastic', 'likelyStuck'
+    limit 15       // timeout in minutes
+    percentage 200 // percentage of runtime to consider a build timed out
+}
+```
+
+The timeout method enables you to define a timeout for builds. It can either be absolute (build times out after a fixed number of minutes), elastic (times out if build runs x% longer than the average build duration) or likelyStuck. (Available since 1.16)
+
+The simplest invocation looks like this:
+
+```groovy
+timeout()
+```
+
+It defines an absolute timeout with a maximum build time of 3 minutes.
+
+Here is an absolute timeout:
+
+```groovy
+timeout('absolute') {
+    limit 60              // 60 minutes before timeout
+}
+```
+
+The elastic timeout accepts two parameters: a percentage for determining builds that take longer than normal an a limit that is used if there is no average successful build duration (i.e. no jobs run or all runs failed):
+
+```groovy
+timeout('elastic') {
+    limit 30        // 30 minutes default timeout (no successful builds available as reference)
+    percentage 300  // Build will timeout when it take 3 time longer than the reference build duration
+}
+```
+
+The likelyStuck timeout times out a build when it is likely to be stuck. Does not take extra configuration parameters.
+
+```groovy
+timeout('likelyStuck')
+```
+
+The following syntax has been available before 1.16 and will be retained for compatibility reasons:
+
 ```groovy
 timeout(int timeoutInMinutes, Boolean shoudFailBuild = true)
 ```
@@ -43,6 +93,16 @@ disabled(Boolean shouldDisable)
 
 Provides ability to disable a job.
 
+## Quiet period
+```groovy
+quietPeriod()
+quietPeriod(int seconds)
+```
+
+Defines a timespan to wait for additional events (pushes, check-ins) before triggering a build. This prevents Jenkins from starting multiple jobs for check-ins/pushes that occur almost at the same time.
+
+If the number of seconds to wait is omitted from the call the job will be configured to wait for five seconds. If you need to wait for a different amount of time just specify the number of seconds to wait. (Available since 1.16)
+
 ## Block build
 ```groovy
 blockOn(String projectName)
@@ -51,12 +111,27 @@ blockOn(Iterable<String> projectNames)
 
 Block build if certain jobs are running, supported by the <a href="https://wiki.jenkins-ci.org/display/JENKINS/Build+Blocker+Plugin">Build Blocker Plugin</a>. If more than one name is provided to projectName, it is newline separated. Per the plugin, regular expressions can be used for the projectNames, e.g. ".*-maintenance" will match all maintenance jobs.
 
+## Block on upstream/downstream projects
+```groovy
+blockOnUpstreamProjects()
+blockOnDownstreamProjects()
+```
+
+Blocks the build of a project when one ore more upstream (blockOnUpstreamProjects()) or a downstream projects (blockOnDownstreamProjects()) are running. (Available since 1.16)
+
 ## Build History
 ```groovy
 logRotator(int daysToKeepInt = -1, int numToKeepInt = -1, int artifactDaysToKeepInt = -1, int artifactNumToKeepInt = -1)
 ```
 
 Sets up the number of builds to keep.
+
+## Custom workspace
+```groovy
+customWorkspace(String workspacePath)
+```
+
+Defines that a project should use the given directory as a workspace instead of the default workspace location. (Available since 1.16) 
 
 ## JDK
 ```groovy
@@ -163,6 +238,17 @@ priority(int value)
 Allows jobs waiting in the build queue to be sorted by a static priority rather than the standard FIFO. The default priority is 100. A jobs with a higher priority will be executed before jobs with a lower priority. Requires the [Priority Sorter Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Priority+Sorter+Plugin).
 
 # Source Control
+
+## SCM retry count
+
+```groovy
+checkoutRetryCount()
+checkoutRetryCount(int times)
+```
+
+Defines the number of times the build should retry to check out from the SCM if the SCM checkout fails. 
+
+The parameterless invocation sets a default retry count of three (3) times. To specify more (or less) retry counts pass the number of times to retry the checkout. (Available since 1.16)
 
 ## Mercurial
 
