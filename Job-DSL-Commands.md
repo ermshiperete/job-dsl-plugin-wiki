@@ -43,12 +43,16 @@ Here's a high level overview of what's available:
 ```groovy
 job(attributes) {
     name(nameStr)
+    displayName(displayName)
     using(templateNameStr)
     description(descStr)
     label(labelStr)
-    timeout(timeoutInMinutes, shouldFailBuild)
+    quietPeriod(seconds)
+    customWorkspace(workspacePath)
     disabled(shouldDisable)
     blockOn(projectNames)
+    blockOnUpstreamProjects()
+    blockOnDownstreamProjects()
     logRotator(daysToKeepInt, numToKeepInt, artifactDaysToKeepInt, artifactNumToKeepInt)
     jdk(jdkStr)
     rootPOM(rootPOMStr)
@@ -60,6 +64,8 @@ job(attributes) {
     environmentVariables(vars)
     environmentVariables(closure) // See [[Job Reference]] for details of EnvironmentVariablesContext
     priority(value)
+    timeout(timeoutInMinutes, shouldFailBuild)
+    timeout(type) {} //see Job Reference for closure details
     authorization {
         permission(permissionStr) // e.g. hudson.model.Item.Workspace:authenticated
         permission(String permEnumName, String user)
@@ -73,6 +79,7 @@ job(attributes) {
         svn(svnUrl, localDir) {}
         p4(viewspec, user, password) {}
     }
+    checkoutRetryCount(times)
     triggers {
         cron(cronString)
         scm(cronString)
