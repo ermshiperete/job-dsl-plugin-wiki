@@ -179,8 +179,8 @@ This provide the ability to schedule a Job to be executable after the DSL runs. 
 # Reading Files from Workspace
 
 ```groovy
-InputStream streamFileInWorkspace(String filePath) throws IOException;
-String readFileInWorkspace(String filePath) throws IOException;
+InputStream streamFileFromWorkspace(String filePath) throws IOException;
+String readFileFromWorkspace(String filePath) throws IOException;
 ```
 
 Anywhere in the script you can read in a file from the current workspace using the above calls. This assumes that you checked out some source control as part of the job processing the DSL. This can be useful when populated fields on a generated job, e.g.
