@@ -368,10 +368,10 @@ gerrit {
     project(String projectName, List<String> branches) // Can be called multiple times
     project(String projectName, String branches) // Can be called multiple times
     buildStarted(int verified, int codeReview) //Updates the gerrit report values for the build started event
-     buildSuccessful(int verified, int codeReview) ) //Updates the gerrit report values for the build successful event
-    buildFailed(int verified, int codeReview) ) //Updates the gerrit report values for the build failed event 
-    buildUnstable(int verified, int codeReview) ) //Updates the gerrit report values for the build unstable event 
-    buildNotBuilt(int verified, int codeReview) ) //Updates the gerrit report values for the build not built event 
+     buildSuccessful(int verified, int codeReview) //Updates the gerrit report values for the build successful event
+    buildFailed(int verified, int codeReview) //Updates the gerrit report values for the build failed event 
+    buildUnstable(int verified, int codeReview) //Updates the gerrit report values for the build unstable event 
+    buildNotBuilt(int verified, int codeReview) //Updates the gerrit report values for the build not built event 
     configure(Closure configureClosure) // Handed com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.GerritTrigger
 }
 ```
