@@ -969,7 +969,7 @@ cobertura(xmlReportFilePattern) {
   methodTarget(80, 0, 0) 
   lineTarget(80, 0, 0)   
   conditionalTarget(70, 0, 0)
-  sourceEncoding('ASCII') // Or maybe UTF-8
+  sourceEncoding('ASCII')
 }
 ```
 
