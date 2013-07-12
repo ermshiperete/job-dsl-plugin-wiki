@@ -948,7 +948,7 @@ irc {
 
 ## Cobertura coverage report
 
-Supports the [Cobertura Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin). Only the Cobertura xml reportfile pattern is required by default to locate all the generated reports. Advanced options are all set to defaults.
+Supports the [Cobertura Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin). Only the Cobertura xml reportfile pattern is required to locate all the generated reports. Advanced options are all set to defaults.
 
 ```groovy
 cobertura(xmlReportFilePattern)
@@ -964,32 +964,33 @@ cobertura(xmlReportFilePattern) {
   autoUpdateHealth(false)    // Auto update threshold for health on successful build.
   autoUpdateStability(false) // Auto update threshold for stability on successful build.
   zoomCoverageChart(false)   // Zoom the coverage chart and crop area below the minimum and above the maximum coverage of the past reports.
-  failNoReports(true) // Fail builds if no coverage reports are found.
-  // The following health reporting thresholds are added by default for the method, line and conditional coverage targets:
-  methodTarget(8000000, 0, 0) 
-  lineTarget(8000000, 0, 0)   
-  conditionalTarget(7000000, 0, 0)
+  failNoReports(true) // Fail builds if no coverage reports have been found.
+  // The following targets are added by default to check the method, line and conditional level coverage:
+  methodTarget(80, 0, 0) 
+  lineTarget(80, 0, 0)   
+  conditionalTarget(70, 0, 0)
+  sourceEncoding('ASCII') // Or maybe UTF-8
 }
 ```
 
 ### More about targets
 
-A target treshold can be tuned using one of the <targetName>Target(healthyTarget, unhealthyTarget, failingTarget) methods.
+Targets are used to mark the build as healthy/unhealthy/unstable based on given tresholds. Targets can be set separately for conditional, line, method, class, file and the package level.
 
-Each of the 3 parameters represent a treshold value for detecting healthy, unhealthy and failing builds. Looking at the previous example, methodTarget(8000000, 0, 0) means the following:
- * The value 8000000 for healthyTarget means: "Report health as 100% when target is greater than 80.0"
- * The value 0 for unhealthyTarget means: "Report health as 0% when target is less than 0"
- * The value 0 for failingTarget means: "Mark the build as unstable then target is less than 0"
-
-There are 6 types of targets, that can be tuned using the following helper methods:
+Targets can be tuned using the following helper methods:
 ```groovy
-  methodTarget(healthyTarget, unhealthyTarget, failingTarget)
-  lineTarget(healthyTarget, unhealthyTarget, failingTarget)
-  conditionalTarget(healthyTarget, unhealthyTarget, failingTarget)
-  fileTarget(healthyTarget, unhealthyTarget, failingTarget)
-  packageTarget(healthyTarget, unhealthyTarget, failingTarget)
-  classTarget(healthyTarget, unhealthyTarget, failingTarget)
+conditionalTarget(healthy, unhealthy, failing)
+lineTarget(healthy, unhealthy, failing)
+methodTarget(healthy, unhealthy, failing)
+classTarget(healthy, unhealthy, failing)
+fileTarget(healthy, unhealthy, failing)
+packageTarget(healthy, unhealthy, failing)
 ```
+
+Each of the 3 parameters represent a percentage treshold. They have the following meaning:
+* healthy: Report health as 100% when coverage is greater than {healthy}% 
+* unhealthy: Report health as 0% when coverage is less than {unhealthy}%
+* failing: Mark the build as unstable when coverage is less than {failing}% 
 
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
