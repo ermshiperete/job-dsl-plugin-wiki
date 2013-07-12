@@ -965,11 +965,11 @@ cobertura(xmlReportFilePattern) {
   autoUpdateStability(false) // Auto update threshold for stability on successful build.
   zoomCoverageChart(false)   // Zoom the coverage chart and crop area below the minimum and above the maximum coverage of the past reports.
   failNoReports(true) // Fail builds if no coverage reports have been found.
+  sourceEncoding('ASCII') // Character encoding of source files
   // The following targets are added by default to check the method, line and conditional level coverage:
   methodTarget(80, 0, 0) 
   lineTarget(80, 0, 0)   
   conditionalTarget(70, 0, 0)
-  sourceEncoding('ASCII')
 }
 ```
 
