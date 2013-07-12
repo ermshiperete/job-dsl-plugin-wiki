@@ -127,7 +127,7 @@ job(attributes) {
         violations(perFileDisplayLimit, violationsClosure) // See [[Job Reference]] for violationsClosure syntax
         chucknorris() // Really important
         irc(ircClosure) // See [[Job Reference]] for ircClosure syntax
-        cobertura(coberturaReportFilename, cobertureAdvancedConfigurationClosure) // See [[Job Reference]] for cobertureAdvancedConfigurationClosure syntax
+        cobertura(coberturaReportFilePattern, coberturaClosure) // See [[Job Reference]] for coberturaClosure syntax
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
