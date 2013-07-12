@@ -85,6 +85,23 @@ timeout(int timeoutInMinutes, Boolean shoudFailBuild = true)
 
 Using the build timeout plugin, it can fail a build after a certain amount of time.
 
+## Port allocation
+```groovy
+allocatePorts 'HTTP', '8080' // allocates two ports: one randomly assigned and accessible by env var $HTTP
+                             // the second is fixed and the port allocator controls concurrent usage
+
+allocatePorts {
+  port 'HTTP'                          // random port available as $HTTP
+  port '8080'                          // concurrent build execution controlled to prevent resource conflicts 
+  glassfish '1234', 'user', 'password' // adds a glassfish port
+  tomcat '1234', 'password'            // adds a port for tomcat
+}
+```
+
+The port allocation plugin enables to allocate ports for build executions to prevent conflicts between build jobs competing for a single port number (useful for any build that needs to allocate a port like Rails,Play! web containers, etc). See the plugin documentation for more details. (Available since 1.16)
+
+
+
 ## Disable
 
 ```groovy
@@ -132,6 +149,14 @@ customWorkspace(String workspacePath)
 ```
 
 Defines that a project should use the given directory as a workspace instead of the default workspace location. (Available since 1.16) 
+
+## RVM
+```groovy
+rvm('ruby-1.9.3')
+rvm('ruby-2.0@gemset')
+```
+
+Configures the job to prepare a Ruby environment controlled by RVM for the build. Requires at least the ruby version, can take also a gemset specification to prevent side effects with other builds. (Available since 1.16)
 
 ## JDK
 ```groovy
@@ -557,8 +582,61 @@ Currently all options are available via the DSL. If new plugin versions should i
 
 ```groovy
 sbt(/*standard parameters here*/) {
-  newParameter 'foo'
+    newParameter 'foo'
 }
+```
+
+## DSL
+```groovy
+dsl {
+    removeAction(String removeAction)      // one of: 'DISABLE', 'IGNORE', 'DELETE'
+    external (String... dslFilenames)      // one or more filenames/-paths in the workspace containing DSLs
+    text (String dslSpecification)         // direct specification of DSL as String
+    ignoreExisting(boolean ignoreExisting) // flag if to ignore existing jobs
+}
+
+/* equivalent calls as parameters instead of closure */
+def dsl(String scriptText, String removedJobAction = null, boolean ignoreExisting = false)
+def dsl(Collection<String> externalScripts, String removedJobAction = null, boolean ignoreExisting = false)
+```
+
+The DSL build step creates a new job that in turn is able to generate other jobs. Particularly useful to generate a monitoring Job for things like feature/release branches. (Available since 1.16)
+
+Sample definition using several DSL files:
+```groovy
+dsl {
+    removeAction 'DISABLE'
+    external 'some-dsl.groovy','some-other-dsl.groovy'
+    external 'still-another-dsl.groovy'
+    ignoreExisting true
+}
+
+/* same definition using parameters instead of closure */
+dsl(['some-dsl.groovy','some-other-dsl.groovy','still-another-dsl.groovy'], 'DISABLE', true)
+```
+
+Another sample that specifies the DSL text directly:
+```groovy
+dsl {
+    removeAction('DELETE')
+    text '''
+job {
+    foo()
+    bar {
+        baz()
+    }
+} 
+}
+
+/* same definition using parameters instead of closure */
+dsl('''
+job {
+    foo()
+    bar {
+        baz()
+    }
+}
+''', 'DELETE')
 ```
 
 ## Copy Artifacts
