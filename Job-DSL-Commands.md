@@ -54,7 +54,9 @@ job(attributes) {
     blockOnUpstreamProjects()
     blockOnDownstreamProjects()
     logRotator(daysToKeepInt, numToKeepInt, artifactDaysToKeepInt, artifactNumToKeepInt)
+    allocatePorts(ports){}
     jdk(jdkStr)
+    rvm(rubySpecification)
     rootPOM(rootPOMStr)
     goals(goalsStr)
     mavenOpts(mavenOptsStr)
@@ -108,6 +110,7 @@ job(attributes) {
         systemGroovyCommand(commandStr, systemGroovyClosure) // See [[Job Reference]] for systemGroovyClosure syntax
         systemGroovyScriptFile(fileName, systemGroovyClosure) // See [[Job Reference]] for systemGroovyClosure syntax
         phase(String name, String continuationConditionArg = 'SUCCESSFUL', Closure phaseClosure = null) // See [[Job Reference]] for phaseClosure syntax
+        dsl{}
     }
     publishers {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
