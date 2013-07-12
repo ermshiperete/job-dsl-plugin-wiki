@@ -123,7 +123,8 @@ job(attributes) {
         downstreamParameterized(downstreamClosure) // See [[Job Reference]] for downstreamClosure syntax
         violations(perFileDisplayLimit, violationsClosure) // See [[Job Reference]] for violationsClosure syntax
         chucknorris() // Really important
-        irc(ircClosure) // See below for ircClosure syntax
+        irc(ircClosure) // See [[Job Reference]] for ircClosure syntax
+        cobertura(coberturaReportFilename, cobertureAdvancedConfigurationClosure) // See [[Job Reference]] for cobertureAdvancedConfigurationClosure syntax
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
