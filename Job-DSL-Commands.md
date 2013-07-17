@@ -110,7 +110,9 @@ job(attributes) {
         systemGroovyCommand(commandStr, systemGroovyClosure) // See [[Job Reference]] for systemGroovyClosure syntax
         systemGroovyScriptFile(fileName, systemGroovyClosure) // See [[Job Reference]] for systemGroovyClosure syntax
         phase(String name, String continuationConditionArg = 'SUCCESSFUL', Closure phaseClosure = null) // See [[Job Reference]] for phaseClosure syntax
-        dsl{}
+        dsl(dslClosure) // See [[Job Reference]] for dslClosure syntax
+        dsl(scriptText, removedJobAction, ignoreExisting)
+        dsl(externalScripts, removedJobAction, ignoreExisting)
     }
     publishers {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
