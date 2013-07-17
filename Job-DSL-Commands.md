@@ -234,9 +234,6 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 @daspilker:
 * Config File Provider Plugin
 
-@garethbowles:
-* Publish - TestNG
-
 @andrewharmellaw:
 * Build parameters - password (https://issues.jenkins-ci.org/browse/JENKINS-18141)
 
