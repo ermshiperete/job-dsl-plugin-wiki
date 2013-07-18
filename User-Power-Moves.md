@@ -1,4 +1,4 @@
-When you get a little bit expert in your usage of the JOB DSL and Plugin, you might want to try the following Power Moves:
+When you get a little bit expert in your usage of the Job DSL and Plugin, you might want to try the following Power Moves:
 
 # Run a DSL Script locally
 Before you push a new DSL script to jenkins, it's helpful to run it locally and eyeball the resulting XML. To do this follow these steps:
@@ -58,3 +58,12 @@ Some of the available variables are as follows:
 The job you create could be running on a slave, while the plugin runs on the master. Which means you shouldn't directly reference files on filesystem, since we're in a distributed system. The good news is that we added a method to help with this. See the docs for "Reading Files from Workspace" on https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-DSL-Commands
 
 [Original  discussion on the newsgroup](https://groups.google.com/forum/#!msg/job-dsl-plugin/wjrHEI7BLx8/zxW7j7xcWOcJ)
+
+# Understanding config.xml Generation - Multiple Calls to the Same Command
+Knowing when to overwrite or append to the XML is a fundamental problem with our approach. In the beginning of the project we though to append always, but we quickly learned that it takes a lot more work to intelligently append. We then took the approach to append when possible and easy, otherwise just overwrite.  Since then many users have found themselves just building up jobs from scratch and not worrying about existing values in templates, essentially taking a "we leave you alone if you leave us alone" approach.
+
+I'd be interested in hearing from the community how often templates are used (aka using() syntax) and if the manipulations are additive (adding to exist structures) or constructive (creating new structures).  
+
+Users should also note that we're pretty bad about multiple calls being made in your DSL script to the same command, and we could be better. E.g. calling environmentVariables multiple times would leave the result of the last call as the winner. An alternative to this would be to defer its creation, accumulating the vars as we went. Once again, that takes more work and its something we can add later if needed. We should also document this better. So, if people see one behavior or other, please add it to the docs or bring it to our attention.
+
+[Original  discussion on the newsgroup](https://groups.google.com/forum/#!msg/job-dsl-plugin/5YGgR8px7gE/fP6AL71BUrkJ)
