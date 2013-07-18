@@ -6,7 +6,7 @@ Once you know how to create a "seed" job from the tutorial, start looking at the
 
 If you want to get fancy you'll want to read up on the _configure_ block which gives you direct access to the config.xml, read [[configure block|The Configure Block]]. It's also possible (and easy) to [[define your own DSL commands|Extending the DSL from your Job Scripts]] using monkey patching.
 
-There is a great load of information on [the forum](https://groups.google.com/forum/#!forum/job-dsl-plugin), but some stuff is also making its way into a FAQ.
+There is a great load of information on [the forum](https://groups.google.com/forum/#!forum/job-dsl-plugin), but some stuff is also making its way into a [[FAQ|Frequently Asked Questions]].
 
 And finally, if you want to get more involved, [[here's how... | Contributing to the job dsl plugin Project]]
 
