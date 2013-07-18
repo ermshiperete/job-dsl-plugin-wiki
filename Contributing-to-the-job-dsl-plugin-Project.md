@@ -31,3 +31,4 @@ If you want to make a change to the code on jenkinsci/job-dsl-plugin, here's the
 1. We write tests using [Spock](http://code.google.com/p/spock/), so if (for example) you add a new Helper (e.g. ScmHelper), then add a corresponding ScmHelperSpec in the tests directory tree
 1. When the configuration value is a class name, use the unique parts of the possible classnames for brevity and build the FQCN adding the common parts. An example: hudson.plugins.im.build_notify.DefaultBuildToChatNotifier should be "Default".
 1. For enum type options use the values from the config.xml instead of the GUI text, for example 'FAILURE_AND_FIXED' instead of 'failure and fixed'.
+1. We don't yet have a standard way of taking what could be an Enum as a command argument.  However, a nice style tip can be found in [this thread on the forum](https://groups.google.com/forum/#!msg/job-dsl-plugin/imL88hLX0Cw/_XYDmo8t1M4J).
