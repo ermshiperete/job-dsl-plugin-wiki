@@ -67,3 +67,18 @@ I'd be interested in hearing from the community how often templates are used (ak
 Users should also note that we're pretty bad about multiple calls being made in your DSL script to the same command, and we could be better. E.g. calling environmentVariables multiple times would leave the result of the last call as the winner. An alternative to this would be to defer its creation, accumulating the vars as we went. Once again, that takes more work and its something we can add later if needed. We should also document this better. So, if people see one behavior or other, please add it to the docs or bring it to our attention.
 
 [Original  discussion on the newsgroup](https://groups.google.com/forum/#!msg/job-dsl-plugin/5YGgR8px7gE/fP6AL71BUrkJ)
+
+# Have Multiple SVN Locations
+If you want more than one SVN location in your SCM block:
+```groovy
+scm {
+  svn('http://svn-mirror.xxx.lan/svn/internal/zzz/trunk', 'trunk') {
+    it / locations << 'hudson.scm.SubversionSCM_-ModuleLocation' {
+      remote 'http://svn-mirror.xxx.lan/svn/zzz/trunk'
+      local 'trunk/community'
+    }
+  }
+}
+```
+
+[Original  discussion on the newsgroup](https://groups.google.com/forum/#!msg/job-dsl-plugin/EWCaCYJgfsE/X_5ci3AX4pAJ)
