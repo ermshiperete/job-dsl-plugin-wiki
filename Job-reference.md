@@ -723,7 +723,7 @@ grails {
 }
 
 // additional methods
-grails(String targets, Closure grailsClosure = null)                             // space-separated targets
+grails(String targets, Closure grailsClosure)                                    // space-separated targets
 grails(String targets, boolean useWrapper = false, Closure grailsClosure = null) // space-separated targets
 ```
 
