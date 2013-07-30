@@ -723,8 +723,8 @@ grails {
 }
 
 // additional methods
-grails(String targets, Closure grailsClosure = null)
-grails(String targets, boolean useWrapper = false, Closure grailsClosure = null)
+grails(String targets, Closure grailsClosure = null)                             // space-separated targets
+grails(String targets, boolean useWrapper = false, Closure grailsClosure = null) // space-separated targets
 ```
 
 Supports the Grails plugin. Only targets field is required. To pass arguments to a particular target, surround the target and its arguments with double quotes.
