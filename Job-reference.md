@@ -344,6 +344,24 @@ svn('http://svn.apache.org/repos/asf/xml/crimson/trunk/') { svnNode ->
 
 For more details on using the configure block syntax, see our [dedicated page](configure-block).
 
+**BEGIN Unreleased Feature - Documentation is a work in progress** 
+```groovy
+svn {
+    location svnUrl, localDir
+    checkoutStrategy strategy
+    excludedRegion pattern
+    excludedRegions(Iterable<String> patterns)
+    includedRegion pattern
+    includedRegions(Iterable<String> patterns)
+    excludedUser pattern
+    excludedUsers(Iterable<String> patterns)
+    excludedCommitMsg pattern
+    excludedCommitMsgs(Iterable<String> patterns)
+    excludedRevProp revisionProperty
+}
+```
+**END Unreleased Feature**
+
 ## Perforce
 ```groovy
 p4(String viewspec, String user = 'rolem', String password = '', Closure configure = null)
