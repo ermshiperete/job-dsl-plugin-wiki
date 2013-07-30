@@ -705,6 +705,30 @@ systemGroovyScriptFile(String fileName, Closure systemGroovyClosure = null) {
 
 Runs a system groovy script, which is executed inside the Jenkins master. Thus it will have access to all the internal objects of Jenkins and can be used to alter the state of Jenkins. The `systemGroovyCommand` method will run an inline script and the `systemGroovyScriptFile` will execute a script file from the generated job's workspace. The closure block can be used to add variable bindings and extra classpath entries for a script. The methods in the closure block can be called multiple times to add any number of bindings or classpath entries. The Groovy plugin must be installed to use these build steps.
 
+## Grails
+```groovy
+grails {
+    target(String targetName)              // a single target to run
+    targets(Iterable<String> targets)      // multiple targets to tun
+    name(String grailsName)                // the name of the Grails installation
+    grailsWorkDir(String grailsWorkDir)    // grails.work.dir system property
+    projectWorkDir(String projectWorkDir)  // grails.project.work.dir system property
+    projectBaseDir(String projectBaseDir)  // path to the root of the Grails project
+    serverPort(String serverPort)          // server.port system property
+    prop(String key, String value)         // a single system property key and value
+    props(Map<String, String> map)         // a map of system property key and values
+    forceUpgrade(boolean forceUpgrade)     // run 'grails upgrade --non-interactive' first
+    nonInteractive(boolean nonInteractive) // append --non-interactive to all build targets
+    useWrapper(boolean useWrapper)         // use Grails wrapper to execute targets
+}
+
+// additional methods
+grails(String targets, Closure grailsClosure = null)
+grails(String targets, boolean useWrapper = false, Closure grailsClosure = null)
+```
+
+Supports the Grails plugin. Only targets field is required. To pass arguments to a particular target, surround the target and its arguments with double quotes.
+
 # Multijob Phase
 
 ```
