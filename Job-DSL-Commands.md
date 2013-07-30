@@ -113,6 +113,9 @@ job(attributes) {
         dsl(dslClosure) // See [[Job Reference]] for dslClosure syntax
         dsl(scriptText, removedJobAction, ignoreExisting)
         dsl(externalScripts, removedJobAction, ignoreExisting)
+        grails(grailsClosure) // See [[Job Reference]] for grailsClosure syntax
+        grails(targetsArg, grailsClosure)
+        grails(targetsArg, useWrapperArg, grailsClosure)
     }
     publishers {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
