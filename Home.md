@@ -12,6 +12,17 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 
 ## Release Notes
 
+* 1.16 - Block on upstream/downstream jobs
+* 1.16 - Job DSL Plugin (to create DSL build steps in a job)
+* 1.16 - Build Timeout Plugin
+* 1.16 - Cobertura Plugin
+* 1.16 - Port Allocator Plugin
+* 1.16 - RVM Plugin
+* 1.16 - URL Trigger
+* 1.16 - Better Gerrit support
+* 1.16 - SBT Plugin
+* 1.16 - Update blockOn call
+* 1.16 - [[Help method to read files from the workspace|Job-DSL-Commands#reading-files-from-workspace]]
 * 1.16 - Queue jobs after execution of the DSL
 * 1.16 - MultiJob Support
 * 1.15 - [[@Grab Support|Grab Support]]
