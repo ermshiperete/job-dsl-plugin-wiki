@@ -80,6 +80,7 @@ job(attributes) {
         github(ownerAndProject, branch, protocol, host) {}
         svn(svnUrl, localDir) {}
         p4(viewspec, user, password) {}
+        cloneWorkspace(parentProject, criteriaArg) 
     }
     checkoutRetryCount(times)
     triggers {
