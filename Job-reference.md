@@ -363,6 +363,7 @@ svn {
 **END Unreleased Feature**
 
 ## Perforce
+
 ```groovy
 p4(String viewspec, String user = 'rolem', String password = '', Closure configure = null)
 ```
@@ -377,6 +378,14 @@ p4('//depot/Tools/build') { node ->
     node / pollOnlyOnMaster('true')
 }
 ```
+
+## Clone Workspace
+
+```
+cloneWorkspace(String parentProject, String criteriaArg = 'Any') 
+```
+
+Support the Clone Workspace plugin, by copy the workspace of another build. This complements another job which published their workspace.
 
 # Triggers
 
