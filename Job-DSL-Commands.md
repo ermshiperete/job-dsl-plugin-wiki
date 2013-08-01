@@ -134,6 +134,7 @@ job(attributes) {
         chucknorris() // Really important
         irc(ircClosure) // See [[Job Reference]] for ircClosure syntax
         cobertura(coberturaReportFilePattern, coberturaClosure) // See [[Job Reference]] for coberturaClosure syntax
+        allowBrokenBuildClaiming()
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
