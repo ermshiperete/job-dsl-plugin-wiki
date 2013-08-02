@@ -368,7 +368,8 @@ svn {
     checkoutStrategy(CheckoutStrategy strategy)
 
     /*
-     * Add an excluded region.  Each call is additive.
+     * Add an excluded region.  Each call to excludedRegion() adds to the list of
+     * excluded regions.
      * If excluded regions are configured, and Jenkins is set to poll for changes,
      * Jenkins will ignore any files and/or folders that match the specified
      * patterns when determining if a build needs to be triggered.
@@ -377,7 +378,8 @@ svn {
     excludedRegion(String pattern)
 
     /*
-     * Add a list of excluded regions.  Each call is additive.
+     * Add a list of excluded regions.  Each call to excludedRegions adds to the
+     * list of excluded regions.
      * If excluded regions are configured, and Jenkins is set to poll for changes,
      * Jenkins will ignore any files and/or folders that match the specified
      * patterns when determining if a build needs to be triggered.
