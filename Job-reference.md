@@ -378,7 +378,7 @@ svn {
     excludedRegion(String pattern)
 
     /*
-     * Add a list of excluded regions.  Each call to excludedRegions adds to the
+     * Add a list of excluded regions.  Each call to excludedRegions() adds to the
      * list of excluded regions.
      * If excluded regions are configured, and Jenkins is set to poll for changes,
      * Jenkins will ignore any files and/or folders that match the specified
