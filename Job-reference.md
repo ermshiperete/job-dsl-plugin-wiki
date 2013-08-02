@@ -347,9 +347,36 @@ For more details on using the configure block syntax, see our [dedicated page](c
 **BEGIN Unreleased Feature - Documentation is a work in progress** 
 ```groovy
 svn {
+    /*
+     * At least one location MUST be specified.
+     * Additional locations can be specified by calling location() multiple times.
+     *   svnUrl   - What to checkout from SVN.
+     *   localDir - Destination directory relative to workspace.
+     *              If not specified, defaults to '.'.
+     */
     location(String svnUrl, String localDir = '.')
+
+    /*
+     * The checkout strategy that should be used.  This is a global setting for all
+     * locations.
+     *   strategy - Strategy to use. Possible values:
+     *                CheckoutStrategy.Update
+     *                CheckoutStrategy.Checkout
+     *                CheckoutStrategy.UpdateWithClean
+     *                CheckoutStrategy.UpdateWithRevert
+     */
     checkoutStrategy(CheckoutStrategy strategy)
+
+    /*
+     * Add an excluded region.  Each call is additive.
+     *   pattern - 
+    /*
     excludedRegion(String pattern)
+
+    /*
+     * Add a list of excluded regions.  Each call is additive.
+     *   patterns - 
+    /*
     excludedRegions(Iterable<String> patterns)
     includedRegion(String pattern)
     includedRegions(Iterable<String> patterns)
