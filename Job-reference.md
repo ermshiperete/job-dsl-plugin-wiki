@@ -347,19 +347,20 @@ For more details on using the configure block syntax, see our [dedicated page](c
 **BEGIN Unreleased Feature - Documentation is a work in progress** 
 ```groovy
 svn {
-    location svnUrl, localDir
-    checkoutStrategy strategy
-    excludedRegion pattern
+    location(String svnUrl, String localDir = '.')
+    checkoutStrategy(CheckoutStrategy strategy)
+    excludedRegion(String pattern)
     excludedRegions(Iterable<String> patterns)
-    includedRegion pattern
+    includedRegion(String pattern)
     includedRegions(Iterable<String> patterns)
-    excludedUser pattern
+    excludedUser(String pattern)
     excludedUsers(Iterable<String> patterns)
-    excludedCommitMsg pattern
+    excludedCommitMsg(String pattern)
     excludedCommitMsgs(Iterable<String> patterns)
-    excludedRevProp revisionProperty
+    excludedRevProp(String revisionProperty)
 }
 ```
+
 **END Unreleased Feature**
 
 ## Perforce
