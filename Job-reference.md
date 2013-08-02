@@ -369,14 +369,20 @@ svn {
 
     /*
      * Add an excluded region.  Each call is additive.
-     *   pattern - 
-    /*
+     * If excluded regions are configured, and Jenkins is set to poll for changes,
+     * Jenkins will ignore any files and/or folders that match the specified
+     * patterns when determining if a build needs to be triggered.
+     *   pattern - RegEx
+     */
     excludedRegion(String pattern)
 
     /*
      * Add a list of excluded regions.  Each call is additive.
-     *   patterns - 
-    /*
+     * If excluded regions are configured, and Jenkins is set to poll for changes,
+     * Jenkins will ignore any files and/or folders that match the specified
+     * patterns when determining if a build needs to be triggered.
+     *   patterns - RegEx
+     */
     excludedRegions(Iterable<String> patterns)
     includedRegion(String pattern)
     includedRegions(Iterable<String> patterns)
