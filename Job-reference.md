@@ -484,6 +484,8 @@ gerrit {
 
 The URL trigger plugin checks one or more specified URLs and starts a build when a change is detected. (Since 1.16)
 
+Currently (v1.16) on Jenkins <= 1.509.2, the alternative syntax with the cron line as a parameter rather than inside the closure is required, because job creation throws an exception if a trigger is initialized with the default `'H/5 * * * *'` schedule. These versions of Jenkins do not understand "H" in a trigger schedule.
+
 ```groovy
 urlTrigger {
   cron '* 0 * 0 *'    // set cron schedule (defaults to : 'H/5 * * * *')
