@@ -1161,15 +1161,15 @@ fileParam("test/upload.zip", "my description")
 ## Run Parameter
 Note: The Job Name needs to be an existing Jenkins Job, though we don't check when we generate the XML.
 
-Simplest usage (taking advantage of default description)
+Simplest usage (taking advantage of default description and default filter)
 ```groovy
-// In this case the description will be set to ''
+// In this case the description will be set to '' and the filter won't be set
 runParam("myParameterName", "myJobName")
 ```
 Full usage
 ```groovy
-// In this case the description will be set to 'my description'
-runParam("myParameterName", "myJobName", "my description")
+// In this case the description will be set to 'my description' and the filter will be set to 'SUCCESSFUL'
+runParam("myParameterName", "myJobName", "my description", "SUCCESSFUL")
 ```
 
 ## String Parameter
