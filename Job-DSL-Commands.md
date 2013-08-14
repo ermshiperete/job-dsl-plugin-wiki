@@ -141,7 +141,7 @@ job(attributes) {
 	listTagsParam(parameterName, scmUrl, tagFilterRegex, sortNewestFirst, sortZtoA, maxTagsToDisplay, defaultValue, description)
 	choiceParam(parameterName, options, description)
 	fileParam(fileLocation, description)
-	runParam(parameterName, jobToRun, description) // "filter" parameter proposed by [Pull Request #81](https://github.com/jenkinsci/job-dsl-plugin/pull/81)
+	runParam(parameterName, jobToRun, description, filter)
 	stringParam(parameterName, defaultValue, description)
 	textParam(parameterName, defaultValue, description)
     }
