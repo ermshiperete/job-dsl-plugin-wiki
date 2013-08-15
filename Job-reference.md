@@ -1089,6 +1089,38 @@ allowBrokenBuildClaiming()
 
 Activates broken build claiming for the [Claim plugin](https://wiki.jenkins-ci.org/display/JENKINS/Claim+plugin).
 
+## Jacoco
+
+This plugin allows you to capture code coverage report from the [JaCoCo Plugin](https://wiki.jenkins-ci.org/display/JENKINS/JaCoCo+Plugin). Jenkins will generate the trend report of coverage.
+
+```
+//Shown with defaults
+jacocoCodeCoverage {
+    execPattern '**/target/**.exec'
+    classPattern '**/classes'
+    sourcePattern '**/src/main/java'
+    inclusionPattern '**/*.class'
+    exclusionPattern '**/*Test*'
+    minimumInstructionCoverage '0'
+    minimumBranchCoverage '0'
+    minimumComplexityCoverage '0' 
+    minimumLineCoverage '0' 
+    minimumMethodCoverage '0' 
+    minimumClassCoverage '0' 
+    maximumInstructionCoverage '0' 
+    maximumBranchCoverage '0' 
+    maximumComplexityCoverage '0' 
+    maximumLineCoverage '0' 
+    maximumMethodCoverage '0' 
+    maximumClassCoverage '0'
+}
+```
+
+Simplest usage will output with the defaults above
+```
+jacocoCodeCoverage()
+```
+
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
 _Note: The Password Parameter is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141_
