@@ -135,6 +135,7 @@ job(attributes) {
         irc(ircClosure) // See [[Job Reference]] for ircClosure syntax
         cobertura(coberturaReportFilePattern, coberturaClosure) // See [[Job Reference]] for coberturaClosure syntax
         allowBrokenBuildClaiming()
+        jacocoCodeCoverage(jacocoClosure) // See [[Job Reference]] for jacococClosure syntax
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
