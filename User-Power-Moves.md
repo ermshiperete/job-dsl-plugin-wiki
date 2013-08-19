@@ -82,3 +82,13 @@ scm {
 ```
 
 [Original  discussion on the newsgroup](https://groups.google.com/forum/#!msg/job-dsl-plugin/EWCaCYJgfsE/X_5ci3AX4pAJ)
+
+# Grab a shared, groovy file
+If you have a file which you want to import into your script, but you can't put it in the location described in the "Importing Other Files" example on the [[Real-World-Examples]] page, you can do this:
+
+```groovy
+@GrabResolver('http://artifacts.netflix.com/build-local')
+@Grab('com.netflix.build:dsl-conventions:1.2')
+```
+
+[Original  discussion on the newsgroup](https://groups.google.com/forum/#!msg/job-dsl-plugin/6zmau49-SJI/Msk9gMexs_0J)
