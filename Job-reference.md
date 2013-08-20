@@ -880,6 +880,13 @@ extendedEmail('me@halfempty.org', 'Oops', 'Something broken') {
 }
 ```
 
+## Mailer Tasks
+```groovy
+mailer(String recipients, String dontNotifyEveryUnstableBuildBoolean = false, String sendToIndividualsBoolean = false)
+```
+
+This is the default mailer task. Specify the recipients, whether to flame on unstable builds, and whether to send email to individuals who broke the build
+
 ## Archive Artifacts
 ```groovy
 archiveArtifacts(String glob, String excludeGlob = null, Boolean latestOnlyBoolean = false)
