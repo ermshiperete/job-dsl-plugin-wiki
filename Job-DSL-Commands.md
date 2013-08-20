@@ -120,6 +120,7 @@ job(attributes) {
     }
     publishers {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
+        mailer(recipients, dontNotifyEveryUnstableBuild, sendToIndividuals)
         archiveArtifacts(glob, excludeGlob, latestOnlyBoolean)
         archiveJunit(glob, retainLongStdout, allowClaimingOfFailedTests, publishTestAttachments)
         publishHtml {
