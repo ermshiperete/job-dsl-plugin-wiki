@@ -12,6 +12,10 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 
 ## Release Notes
 
+* 1.17 - Filter for Run Build Parameter 
+* 1.17 - Isolated Local Maven Repositories
+* 1.17 - Node Stalker Plugin
+* 1.17 - JaCoCo Plugin
 * 1.16 - Clone Workspace SCM
 * 1.16 - Block on upstream/downstream jobs
 * 1.16 - Job DSL Plugin (to create DSL build steps in a job)
