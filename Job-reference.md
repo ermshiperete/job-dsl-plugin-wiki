@@ -885,7 +885,14 @@ extendedEmail('me@halfempty.org', 'Oops', 'Something broken') {
 mailer(String recipients, String dontNotifyEveryUnstableBuildBoolean = false, String sendToIndividualsBoolean = false)
 ```
 
-This is the default mailer task. Specify the recipients, whether to flame on unstable builds, and whether to send email to individuals who broke the build
+This is the default mailer task. Specify the recipients, whether to flame on unstable builds, and whether to send email to individuals who broke the build. Note the double negative in the dontNotifyEveryUnstableBuild condition. If you want notification on every unstable build, keep it false. 
+Simple example:
+
+```groovy
+publishers {
+    mailer('me@example.com', true, true)
+}
+```
 
 ## Archive Artifacts
 ```groovy
