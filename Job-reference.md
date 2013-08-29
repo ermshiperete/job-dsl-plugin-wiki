@@ -907,6 +907,26 @@ publishers {
 }
 ```
 
+## Fingerprint
+```groovy
+fingerprint(String targets, boolean recordBuildArtifacts = false)
+```
+
+Activates fingerprinting for the build. If recordBuildArtifacts is activated, then all archived artifacts are also fingerprinted.
+Moreover, the option to keep the build logs of dependencies can be set at the toplevel via
+```groovy
+keepDependencies(boolean keep = true)
+```
+
+Examples:
+
+```groovy
+keepDependencies()
+publishers {
+    fingerprint('**/*.jar')
+}
+```
+
 ## Archive JUnit
 ```groovy
 archiveJunit(String glob, boolean retainLongStdout = false, boolean allowClaimingOfFailedTests = false, boolean publishTestAttachments = false)
