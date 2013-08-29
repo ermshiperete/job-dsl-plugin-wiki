@@ -56,6 +56,7 @@ job(attributes) {
     logRotator(daysToKeepInt, numToKeepInt, artifactDaysToKeepInt, artifactNumToKeepInt)
     allocatePorts(ports){}
     jdk(jdkStr)
+    keepDependencies(keep)
     rvm(rubySpecification)
     rootPOM(rootPOMStr)
     goals(goalsStr)
@@ -137,6 +138,7 @@ job(attributes) {
         cobertura(coberturaReportFilePattern, coberturaClosure) // See [[Job Reference]] for coberturaClosure syntax
         allowBrokenBuildClaiming()
         jacocoCodeCoverage(jacocoClosure) // See [[Job Reference]] for jacococClosure syntax
+        fingerprint(targets, recordBuildArtifacts) // See [[Job Reference]], too
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
