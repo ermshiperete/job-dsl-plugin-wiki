@@ -907,13 +907,14 @@ publishers {
 }
 ```
 
-## Fingerprint
+## Fingerprint / KeepDependencies
 ```groovy
 fingerprint(String targets, boolean recordBuildArtifacts = false)
 ```
 
-Activates fingerprinting for the build. If recordBuildArtifacts evaluates to "true", then all archived artifacts are also fingerprinted.
-Moreover, the option to keep the build logs of dependencies can be set at the toplevel via
+Activates fingerprinting for the build. 
+If recordBuildArtifacts evaluates to "true", then all archived artifacts are also fingerprinted.
+Moreover, the option to keep the build logs of dependencies can be set at the top level via:
 ```groovy
 keepDependencies(boolean keep = true)
 ```
