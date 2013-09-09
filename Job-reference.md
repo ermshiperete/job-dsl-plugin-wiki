@@ -564,6 +564,9 @@ Adds step block to contain an ordered list of build steps. Cannot be used for jo
 ## Shell command
 ```groovy
 shell(String commandStr)
+
+// Escape with \\\ for extensions like .xml
+shell("php symfony test:unit --xml=log/build_$BUILD_NUMBER\\\.xml")
 ```
 
 Runs a shell command.
