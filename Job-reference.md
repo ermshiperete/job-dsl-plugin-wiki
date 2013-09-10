@@ -1020,6 +1020,26 @@ possible values: SUCCESS, UNSTABLE, UNSTABLE_OR_BETTER, UNSTABLE_OR_WORSE, FAILE
 makes the most sense to call at least one.  Each one is relatively self documenting, mapping directly to what is seen in the UI. The predefinedProp and
 predefinedProps methods are used to accumulate properties, meaning that they can be called multiple times to build a superset of properties.
 
+Examples:
+```groovy
+publishers {
+    downstreamParameterized {
+        trigger('Project1, Project2', 'UNSTABLE_OR_BETTER', true) {
+            currentBuild() // Current build parameters
+            propertiesFile('dir/my.properties') // Parameters from properties file
+            gitRevision(false) // Pass-through Git commit that was built
+            predefinedProp('key1', 'value1') // Predefined properties
+            predefinedProps([key2: 'value2', key3: 'value3'])
+            predefinedProps('key4=value4\nkey5=value5') // Newline separated
+            matrixSubset('label=="${TARGET}"') // Restrict matrix execution to a subset
+            subversionRevision() // Subversion Revision
+        }
+        trigger('Project2') {
+            currentBuild()
+        }
+    }
+}
+```
 
 ## Violations Plugin
 ```groovy
