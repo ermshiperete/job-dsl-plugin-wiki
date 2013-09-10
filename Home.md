@@ -12,6 +12,7 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 
 ## Release Notes
 
+* 1.17 - Description Setter Plugin
 * 1.17 - Filter for Run Build Parameter 
 * 1.17 - Isolated Local Maven Repositories
 * 1.17 - Node Stalker Plugin
