@@ -139,6 +139,7 @@ job(attributes) {
         allowBrokenBuildClaiming()
         jacocoCodeCoverage(jacocoClosure) // See [[Job Reference]] for jacococClosure syntax
         fingerprint(targets, recordBuildArtifacts) // See [[Job Reference]], too
+        buildDescription(regularExpression, description, regularExpressionForFailed, descriptionForFailed, multiConfigurationBuild)
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
