@@ -928,6 +928,21 @@ publishers {
 }
 ```
 
+## Build Description Setter
+
+Automatically sets a description for the build after it has completed. Requires the [Description Setter Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Description+Setter+Plugin).
+
+```groovy
+buildDescription(String regularExpression, String description = '', String regularExpressionForFailed = '', String descriptionForFailed = '', boolean multiConfigurationBuild = false)
+```
+
+Arguments:
+* `regularExpression` If configured, the regular expression will be applied to each line in the build log. A description will be set based on the first match.
+* `description` The description to set on the build. If a regular expression is configured, every instance of \n will be replaced with the n-th group of the regular expression match. If the description is empty, the first group selected by the regular expression will be used as description. If no regular expression is configured, the description is taken verbatim.
+* `regularExpressionForFailed` If set, this regular expression will be used instead of the regular regular expression when the build has failed.
+* `descriptionForFailed` The description to use for failed builds.
+* `multiConfigurationBuild` Also set the description on a multi-configuration build. The first description found for any of the invididual builds will be used as description for the multi-configuration build.
+
 ## Archive JUnit
 ```groovy
 archiveJunit(String glob, boolean retainLongStdout = false, boolean allowClaimingOfFailedTests = false, boolean publishTestAttachments = false)
