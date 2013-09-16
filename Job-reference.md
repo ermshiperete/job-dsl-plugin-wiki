@@ -943,6 +943,23 @@ Arguments:
 * `descriptionForFailed` The description to use for failed builds.
 * `multiConfigurationBuild` Also set the description on a multi-configuration build. The first description found for any of the invididual builds will be used as description for the multi-configuration build.
 
+The following example sets build description to the project version in case the output contains the line `Building my.project.name 0.4.0`:
+
+```groovy
+publishers {
+  buildDescription(/.*Building [^\s]* ([^\s]*)/)
+}
+```
+
+The next example sets the build description to a values defined by a build parameter or environment variable called `BRANCH`:
+
+```groovy
+publishers {
+  buildDescription('', '${BRANCH}')
+}
+```
+
+
 ## Archive JUnit
 ```groovy
 archiveJunit(String glob, boolean retainLongStdout = false, boolean allowClaimingOfFailedTests = false, boolean publishTestAttachments = false)
