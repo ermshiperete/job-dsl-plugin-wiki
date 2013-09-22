@@ -1208,6 +1208,146 @@ Simplest usage will output with the defaults above
 jacocoCodeCoverage()
 ```
 
+## [Static Code Analysis Plugins](https://wiki.jenkins-ci.org/display/JENKINS/Static+Code+Analysis+Plug-ins)
+
+The static code analysis plugins all take some for of the staticAnalysisClosure. The closure is used to configure the (common) properties shown in the advanced section of the configuration of the corresponding plugin.
+The closure can look like this (the example is for the pmd plugin):
+```groovy
+publishers {
+  pmd('**/*.pmd') {
+    healthLimits 3, 20
+    thresholdLimit 'high'
+    defaultEncoding 'UTF-8'
+    canRunOnFailed true
+    useStableBuildAsReference true
+    useDeltaValues true
+    computeNew true
+    shouldDetectModules true
+    thresholds(
+      unstableTotal: [all: 1, high: 2, normal: 3, low: 4],
+      failedTotal:   [all: 5, high: 6, normal: 7, low: 8],
+      unstableNew:   [all: 9, high: 10, normal: 11, low: 12],
+      failedNew:     [all: 13, high: 14, normal: 15, low: 16]
+    )
+  }
+}
+```
+
+ComputeNew is set automatically if the unstableNew or the failedNew threshold is used.
+
+In the examples of the concrete plugins, only a part of the closure is shown
+### [Findbugs](https://wiki.jenkins-ci.org/display/JENKINS/FindBugs+Plugin)
+```groovy
+publishers {
+  findbugs('**/findbugsXml.xml', isRankActivated: true) {
+    thresholds(
+      unstableTotal: [all: 1, high: 2, normal: 3, low: 4]
+    )    
+  }
+}
+```
+
+The arguments here are in order:
+* the findbugs-files to parse
+* use the findbugs rank for the priority
+
+### [Pmd](https://wiki.jenkins-ci.org/display/JENKINS/PMD+Plugin)
+```groovy
+publishers {
+  pmd('**/pmd.xml') {
+    shouldDetectModules true
+  }
+}
+```
+
+### [Checkstyle](https://wiki.jenkins-ci.org/display/JENKINS/Checkstyle+Plugin)
+```groovy
+publishers {
+  checkstyle('**/checkstyle-result.xml') {
+    shouldDetectModules true
+  }
+}
+```
+
+### [DRY](https://wiki.jenkins-ci.org/display/JENKINS/DRY+Plugin) 
+```groovy
+publishers {
+  dry('**/cpd.xml', 80, 20) {
+    useStableBuildAsReference true
+  }
+}
+
+The arguments here are in order:
+* cpd-files to parse
+* threshold of duplicated lines for high priority
+* threshold of duplicated lines for normal priority
+```
+
+### [Task Scanner](https://wiki.jenkins-ci.org/display/JENKINS/Task+Scanner+Plugin)
+```groovy
+publishers {
+  tasks('**/cpd.xml', '**/*.xml', 'FIXME', 'TODO', 'LOW', true) {
+    thresholdLimit 'high'
+    defaultEncoding 'UTF-8'
+  }
+}
+```
+
+The arguments here are in order:
+* include pattern
+* exclude pattern
+* high priority text
+* normal priority text
+* low priority text
+* ignore case
+
+### [CCM](https://wiki.jenkins-ci.org/display/JENKINS/CCM+Plugin)
+```groovy
+publishers {
+  ccm('**/ccm.xml')
+}
+```
+
+### [Android Lint](https://wiki.jenkins-ci.org/display/JENKINS/Android+Lint+Plugin)
+```groovy
+publishers {
+  androidLint('**/lint-results.xml') {
+    shouldDetectModules true
+  }
+}
+```
+
+### [OWASP Dependency Check](https://wiki.jenkins-ci.org/display/JENKINS/OWASP+Dependency-Check+Plugin)
+```groovy
+publishers {
+  dependencyCheck('**/DependencyCheck-Report.xml') {
+    shouldDetectModules true
+  }
+}
+```
+
+### [Compiler Warnings](https://wiki.jenkins-ci.org/display/JENKINS/Warnings+Plugin)
+```groovy
+publishers {
+  warnings(['Java Compiler (javac)'], ['Java Compiler (javac)': '**/*.log']) {
+    includePattern '.*include.*'
+    excludePattern '.*exclude.*'
+    resolveRelativePaths true
+  }
+}
+```
+
+The warnings plugin has additional method arguments:
+* a list of the console parsers - each entry is the name of the parser
+* a map of the log parsers
+** the key is the name of the parser
+** the value are the files to scan
+
+Moreover, the warningsClosure takes, additional to all the options from the staticAnalysisClosure, three more options:
+* includePattern
+* excludePattern
+* resolveRelativePaths
+
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
 _Note: The Password Parameter is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141_
