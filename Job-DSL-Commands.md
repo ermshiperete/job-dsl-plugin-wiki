@@ -250,7 +250,7 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 * Publish - Cobertura, Emma, Analysis
 * Publish - Javadoc
 
-@wolfs
+@wolfs:
 * Publish - Checkstyle, FindBugs, PMD, CCM, OWASP Dependency Analysis, Compiler Warnings, Android Lint, DRY, Task Scanner
 
 @daspilker:
