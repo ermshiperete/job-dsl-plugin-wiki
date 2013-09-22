@@ -140,6 +140,15 @@ job(attributes) {
         jacocoCodeCoverage(jacocoClosure) // See [[Job Reference]] for jacococClosure syntax
         fingerprint(targets, recordBuildArtifacts) // See [[Job Reference]], too
         buildDescription(regularExpression, description, regularExpressionForFailed, descriptionForFailed, multiConfigurationBuild)
+        findbugs(pattern, isRankActivated = false, staticAnalysisClosure = null) // See [[Job Reference]] for staticAnalysisClosure syntax
+        pmd(pattern, staticAnalysisClosure = null) // See [[Job Reference]] for staticAnalysisClosure syntax
+        checkstyle(pattern, staticAnalysisClosure = null) // See [[Job Reference]] for staticAnalysisClosure syntax
+        dry(pattern, highThreshold = 50, normalThreshold = 25, staticAnalysisClosure = null) // See [[Job Reference]] for staticAnalysisClosure syntax
+        tasks(pattern, excludePattern = '', high = '', normal = '', low = '', ignoreCase = false, staticAnalysisClosure = null) // See [[Job Reference]] for staticAnalysisClosure syntax
+        ccm(pattern, staticAnalysisClosure = null) // See [[Job Reference]] for staticAnalysisClosure syntax
+        androidLint(pattern, staticAnalysisClosure = null) // See [[Job Reference]] for staticAnalysisClosure syntax
+        dependencyCheck(pattern, staticAnalysisClosure = null) // See [[Job Reference]] for staticAnalysisClosure syntax
+        warnings(consoleParsers, parserConfigurations = [:], warningsClosure = null) // See [[Job Reference]] for how to fill the parameters
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
@@ -238,8 +247,11 @@ configure {
 These are the ones in pipeline, and will be implemented sooner than later. If you're looking on working on one, claim it.
 
 * Publish - xUnit
-* Publish - Checkstyle, FindBugs, PMD, Cobertura, Emma, Analysis
+* Publish - Cobertura, Emma, Analysis
 * Publish - Javadoc
+
+@wolfs
+* Publish - Checkstyle, FindBugs, PMD, CCM, OWASP Dependency Analysis, Compiler Warnings, Android Lint, DRY, Task Scanner
 
 @daspilker:
 * Config File Provider Plugin
