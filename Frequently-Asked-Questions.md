@@ -5,6 +5,7 @@ Not all of these have been asked a lot, but they're good things to know.
 1. **Q: Why isn't my generated config.xml like I was expecting, there was no error when the seed job ran?** - _A:_ Have you got the plugins installed in your Jenkins that the generated config.xml will refer to? If not, your the seed job may run, but you won't see any errors.  Take a look in the Jenkins log for things like `com.thoughworks.xstream.mapper.CannotResolveClassException: org.jenkinsci.plugins.multiplescms.MultiSCM ...`
 1. **Q: When using `shell("php symfony test:unit --xml=log/build_$BUILD_NUMBER.xml")` I'm getting the error `FATAL: No such property: xml for class: java.lang.String`?** - _A:_ You should use ${BUILD_NUMBER}. Or if you need the variable to be set like that in the job, you need to escape the $ (e.g \$BUILD_NUMBER).
 1. **Q: What's a canonical example of a good Pull request?** - _A:_ https://github.com/jenkinsci/job-dsl-plugin/pull/91
+1. **Q: In my unit tests, how can I use the Jenkins test harness to simulate running my plugin on slaves?** - _A:_ https://github.com/jenkinsci/job-node-stalker-plugin/blob/master/src/test/java/com/datalex/jenkins/plugins/nodestalker/wrapper/MyNodeAssignementActionFunctionalTest.java
 1. **Q: How do I add a Step in a particular Order using the configure block?** - _A:_ 
 ```
 steps {
