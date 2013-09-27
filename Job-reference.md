@@ -5,7 +5,13 @@ This is the in-depth documentation of the methods available on inside the _job_ 
 name(String jobName)
 ```
 
-The Name of the job, **required**. This could be a static name but given the power of Groovy you should get very fancy with the these.
+The Name of the job, **required**. This could be a static name but given the power of Groovy you could get very fancy with the these.
+
+If using the [folders plugin](https://wiki.jenkins-ci.org/display/JENKINS/CloudBees+Free+Enterprise+Plugins#CloudBeesFreeEnterprisePlugins-FoldersPlugin), the full path to the job can be used. Note that the folders must already exist and that the seed job must be in the root (Available since 1.17).
+
+```groovy
+name('path/to/myjob')
+```
 
 ## Display Name
 ```groovy
