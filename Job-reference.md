@@ -1215,8 +1215,9 @@ jacocoCodeCoverage()
 
 ## [Static Code Analysis Plugins](https://wiki.jenkins-ci.org/display/JENKINS/Static+Code+Analysis+Plug-ins)
 
-The static code analysis plugins all take some for of the staticAnalysisClosure. The closure is used to configure the (common) properties shown in the advanced section of the configuration of the corresponding plugin.
-The closure can look like this (the example is for the pmd plugin):
+The static code analysis plugins all take some form of the staticAnalysisClosure. The closure is used to configure the (common) properties shown in the advanced section of the configuration of the corresponding plugin.
+
+The closure can look like this (example for the pmd plugin):
 ```groovy
 publishers {
   pmd('**/*.pmd') {
