@@ -92,3 +92,10 @@ If you have a file which you want to import into your script, but you can't put 
 ```
 
 [Original  discussion on the newsgroup](https://groups.google.com/forum/#!msg/job-dsl-plugin/6zmau49-SJI/Msk9gMexs_0J)
+
+# List the Files in a Jenkins Jobs Workspace
+Sometime you want your DSL script to be able to grab a list of the files in the workspace.  Use the Hudson API to achieve this:
+
+```groovy
+hudson.FilePath workspace = hudson.model.Executor.currentExecutor().getCurrentWorkspace()
+```
