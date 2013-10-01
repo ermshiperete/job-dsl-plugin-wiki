@@ -484,7 +484,7 @@ job {
         // checkout to the <workspace> directory
         location 'http://my.svn.server/repo/trunk'
         // checkout to the <workspace>/proj1 directory
-        location 'http://my.svn.server/repos/proj1/trunk' 'proj1'
+        location 'http://my.svn.server/repos/proj1/trunk', 'proj1'
     }
 }
 ```
