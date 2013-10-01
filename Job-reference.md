@@ -350,6 +350,7 @@ svn('http://svn.apache.org/repos/asf/xml/crimson/trunk/') { svnNode ->
 For more details on using the configure block syntax, see our [dedicated page](configure-block).
 
 **BEGIN Unreleased Feature - Documentation is a work in progress**
+
 As of version X.XX of the Job DSL Plugin, the Subversion plugin can be configured using an improved svn closure.  The following are the methods availble in the svn closure (note: these methods are **not** available in the older svn(...) closures):
   
 ```groovy
