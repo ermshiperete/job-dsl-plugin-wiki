@@ -481,7 +481,7 @@ Example 2: Multiple locations
 job {
     name 'svn example 2'
     svn {
-        // checkout to the workspace directory
+        // checkout to the <workspace> directory
         location 'http://my.svn.server/repo/trunk'
         // checkout to the <workspace>/proj1 directory
         location 'http://my.svn.server/repos/proj1/trunk' 'proj1'
