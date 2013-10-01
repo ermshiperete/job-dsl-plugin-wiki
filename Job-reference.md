@@ -391,12 +391,75 @@ svn {
      *   patterns - RegEx
      */
     excludedRegions(Iterable<String> patterns)
+
+    /*
+     * Add an included region.  Each call to includedRegion() adds to the list of
+     * included regions.
+     * If included regions are configured, and Jenkins is set to poll for changes,
+     * Jenkins will ignore any files and/or folders that do _not_ match the specified
+     * patterns when determining if a build needs to be triggered.
+     *   pattern - RegEx
+     */
     includedRegion(String pattern)
+
+    /*
+     * Add a list of included regions.  Each call to includedRegions() adds to the
+     * list of included regions.
+     * If included regions are configured, and Jenkins is set to poll for changes,
+     * Jenkins will ignore any files and/or folders that do _not_ match the specified
+     * patterns when determining if a build needs to be triggered.
+     *   patterns - RegEx
+     */
     includedRegions(Iterable<String> patterns)
-    excludedUser(String pattern)
-    excludedUsers(Iterable<String> patterns)
+
+    /*
+     * Add an excluded user.  Each call to excludedUser() adds to the list of
+     * excluded users.
+     * If excluded users are configured, and Jenkins is set to poll for changes,
+     * Jenkins will ignore any revisions committed by the specified users when
+     * determining if a build needs to be triggered.
+     *   user - User to ignore when triggering builds
+     */
+    excludedUser(String user)
+
+    /*
+     * Add a list of excluded users.  Each call to excludedUsers() adds to the
+     * list of excluded users.
+     * If excluded users are configured, and Jenkins is set to poll for changes,
+     * Jenkins will ignore any revisions committed by the specified users when
+     * determining if a build needs to be triggered.
+     *   users - Users to ignore when triggering builds
+     */
+    excludedUsers(Iterable<String> users)
+
+    /*
+     * Add an exluded commit message.  Each call to excludedCommitMsg() adds to the list of
+     * excluded commit messages.
+     * If excluded messages are configured, and Jenkins is set to poll for changes,
+     * Jenkins will ignore any revisions with commit messages that match the specified
+     * patterns when determining if a build needs to be triggered.
+     *   pattern - RegEx
+     */
     excludedCommitMsg(String pattern)
+
+    /*
+     * Add a list of excluded commit messages.  Each call to excludedCommitMsgs() adds to the
+     * list of excluded commit messages.
+     * If excluded messages are configured, and Jenkins is set to poll for changes,
+     * Jenkins will ignore any revisions with commit messages that match the specified
+     * patterns when determining if a build needs to be triggered.
+     *   patterns - RegEx
+     */
     excludedCommitMsgs(Iterable<String> patterns)
+
+    /*
+     * Set an excluded revision property.
+     * If an excluded revision property is set, and Jenkins is set to poll for changes,
+     * Jenkins will ignore any revisions that are marked with the specified
+     * revision property when determining if a build needs to be triggered.
+     * This only works in Subversion 1.5 servers or greater.
+     *   pattern - RegEx
+     */
     excludedRevProp(String revisionProperty)
 }
 ```
