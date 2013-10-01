@@ -467,16 +467,27 @@ svn {
 ```
 Note that no support for a configure block is available in the new svn closure.  Use the job closure's configure method instead.
 
-Exmaple 1: Basic configuration with one location
+Example 1: Basic configuration with one location
 ```groovy
 job {
-    name 'my job'
+    name 'svn example 1'
     svn {
         location 'http://my.svn.server/repo/trunk'
     }
 }
 ```
-
+Example 2: Multiple locations
+```groovy
+job {
+    name 'svn example 2'
+    svn {
+        // checkout to the workspace directory
+        location 'http://my.svn.server/repo/trunk'
+        // checkout to the <workspace>/proj1 directory
+        location 'http://my.svn.server/repos/proj1/trunk' 'proj1'
+    }
+}
+```
 **END Unreleased Feature**
 
 ## Perforce
