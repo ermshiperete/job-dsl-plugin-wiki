@@ -372,6 +372,8 @@ svn {
      *                CheckoutStrategy.Checkout
      *                CheckoutStrategy.UpdateWithClean
      *                CheckoutStrategy.UpdateWithRevert
+     * 
+     * If no checkout strategy is configured, the default is CheckoutStrategy.Update.
      */
     checkoutStrategy(CheckoutStrategy strategy)
 
@@ -486,6 +488,19 @@ job {
         location 'http://my.svn.server/repo/trunk'
         // checkout to the <workspace>/proj1 directory
         location 'http://my.svn.server/repos/proj1/trunk', 'proj1'
+    }
+}
+```
+Example 3: Configuring a checkout strategy
+```groovy
+job {
+    name 'svn example 3'
+    svn {
+        location 'http://my.svn.server/repo/trunk'
+
+        // The default checkout strategy is CheckoutStrategy.Update,
+        // but instead we would like CheckoutStrategy.Checkout.
+        checkoutStrategy CheckoutStrategy.Checkout
     }
 }
 ```
