@@ -206,7 +206,7 @@ job {
 }
 ```
 
-The credentials arg is the UUID generated from Jenkins | Manage Jenkins | Manage Credentials.
+The credentials arg is the description field or the UUID generated from Jenkins | Manage Jenkins | Manage Credentials. The easiest way to find this value, is to navigate Jenkins | Credentials | Global credentials | (Key Name). The look at the description in parathesis or using the UUID in the URL.
 
 (Since 1.17)
 
