@@ -105,8 +105,6 @@ allocatePorts {
 
 The port allocation plugin enables to allocate ports for build executions to prevent conflicts between build jobs competing for a single port number (useful for any build that needs to allocate a port like Rails,Play! web containers, etc). See the [plugin documentation|https://wiki.jenkins-ci.org/display/JENKINS/Port+Allocator+Plugin] for more details. (Available since 1.16)
 
-
-
 ## Disable
 
 ```groovy
@@ -195,6 +193,18 @@ Enum Permissions {
     ItemConfigure, ItemWorkspace, ItemDelete, ItemBuild, ItemRead, ItemRelease, ItemExtendedRead
     RunDelete, RunUpdate, etc.
 ```
+
+# [SSH Agent](https://wiki.jenkins-ci.org/display/JENKINS/SSH+Agent+Plugin)
+
+Makes shared SSH credential available to builds.
+
+```groovy
+job {
+    sshAgent(String credentials)
+}
+```
+
+The credentials arg is the UUID generated from Jenkins | Manage Jenkins | Manage Credentials.
 
 # Maven
 
