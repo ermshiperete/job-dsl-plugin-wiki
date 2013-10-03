@@ -12,11 +12,15 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 
 ## Release Notes
 
+* 1.17 - Static Analysis Plugins (PMD, Checkstyle, Findbugs, DRY, Tasks, CCM, Lint, OWASP Dependency Check, Compiler warnings, 
 * 1.17 - Description Setter Plugin
-* 1.17 - Filter for Run Build Parameter 
+* 1.17 - Keep Dependencies and Fingerprinting
+* 1.17 - Mailer
+* 1.17 - General Improvements (Filter for Run Build Parameter, support Folders)
 * 1.17 - Isolated Local Maven Repositories
 * 1.17 - Node Stalker Plugin
 * 1.17 - JaCoCo Plugin
+* 1.17 - Claim plugin
 * 1.16 - Clone Workspace SCM
 * 1.16 - Block on upstream/downstream jobs
 * 1.16 - Job DSL Plugin (to create DSL build steps in a job)
