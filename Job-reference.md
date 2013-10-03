@@ -141,6 +141,14 @@ blockOnDownstreamProjects()
 
 Blocks the build of a project when one ore more upstream (blockOnUpstreamProjects()) or a downstream projects (blockOnDownstreamProjects()) are running. (Available since 1.16)
 
+## Node Stalker
+
+Allows job to build on the same node as another job (https://wiki.jenkins-ci.org/display/JENKINS/Node+Stalker+Plugin).
+
+```groovy
+runOnSameNodeAs(String jobName, boolean useSameWorkspace = false)
+```
+
 ## Build History
 ```groovy
 logRotator(int daysToKeepInt = -1, int numToKeepInt = -1, int artifactDaysToKeepInt = -1, int artifactNumToKeepInt = -1)
