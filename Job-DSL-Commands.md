@@ -61,6 +61,7 @@ job(attributes) {
     rootPOM(rootPOMStr)
     goals(goalsStr)
     mavenOpts(mavenOptsStr)
+    localRepository(location)
     perModuleEmail(shouldSendEmailPerModule)
     archivingDisabled(shouldDisableArchiving)
     runHeadless(shouldRunHeadless)
