@@ -1340,6 +1340,7 @@ jacocoCodeCoverage()
 
 The static code analysis plugins all take some form of the staticAnalysisClosure. The closure is used to configure the (common) properties shown in the advanced section of the configuration of the corresponding plugin.
 
+```
 The closure can look like this (example for the pmd plugin):
 ```groovy
 publishers {
@@ -1362,13 +1363,16 @@ publishers {
 }
 ```
 
+The argument above is the pattern to the pmd files.
+
 ComputeNew is set automatically if the unstableNew or the failedNew threshold is used.
 
 In the examples of the concrete plugins, only a part of the closure is shown
+
 ### [Findbugs](https://wiki.jenkins-ci.org/display/JENKINS/FindBugs+Plugin)
 ```groovy
 publishers {
-  findbugs('**/findbugsXml.xml', isRankActivated: true) {
+  findbugs('**/findbugsXml.xml', true) {
     thresholds(
       unstableTotal: [all: 1, high: 2, normal: 3, low: 4]
     )    
@@ -1377,8 +1381,8 @@ publishers {
 ```
 
 The arguments here are in order:
-* the findbugs-files to parse
-* use the findbugs rank for the priority
+* (String) the findbugs-files to parse
+* (boolean) use the findbugs rank for the priority, default to false
 
 ### [Pmd](https://wiki.jenkins-ci.org/display/JENKINS/PMD+Plugin)
 ```groovy
@@ -1405,12 +1409,12 @@ publishers {
     useStableBuildAsReference true
   }
 }
+```
 
 The arguments here are in order:
 * cpd-files to parse
 * threshold of duplicated lines for high priority
 * threshold of duplicated lines for normal priority
-```
 
 ### [Task Scanner](https://wiki.jenkins-ci.org/display/JENKINS/Task+Scanner+Plugin)
 ```groovy
