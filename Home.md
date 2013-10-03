@@ -16,6 +16,7 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 * 1.17 - Description Setter Plugin
 * 1.17 - Keep Dependencies and Fingerprinting
 * 1.17 - Mailer
+* 1.17 - SSH Agent
 * 1.17 - General Improvements (Filter for Run Build Parameter, support Folders)
 * 1.17 - Isolated Local Maven Repositories
 * 1.17 - Node Stalker Plugin
