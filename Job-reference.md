@@ -235,6 +235,18 @@ mavenOpts(String mavenOpts)
 
 The JVM options to be used when starting Maven. When specified multiple times, the options will be concatenated.
 
+## Isolated Local Maven Repository
+
+```groovy
+localRepository(LocalRepositoryLocation location)
+```
+
+LocalRepositoryLocation is available as two enums, injected into the script. Their names are LocalToExecutor and LocalToWorkspace, they can be used like this:
+
+```groovy 
+localRepository(LocalToWorkspace)
+```
+
 ## Email Per Module
 ```groovy
 perModuleEmail(boolean shouldSendEmailPerModule)
