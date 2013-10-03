@@ -73,6 +73,7 @@ job(attributes) {
     priority(value)
     timeout(timeoutInMinutes, shouldFailBuild)
     timeout(type) {} //see Job Reference for closure details
+    sshagent(credentials)
     authorization {
         permission(permissionStr) // e.g. hudson.model.Item.Workspace:authenticated
         permission(String permEnumName, String user)
