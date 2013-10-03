@@ -147,6 +147,8 @@ Allows job to build on the same node as another job (https://wiki.jenkins-ci.org
 runOnSameNodeAs(String jobName, boolean useSameWorkspace = false)
 ```
 
+(Since 1.17)
+
 ## Build History
 ```groovy
 logRotator(int daysToKeepInt = -1, int numToKeepInt = -1, int artifactDaysToKeepInt = -1, int artifactNumToKeepInt = -1)
@@ -206,6 +208,8 @@ job {
 
 The credentials arg is the UUID generated from Jenkins | Manage Jenkins | Manage Credentials.
 
+(Since 1.17)
+
 # Maven
 
 The 'rootPOM', 'goals', 'mavenOpts', 'perModuleEmail', 'archivingDisabled' and 'runHeadless' methods can only be used in jobs with type 'maven'.
@@ -256,6 +260,8 @@ LocalRepositoryLocation is available as two enums, injected into the script. The
 ```groovy 
 localRepository(LocalToWorkspace)
 ```
+
+(Since 1.17)
 
 ## Email Per Module
 ```groovy
@@ -1032,6 +1038,8 @@ publishers {
 }
 ```
 
+(Since 1.17)
+
 ## Archive Artifacts
 ```groovy
 archiveArtifacts(String glob, String excludeGlob = null, Boolean latestOnlyBoolean = false)
@@ -1097,6 +1105,7 @@ publishers {
 }
 ```
 
+(Since 1.17)
 
 ## Archive JUnit
 ```groovy
@@ -1314,6 +1323,8 @@ allowBrokenBuildClaiming()
 
 Activates broken build claiming for the [Claim plugin](https://wiki.jenkins-ci.org/display/JENKINS/Claim+plugin).
 
+(Since 1.17)
+
 ## Jacoco
 
 This plugin allows you to capture code coverage report from the [JaCoCo Plugin](https://wiki.jenkins-ci.org/display/JENKINS/JaCoCo+Plugin). Jenkins will generate the trend report of coverage.
@@ -1346,9 +1357,13 @@ Simplest usage will output with the defaults above
 jacocoCodeCoverage()
 ```
 
+(Since 1.17)
+
 ## [Static Code Analysis Plugins](https://wiki.jenkins-ci.org/display/JENKINS/Static+Code+Analysis+Plug-ins)
 
 The static code analysis plugins all take some form of the staticAnalysisClosure. The closure is used to configure the (common) properties shown in the advanced section of the configuration of the corresponding plugin.
+
+(Since 1.17)
 
 ```
 The closure can look like this (example for the pmd plugin):
