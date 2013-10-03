@@ -53,6 +53,7 @@ job(attributes) {
     blockOn(projectNames)
     blockOnUpstreamProjects()
     blockOnDownstreamProjects()
+    runONSameNodeAs(jobName, useSameWorkspace)
     logRotator(daysToKeepInt, numToKeepInt, artifactDaysToKeepInt, artifactNumToKeepInt)
     allocatePorts(ports){}
     jdk(jdkStr)
