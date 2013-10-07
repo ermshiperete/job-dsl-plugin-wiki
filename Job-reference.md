@@ -1506,6 +1506,31 @@ Moreover, the warningsClosure takes, additional to all the options from the stat
 * excludePattern
 * resolveRelativePaths
 
+## Text Finder
+
+Searches for keywords in files or the console log and uses that to downgrade a build to be unstable or a failure. Requires the [Text Finder Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Text-finder+Plugin).
+
+```groovy
+textFinder(String regularExpression, String fileSet = '', boolean alsoCheckConsoleOutput = false, boolean succeedIfFound = false, unstableIfFound = false)
+```
+
+Arguments:
+* `regularExpression` The regular expression used to search in files or the console output. Will be applied to each line.
+* `fileSet` The path to the files in which to search, relative to the workspace root. This can use wildcards like `logs/**/*/*.txt`. Leave this empty if you don't want to scan any files (usually combined with `alsoCheckConsoleOutput`).
+* `alsoCheckConsoleOutput ` If set, the regular expression will be used to search the console log.
+* `succeedIfFound` If set and the regular expression matched, the build is forced to succeed.
+* `unstableIfFound` If set, the build is marked as unstable instead of failing the build.
+
+The example marks a build as unstable if `[ERROR]` has been in found in any `.log` file:
+
+```groovy
+publishers {
+  textFinder(/[ERROR]/, '**/*.log', false, false, true)
+}
+```
+
+(Since 1.18)
+
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
 _Note: The Password Parameter is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141_
