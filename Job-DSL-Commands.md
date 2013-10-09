@@ -154,7 +154,7 @@ job(attributes) {
         androidLint(pattern, staticAnalysisClosure = null) // See [[Job Reference]] for staticAnalysisClosure syntax
         dependencyCheck(pattern, staticAnalysisClosure = null) // See [[Job Reference]] for staticAnalysisClosure syntax
         warnings(consoleParsers, parserConfigurations = [:], warningsClosure = null) // See [[Job Reference]] for how to fill the parameters
-        textFinder(regularExpression, fileSet = '', alsoCheckConsoleOutput = false, succeedIfFound = false, unstableIfFound = false) // since 1.18
+        textFinder(regularExpression, fileSet = '', alsoCheckConsoleOutput = false, succeedIfFound = false, unstableIfFound = false) // since 1.19
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
