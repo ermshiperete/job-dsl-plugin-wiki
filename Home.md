@@ -12,7 +12,7 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 
 ## Release Notes
 
-* 1.18 - [Text Finder](https://wiki.jenkins-ci.org/display/JENKINS/Text-finder+Plugin)
+* 1.19 - [Text Finder](https://wiki.jenkins-ci.org/display/JENKINS/Text-finder+Plugin)
 * 1.17 - Static Analysis Plugins (PMD, Checkstyle, Findbugs, DRY, Tasks, CCM, Lint, OWASP Dependency Check, Compiler warnings, 
 * 1.17 - Description Setter Plugin
 * 1.17 - Keep Dependencies and Fingerprinting
