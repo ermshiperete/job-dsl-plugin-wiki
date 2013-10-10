@@ -359,36 +359,11 @@ github('jenkinsci/job-dsl-plugin') { node -> // Is hudson.plugins.git.GitSCM
 ```
 
 ## Subversion
-```groovy
-svn(String svnUrl, String localDir='.', Closure configure = null)
-```
-
-Add Subversion source. 'svnUrl' is self explanatory. 'localDir' sets the <local> tag (which is set to '.' if you leave this arg out). The Configure block is handed a hudson.scm.SubversionSCM node.
-
-You can use the Configure block to configure additional svn nodes such as a <browser> node. First a FishEyeSVN example:
-
-```groovy
-svn('http://svn.apache.org/repos/asf/xml/crimson/trunk/') { svnNode ->
-    svnNode / browser(class:'hudson.scm.browsers.FishEyeSVN') {
-        url 'http://mycompany.com/fisheye/repo_name'
-        rootModule 'my_root_module'
-    }
-}
-```
-
-and now a ViewSVN example:
-```groovy
-svn('http://svn.apache.org/repos/asf/xml/crimson/trunk/') { svnNode ->
-    svnNode / browser(class:'hudson.scm.browsers.ViewSVN') / url << 'http://mycompany.com/viewsvn/repo_name'
-}
-```
-
-For more details on using the configure block syntax, see our [dedicated page](configure-block).
 
 **BEGIN Unreleased Feature - Documentation is a work in progress**
 
 As of version X.XX of the Job DSL Plugin, the Subversion plugin can be configured using an improved svn closure.  The following are the methods availble in the svn closure (note: these methods are **not** available in the older svn(...) closures):
-  
+
 ```groovy
 svn {
     /*
@@ -408,7 +383,7 @@ svn {
      *                CheckoutStrategy.Checkout
      *                CheckoutStrategy.UpdateWithClean
      *                CheckoutStrategy.UpdateWithRevert
-     * 
+     *
      * If no checkout strategy is configured, the default is CheckoutStrategy.Update.
      */
     checkoutStrategy(CheckoutStrategy strategy)
@@ -506,7 +481,36 @@ svn {
 ```
 Note that no support for a configure block is available in the new svn closure.  Use the job closure's configure method instead.
 
+If using a version of the Job DSL Plugin older than X.XX, the following configuration methods are available.
+Note; For backwards compatibility, these are still supported in version X.XX and above.
+
 **END Unreleased Feature**
+
+```groovy
+svn(String svnUrl, String localDir='.', Closure configure = null)
+```
+
+Add Subversion source. 'svnUrl' is self explanatory. 'localDir' sets the <local> tag (which is set to '.' if you leave this arg out). The Configure block is handed a hudson.scm.SubversionSCM node.
+
+You can use the Configure block to configure additional svn nodes such as a <browser> node. First a FishEyeSVN example:
+
+```groovy
+svn('http://svn.apache.org/repos/asf/xml/crimson/trunk/') { svnNode ->
+    svnNode / browser(class:'hudson.scm.browsers.FishEyeSVN') {
+        url 'http://mycompany.com/fisheye/repo_name'
+        rootModule 'my_root_module'
+    }
+}
+```
+
+and now a ViewSVN example:
+```groovy
+svn('http://svn.apache.org/repos/asf/xml/crimson/trunk/') { svnNode ->
+    svnNode / browser(class:'hudson.scm.browsers.ViewSVN') / url << 'http://mycompany.com/viewsvn/repo_name'
+}
+```
+
+For more details on using the configure block syntax, see our [dedicated page](configure-block).
 
 ## Perforce
 
