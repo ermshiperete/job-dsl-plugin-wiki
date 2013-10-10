@@ -362,6 +362,8 @@ github('jenkinsci/job-dsl-plugin') { node -> // Is hudson.plugins.git.GitSCM
 
 **BEGIN Unreleased Feature - Documentation is a work in progress**
 
+### Job DSL Plugin Version X.XX or greater
+
 As of version X.XX of the Job DSL Plugin, the Subversion plugin can be configured using an improved svn closure.  The following are the methods availble in the svn closure (note: these methods are **not** available in the older svn(...) closures):
 
 ```groovy
@@ -480,6 +482,8 @@ svn {
 }
 ```
 Note that no support for a configure block is available in the new svn closure.  Use the job closure's configure method instead.
+
+### Job DSL Plugin Version less than X.XX
 
 If using a version of the Job DSL Plugin older than X.XX, the following configuration methods are available.
 Note; For backwards compatibility, these are still supported in version X.XX and above.
