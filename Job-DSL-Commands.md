@@ -82,14 +82,6 @@ job(attributes) {
         p4(viewspec, user, password) {}
         cloneWorkspace(parentProject, criteriaArg) 
     }
-    wrappers { // This block exists since 1.19. Before that the methods were on top level
-        runOnSameNodeAs(jobName, useSameWorkspace)
-        rvm(rubySpecification)
-        timeout(timeoutInMinutes, shouldFailBuild)
-        timeout(type) {} //see Job Reference for closure details
-        allocatePorts(ports){}
-        sshagent(credentials)
-    }
     checkoutRetryCount(times)
     triggers {
         cron(cronString)
@@ -98,6 +90,14 @@ job(attributes) {
         gerrit(gerritClosure) // See [[Job Reference]] for gerritClosure syntax
         urlTrigger([cronString,] urlTriggerClosure) // See [[Job Reference]] for closure syntax 
         snapshotDependencies(checkSnapshotDependencies)
+    }
+    wrappers { // This block exists since 1.19. Before that the methods were on top level
+        runOnSameNodeAs(jobName, useSameWorkspace)
+        rvm(rubySpecification)
+        timeout(timeoutInMinutes, shouldFailBuild)
+        timeout(type) {} //see Job Reference for closure details
+        allocatePorts(ports){}
+        sshagent(credentials)
     }
     multiscm {
         hg(url, branch) {}
