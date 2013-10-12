@@ -693,6 +693,7 @@ job {
 
 Adds timestamps to the console log.
 
+(Since 1.19)
 
 # Build Steps
 
