@@ -55,12 +55,9 @@ job(attributes) {
     blockOn(projectNames)
     blockOnUpstreamProjects()
     blockOnDownstreamProjects()
-    runONSameNodeAs(jobName, useSameWorkspace)
     logRotator(daysToKeepInt, numToKeepInt, artifactDaysToKeepInt, artifactNumToKeepInt)
-    allocatePorts(ports){}
     jdk(jdkStr)
     keepDependencies(keep)
-    rvm(rubySpecification)
     rootPOM(rootPOMStr)
     goals(goalsStr)
     mavenOpts(mavenOptsStr)
@@ -71,9 +68,6 @@ job(attributes) {
     environmentVariables(vars)
     environmentVariables(closure) // See [[Job Reference]] for details of EnvironmentVariablesContext
     priority(value)
-    timeout(timeoutInMinutes, shouldFailBuild)
-    timeout(type) {} //see Job Reference for closure details
-    sshagent(credentials)
     authorization {
         permission(permissionStr) // e.g. hudson.model.Item.Workspace:authenticated
         permission(String permEnumName, String user)
@@ -87,6 +81,14 @@ job(attributes) {
         svn(svnUrl, localDir) {}
         p4(viewspec, user, password) {}
         cloneWorkspace(parentProject, criteriaArg) 
+    }
+    wrappers { // This block exists since 1.19. Before that the methods were on top level
+        runOnSameNodeAs(jobName, useSameWorkspace)
+        rvm(rubySpecification)
+        timeout(timeoutInMinutes, shouldFailBuild)
+        timeout(type) {} //see Job Reference for closure details
+        allocatePorts(ports){}
+        sshagent(credentials)
     }
     checkoutRetryCount(times)
     triggers {
