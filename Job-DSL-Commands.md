@@ -105,6 +105,7 @@ job(attributes) {
         timeout(type) {} //see Job Reference for closure details
         allocatePorts(ports){}
         sshagent(credentials)
+        timestamps()
     }
     steps {
         shell(String commandStr)
