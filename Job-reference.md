@@ -665,7 +665,7 @@ allocatePorts {
 
 The port allocation plugin enables to allocate ports for build executions to prevent conflicts between build jobs competing for a single port number (useful for any build that needs to allocate a port like Rails,Play! web containers, etc). See the [plugin documentation|https://wiki.jenkins-ci.org/display/JENKINS/Port+Allocator+Plugin] for more details. (Available since 1.16)
 
-# [SSH Agent](https://wiki.jenkins-ci.org/display/JENKINS/SSH+Agent+Plugin)
+## [SSH Agent](https://wiki.jenkins-ci.org/display/JENKINS/SSH+Agent+Plugin)
 
 Makes shared SSH credential available to builds.
 
@@ -680,6 +680,19 @@ job {
 The credentials arg is the description field or the UUID generated from Jenkins | Manage Jenkins | Manage Credentials. The easiest way to find this value, is to navigate Jenkins | Credentials | Global credentials | (Key Name). The look at the description in parathesis or using the UUID in the URL.
 
 (Since 1.17)
+
+## [Timestamper](https://wiki.jenkins-ci.org/display/JENKINS/Timestamper)
+
+```groovy
+job {
+    wrappers {
+        timestamps()
+    }
+}
+```
+
+Adds timestamps to the console log.
+
 
 # Build Steps
 
