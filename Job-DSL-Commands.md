@@ -82,6 +82,13 @@ job(attributes) {
         p4(viewspec, user, password) {}
         cloneWorkspace(parentProject, criteriaArg) 
     }
+    multiscm {
+        hg(url, branch) {}
+        git(url, branch) {}
+        github(ownerAndProject, branch, protocol, host) {}
+        svn(svnUrl) {}
+        p4(viewspec, user, password) {}
+    }
     checkoutRetryCount(times)
     triggers {
         cron(cronString)
@@ -98,13 +105,6 @@ job(attributes) {
         timeout(type) {} //see Job Reference for closure details
         allocatePorts(ports){}
         sshagent(credentials)
-    }
-    multiscm {
-        hg(url, branch) {}
-        git(url, branch) {}
-        github(ownerAndProject, branch, protocol, host) {}
-        svn(svnUrl) {}
-        p4(viewspec, user, password) {}
     }
     steps {
         shell(String commandStr)
