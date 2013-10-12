@@ -40,71 +40,6 @@ label(String labelStr)
 
 Label which specifies which nodes this job can run on, e.g. 'X86&&Ubuntu'
 
-## Timeout
-
-```groovy
-timeout(String type) { //type is one of: 'absolute', 'elastic', 'likelyStuck'
-    limit 15       // timeout in minutes
-    percentage 200 // percentage of runtime to consider a build timed out
-}
-```
-
-The timeout method enables you to define a timeout for builds. It can either be absolute (build times out after a fixed number of minutes), elastic (times out if build runs x% longer than the average build duration) or likelyStuck. (Available since 1.16)
-
-The simplest invocation looks like this:
-
-```groovy
-timeout()
-```
-
-It defines an absolute timeout with a maximum build time of 3 minutes.
-
-Here is an absolute timeout:
-
-```groovy
-timeout('absolute') {
-    limit 60              // 60 minutes before timeout
-}
-```
-
-The elastic timeout accepts two parameters: a percentage for determining builds that take longer than normal an a limit that is used if there is no average successful build duration (i.e. no jobs run or all runs failed):
-
-```groovy
-timeout('elastic') {
-    limit 30        // 30 minutes default timeout (no successful builds available as reference)
-    percentage 300  // Build will timeout when it take 3 time longer than the reference build duration
-}
-```
-
-The likelyStuck timeout times out a build when it is likely to be stuck. Does not take extra configuration parameters.
-
-```groovy
-timeout('likelyStuck')
-```
-
-The following syntax has been available before 1.16 and will be retained for compatibility reasons:
-
-```groovy
-timeout(int timeoutInMinutes, Boolean shoudFailBuild = true)
-```
-
-Using the build timeout plugin, it can fail a build after a certain amount of time.
-
-## Port allocation
-```groovy
-allocatePorts 'HTTP', '8080' // allocates two ports: one randomly assigned and accessible by env var $HTTP
-                             // the second is fixed and the port allocator controls concurrent usage
-
-allocatePorts {
-  port 'HTTP'                          // random port available as $HTTP
-  port '8080'                          // concurrent build execution controlled to prevent resource conflicts 
-  glassfish '1234', 'user', 'password' // adds a glassfish port
-  tomcat '1234', 'password'            // adds a port for tomcat
-}
-```
-
-The port allocation plugin enables to allocate ports for build executions to prevent conflicts between build jobs competing for a single port number (useful for any build that needs to allocate a port like Rails,Play! web containers, etc). See the [plugin documentation|https://wiki.jenkins-ci.org/display/JENKINS/Port+Allocator+Plugin] for more details. (Available since 1.16)
-
 ## Disable
 
 ```groovy
@@ -139,16 +74,6 @@ blockOnDownstreamProjects()
 
 Blocks the build of a project when one ore more upstream (blockOnUpstreamProjects()) or a downstream projects (blockOnDownstreamProjects()) are running. (Available since 1.16)
 
-## Node Stalker
-
-Allows job to build on the same node as another job (https://wiki.jenkins-ci.org/display/JENKINS/Node+Stalker+Plugin).
-
-```groovy
-runOnSameNodeAs(String jobName, boolean useSameWorkspace = false)
-```
-
-(Since 1.17)
-
 ## Build History
 ```groovy
 logRotator(int daysToKeepInt = -1, int numToKeepInt = -1, int artifactDaysToKeepInt = -1, int artifactNumToKeepInt = -1)
@@ -162,14 +87,6 @@ customWorkspace(String workspacePath)
 ```
 
 Defines that a project should use the given directory as a workspace instead of the default workspace location. (Available since 1.16) 
-
-## RVM
-```groovy
-rvm('ruby-1.9.3')
-rvm('ruby-2.0@gemset')
-```
-
-Configures the job to prepare a Ruby environment controlled by RVM for the build. Requires at least the ruby version, can take also a gemset specification to prevent side effects with other builds. (Available since 1.16)
 
 ## JDK
 ```groovy
@@ -195,20 +112,6 @@ Enum Permissions {
     ItemConfigure, ItemWorkspace, ItemDelete, ItemBuild, ItemRead, ItemRelease, ItemExtendedRead
     RunDelete, RunUpdate, etc.
 ```
-
-# [SSH Agent](https://wiki.jenkins-ci.org/display/JENKINS/SSH+Agent+Plugin)
-
-Makes shared SSH credential available to builds.
-
-```groovy
-job {
-    sshAgent(String credentials)
-}
-```
-
-The credentials arg is the description field or the UUID generated from Jenkins | Manage Jenkins | Manage Credentials. The easiest way to find this value, is to navigate Jenkins | Credentials | Global credentials | (Key Name). The look at the description in parathesis or using the UUID in the URL.
-
-(Since 1.17)
 
 # Maven
 
@@ -674,6 +577,109 @@ snapshotDependencies(boolean checkSnapshotDependencies)
 ```
 
 When enabling the snapshot dependencies trigger, Jenkins will check the snapshot dependencies from the  '\<dependency\>', '\<plugin\>' and '\<extension\>' elements used in Maven POMs and setup a job relationship to the jobs building the snapshots. This can only be used in jobs with type 'maven'.
+
+# Build Environment (Build Wrappers)
+
+Adds wrappers block to contain an list of build wrappers. The block exists since 1.19 and before that the methods were top-level.
+
+## Node Stalker
+
+Allows job to build on the same node as another job (https://wiki.jenkins-ci.org/display/JENKINS/Node+Stalker+Plugin).
+
+```groovy
+runOnSameNodeAs(String jobName, boolean useSameWorkspace = false)
+```
+
+(Since 1.17)
+
+## RVM
+```groovy
+rvm('ruby-1.9.3')
+rvm('ruby-2.0@gemset')
+```
+
+Configures the job to prepare a Ruby environment controlled by RVM for the build. Requires at least the ruby version, can take also a gemset specification to prevent side effects with other builds. (Available since 1.16)
+
+## Timeout
+
+```groovy
+timeout(String type) { //type is one of: 'absolute', 'elastic', 'likelyStuck'
+    limit 15       // timeout in minutes
+    percentage 200 // percentage of runtime to consider a build timed out
+}
+```
+
+The timeout method enables you to define a timeout for builds. It can either be absolute (build times out after a fixed number of minutes), elastic (times out if build runs x% longer than the average build duration) or likelyStuck. (Available since 1.16)
+
+The simplest invocation looks like this:
+
+```groovy
+timeout()
+```
+
+It defines an absolute timeout with a maximum build time of 3 minutes.
+
+Here is an absolute timeout:
+
+```groovy
+timeout('absolute') {
+    limit 60              // 60 minutes before timeout
+}
+```
+
+The elastic timeout accepts two parameters: a percentage for determining builds that take longer than normal an a limit that is used if there is no average successful build duration (i.e. no jobs run or all runs failed):
+
+```groovy
+timeout('elastic') {
+    limit 30        // 30 minutes default timeout (no successful builds available as reference)
+    percentage 300  // Build will timeout when it take 3 time longer than the reference build duration
+}
+```
+
+The likelyStuck timeout times out a build when it is likely to be stuck. Does not take extra configuration parameters.
+
+```groovy
+timeout('likelyStuck')
+```
+
+The following syntax has been available before 1.16 and will be retained for compatibility reasons:
+
+```groovy
+timeout(int timeoutInMinutes, Boolean shoudFailBuild = true)
+```
+
+Using the build timeout plugin, it can fail a build after a certain amount of time.
+
+## Port allocation
+```groovy
+allocatePorts 'HTTP', '8080' // allocates two ports: one randomly assigned and accessible by env var $HTTP
+                             // the second is fixed and the port allocator controls concurrent usage
+
+allocatePorts {
+  port 'HTTP'                          // random port available as $HTTP
+  port '8080'                          // concurrent build execution controlled to prevent resource conflicts 
+  glassfish '1234', 'user', 'password' // adds a glassfish port
+  tomcat '1234', 'password'            // adds a port for tomcat
+}
+```
+
+The port allocation plugin enables to allocate ports for build executions to prevent conflicts between build jobs competing for a single port number (useful for any build that needs to allocate a port like Rails,Play! web containers, etc). See the [plugin documentation|https://wiki.jenkins-ci.org/display/JENKINS/Port+Allocator+Plugin] for more details. (Available since 1.16)
+
+# [SSH Agent](https://wiki.jenkins-ci.org/display/JENKINS/SSH+Agent+Plugin)
+
+Makes shared SSH credential available to builds.
+
+```groovy
+job {
+    wrappers {
+        sshAgent(String credentials)
+    }
+}
+```
+
+The credentials arg is the description field or the UUID generated from Jenkins | Manage Jenkins | Manage Credentials. The easiest way to find this value, is to navigate Jenkins | Credentials | Global credentials | (Key Name). The look at the description in parathesis or using the UUID in the URL.
+
+(Since 1.17)
 
 # Build Steps
 
