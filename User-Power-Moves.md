@@ -94,8 +94,18 @@ If you have a file which you want to import into your script, but you can't put 
 [Original  discussion on the newsgroup](https://groups.google.com/forum/#!msg/job-dsl-plugin/6zmau49-SJI/Msk9gMexs_0J)
 
 # List the Files in a Jenkins Jobs Workspace
-Sometime you want your DSL script to be able to grab a list of the files in the workspace.  Use the Hudson API to achieve this:
+Sometimes you want your DSL script to be able to grab a list of the files in the workspace.  Use the Hudson API to achieve this:
 
 ```groovy
 hudson.FilePath workspace = hudson.model.Executor.currentExecutor().getCurrentWorkspace()
 ```
+
+# Change the name of the root node
+If you don't want the output job config.xml to start with a "project" node, you can use this little hack:
+
+```groovy
+configure { project ->
+    project.name = 'com.cloudbees.plugins.flow.BuildFlow'
+}
+```
+But note, this will only work if the BuildFlow project type uses the same sub-elements as the free style project type. If this is not the case, you need to modify the root node further and things will get even uglier. (Hint, you can use configure)
