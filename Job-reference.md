@@ -1169,7 +1169,7 @@ Due to the simplicity of this publisher, the closure support is purely provided 
 downstream(String projectName, String thresholdName = 'SUCCESS')
 ```
 
-Specifies a downstream job. The second arg, thresholdName, can one of four values: 'SUCCESS', 'UNSTABLE', 'FAILURE', 'ALWAYS'.
+Specifies a downstream job. The second arg, thresholdName, can one of four values: 'SUCCESS', 'UNSTABLE', 'FAILURE'.
 
 ## Extended Downstream
 ```groovy
