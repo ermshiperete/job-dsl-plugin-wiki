@@ -106,6 +106,7 @@ job(attributes) {
         allocatePorts(ports){}
         sshagent(credentials)
         timestamps()
+        colorizeOutput()
     }
     steps {
         shell(String commandStr)
