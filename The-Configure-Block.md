@@ -336,6 +336,7 @@ job {
 
 Result:
 ```XML
+...
             <scm class='hudson.plugins.git.GitSCM'>
 ...
                 <userRemoteConfigs>
