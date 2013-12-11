@@ -315,11 +315,48 @@ Result:
 
 _configure_:
 ```groovy
+def gitConfigWithSubdirRemote(node, subdir, remote) {
+   // use remote name vSentry
+   (node / 'userRemoteConfigs' / 'hudson.plugins.git.UserRemoteConfig').appendNode('name', remote)
+
+   // use local dir given
+   (node / 'extensions' / 'hudson.plugins.git.extensions.impl.RelativeTargetDirectory').appendNode('relativeTargetDir', subdir)
+
+   // clean after checkout
+   node / 'extensions' / 'hudson.plugins.git.extensions.impl.CleanCheckout' << {}
+}
+
+job {
+   multiscm {
+      git('git@server:account/repo1.git', 'remoteB/master') { node -> gitConfigWithSubdir(node, 'repo1', 'remoteB') }
+      git('git@server:account/repo2.git', 'remoteB/master') { node -> gitConfigWithSubdir(node, 'repo2', 'remoteB') }
+
+...
 ```
 
 Result:
 ```XML
-
+            <scm class='hudson.plugins.git.GitSCM'>
+...
+                <userRemoteConfigs>
+                    <hudson.plugins.git.UserRemoteConfig>
+                        <url>git@server:account/repo1.git</url>
+                        <name>remoteB</name>
+                    </hudson.plugins.git.UserRemoteConfig>
+                </userRemoteConfigs>
+                <branches>
+                    <hudson.plugins.git.BranchSpec>
+                        <name>remoteB/master</name>
+                    </hudson.plugins.git.BranchSpec>
+                </branches>
+                <extensions>
+                    <hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+                        <relativeTargetDir>repo1</relativeTargetDir>
+                    </hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+                    <hudson.plugins.git.extensions.impl.CleanCheckout></hudson.plugins.git.extensions.impl.CleanCheckout>
+                </extensions>
+            </scm>
+...
 ```
 
 ## Configure Matrix Job
