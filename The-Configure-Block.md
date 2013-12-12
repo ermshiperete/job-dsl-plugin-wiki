@@ -462,7 +462,7 @@ Result:
 ...
 ```
 
-## Configure Pre-requisite Build Step - TBC
+## Configure Post Build Task Publisher - TBC
 
 _configure_:
 ```groovy
