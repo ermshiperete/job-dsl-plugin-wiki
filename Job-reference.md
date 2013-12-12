@@ -234,29 +234,87 @@ hg('http://scm') { node ->
 
 ## Git
 ```groovy
+git {
+    remote { // can be repeated to add multiple remotes
+        name(String name) // optional
+        url(String url) // use either url or github
+        github(String ownerAndProject, String protocol = "https", String host = "github.com") // will also set the browser and GitHub property
+        refspec(String refspec) // optional
+        credentials(String credentials) // optional
+    }
+    branch(String name) // branch names are accumulated, defaults to **
+    branches(String... names)
+    mergeOptions(String remote = null, String branch) // optional
+    skipTag(boolean skipTag) // optional, defaults to false
+    wipeOutWorkspace(boolean wipeOutWorkspace) // optional, defaults to false
+    remotePoll(boolean remotePoll) // optional, defaults to false
+    shallowClone(boolean shallowClone) // optional, defaults to false
+    relativeTargetDir(String relativeTargetDir) // optional
+    reference(String reference) // optional
+    configure(Closure configure) // optional
+}
 git(String url, String branch = null, Closure configure = null)
+github(String ownerAndProject, String branch = null, String protocol = 'https', String host = 'github.com', Closure configure = null)
 ```
 
-Add Git SCM source. The Git plugin has a lot of configurable options, which are all available in the configure block,
+Adds a Git SCM source. The first variant can be used for advanced configuration (since 1.19), the other two variants are shortcuts for simpler Git SCM configurations.
+
+The GitHub variants will derive the Git URL from the ownerAndProject, protocol and host parameters. Valid protocols are `https`, `ssh` and `git`. They also configure the source browser to point to GitHub.
+
+The Git plugin has a lot of configurable options, which are currently not all supported by the DSL. A  configure block can be used to add more options.
+
+Version 2.0 or later of the Git Plugin is required to use Jenkins managed credentials for Git authentication. The arguments for the credentials method is the description field or the UUID generated from Jenkins | Manage Jenkins | Manage Credentials. The easiest way to find this value, is to navigate Jenkins | Credentials | Global credentials | (Key Name). The look at the description in parenthesis or using the UUID in the URL.
+
+Examples:
 
 ```groovy
-git('git@git') { node -> // Is hudson.plugins.git.GitSCM
+// checkout repo1 to a sub directory and clean the workspace after checkout
+git {
+    remote {
+        name('remoteB')
+        url('git@server:account/repo1.git')      
+    }
+    clean(true)
+    relativeTargetDir('repo1')
+}
+```
+
+```groovy
+// add the upstream repo as second remote and merge branch featureA with master
+git {
+    remote {
+        name('origin')
+        url('git@serverA:account/repo1.git')      
+    }
+    remote {
+        name('upstream')
+        url('git@serverB:account/repo1.git')      
+    }
+    branch('featureA')
+    mergeOptions('upstream', 'master')
+}
+```
+
+```groovy
+// add user name and email options
+git('git@git') { node -> // is hudson.plugins.git.GitSCM
     node / gitConfigName('DSL User')
     node / gitConfigEmail('me@me.com')
 }
 ```
 
-## GitHub
 ```groovy
-github(String ownerAndProject, String branch = null, String protocol = 'https', String host = 'github.com', Closure configure = null)
+// add a Git SCM for the GitHub repository job-dsl-plugin of GitHub user jenkinsci
+github('jenkinsci/job-dsl-plugin')
 ```
 
-Add Git SCM source and configure the source brower to point to GitHub. The Git URL is derived from the ownerAndProject, protocol and host parameters. Valid protocols are `https`, `ssh` and `git`. Accepts the same closure as the git method described above.
-
 ```groovy
-github('jenkinsci/job-dsl-plugin') { node -> // Is hudson.plugins.git.GitSCM
-    node / gitConfigName('DSL User')
-    node / gitConfigEmail('me@me.com')
+// add a Git SCM for a GitHub repository and use the given credentials for authentication
+git {
+    remote {
+        github('account/repo', 'ssh')
+        credentials('GitHub CI Key')
+    }
 }
 ```
 
@@ -676,7 +734,7 @@ job {
 }
 ```
 
-The credentials arg is the description field or the UUID generated from Jenkins | Manage Jenkins | Manage Credentials. The easiest way to find this value, is to navigate Jenkins | Credentials | Global credentials | (Key Name). The look at the description in parathesis or using the UUID in the URL.
+The credentials argument is the description field or the UUID generated from Jenkins | Manage Jenkins | Manage Credentials. The easiest way to find this value, is to navigate Jenkins | Credentials | Global credentials | (Key Name). The look at the description in parenthesis or using the UUID in the URL.
 
 (Since 1.17)
 
