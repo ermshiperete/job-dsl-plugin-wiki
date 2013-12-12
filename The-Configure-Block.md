@@ -316,7 +316,7 @@ Result:
 _configure_:
 ```groovy
 def gitConfigWithSubdirRemote(node, subdir, remote) {
-   // use remote name vSentry
+   // use remote name given
    (node / 'userRemoteConfigs' / 'hudson.plugins.git.UserRemoteConfig').appendNode('name', remote)
 
    // use local dir given
