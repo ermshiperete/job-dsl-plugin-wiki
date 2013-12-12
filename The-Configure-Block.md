@@ -409,6 +409,32 @@ Result:
 </matrix-project>
 ```
 
+## Configure Aggregate Downstream Test Result Publisher - TBC
+
+_configure_:
+```groovy
+configure { project ->
+    project / publishers / 'hudson.tasks.test.AggregatedTestResultPublisher' << {
+        jobs('some-downstream-test')
+        includeFailedBuilds('false')
+    }
+}
+```
+
+Result:
+```XML
+...
+<publishers>
+    ...
+    <hudson.tasks.test.AggregatedTestResultPublisher>
+        <jobs>some-downstream-test</jobs>
+        <includeFailedBuilds>false</includeFailedBuilds>
+    </hudson.tasks.test.AggregatedTestResultPublisher>
+    ...
+</publishers>
+...
+```
+
 # Reusable Configure Blocks
 
 To reuse an configure block for many jobs, the configure block can be moved to a helper class.
