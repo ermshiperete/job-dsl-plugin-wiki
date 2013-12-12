@@ -462,6 +462,49 @@ Result:
 ...
 ```
 
+## Configure Pre-requisite Build Step - TBC
+
+_configure_:
+```groovy
+configure { project ->
+    project / publishers / 'hudson.plugins.postbuildtask.PostbuildTask'(plugin: 'postbuild-task@1.8') / tasks / 'hudson.plugins.postbuildtask.TaskProperties' << {
+        logTexts {
+            'hudson.plugins.postbuildtask.LogProperties' {
+                logText('BUILD SUCCESSFUL')
+                operator('AND')
+            }
+        }
+        EscalateStatus(false)
+        RunIfJobSuccessful(false)
+        script('git clean -fdx')
+    }
+}
+```
+
+Result:
+```XML
+...
+<publishers>
+    ...
+    <hudson.plugins.postbuildtask.PostbuildTask plugin="postbuild-task@1.8">
+        <tasks>
+            <hudson.plugins.postbuildtask.TaskProperties>
+                <logTexts>
+                    <hudson.plugins.postbuildtask.LogProperties>
+                        <logText>BUILD SUCCESSFUL</logText>
+                        <operator>AND</operator>
+                    </hudson.plugins.postbuildtask.LogProperties>
+                </logTexts>
+                <EscalateStatus>false</EscalateStatus>
+                <RunIfJobSuccessful>false</RunIfJobSuccessful>
+                <script>git clean -fdx</script>
+            </hudson.plugins.postbuildtask.TaskProperties>
+        </tasks>
+    </hudson.plugins.postbuildtask.PostbuildTask>
+    ...
+</publishers>
+...
+```
 # Reusable Configure Blocks
 
 To reuse an configure block for many jobs, the configure block can be moved to a helper class.
