@@ -435,6 +435,33 @@ Result:
 ...
 ```
 
+## Configure Pre-requisite Build Step - TBC
+Uses Prerequisite build step plugin: https://wiki.jenkins-ci.org/display/JENKINS/Prerequisite+build+step+plugin
+
+_configure_:
+```groovy
+configure { project ->
+    project / builders / 'dk.hlyh.ciplugins.prereqbuildstep.PrereqBuilder'(plugin: 'prereq-buildstep@1.1') {
+        projects('project-A,project-B') // Important that there are no spaces for comma delimited values, plugin doesn't handle by trimming
+        warningOnly(false)
+    }
+}
+```
+
+Result:
+```XML
+...
+<builders>
+    ...
+    <dk.hlyh.ciplugins.prereqbuildstep.PrereqBuilder plugin="prereq-buildstep@1.1">
+        <projects>project-A,project-B</projects>
+        <warningOnly>false</warningOnly>
+    </dk.hlyh.ciplugins.prereqbuildstep.PrereqBuilder>
+    ...
+</builders>
+...
+```
+
 # Reusable Configure Blocks
 
 To reuse an configure block for many jobs, the configure block can be moved to a helper class.
