@@ -22,8 +22,9 @@ If you want to make a change to the code on jenkinsci/job-dsl-plugin, here's the
 2. On your local machine, clone your copy of the job-dsl-plugin repo
 3. Again on your local machine, create a branch, ideally named after a JIRA issue you're created for the work
 4. Switch to the local branch and make your changes.  Commit them as you go,m and when you're happy, push them to your repo branch
-5. Then, on the github website, find the branch you created for your work, and submit a Pull Request.  This will then poke us and we'll take a look at it.
-6. If things are all good, we'll merge the Pull Request straight away.  We might ask you to rebase (if the trunk has moved on and there are some conflicts) or we might suggest some more changes.
+5. Then, on the github website, find the branch you created for your work, and submit a Pull Request.  This will then poke us and we'll take a look at it. We might ask you to rebase (if the trunk has moved on and there are some conflicts) or we might suggest some more changes.
+6. If things are all good, we'll ask you to update the documentation. Add an entry to the [Release Notes](https://github.com/jenkinsci/job-dsl-plugin/wiki#release-notes), update the [DSL Overview](https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-DSL-Commands#dsl-methods) and the [Job Reference](https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-reference) pages if necessary. Make sure to add an example or two on the Job Reference page.
+7. If the documentation looks good, we'll merge the Pull Request.
 
 ## Our Basic Design Decisions / Conventions
 1. Use com.google.common.base.Preconditions for argument validaton. E.g. Preconditions.checkArgument(name, "Channel name for irc channel is required!")
