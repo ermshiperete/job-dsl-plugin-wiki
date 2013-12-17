@@ -1642,9 +1642,9 @@ publishers {
 
 (Since 1.19)
 
-## [Post Build Task](https://wiki.jenkins-ci.org/display/JENKINS/Post+build+task)
+## Aggregate Downstream Test Results
 
-Searches for a regular expression in the console log and, if matched, executes a script. Requires the [Post Build Task Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Post+build+task).
+Aggregates downstream test results.
 
 ```groovy
 aggregateDownstreamTestResults(String jobs = null, boolean includeFailedBuilds = false)
