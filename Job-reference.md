@@ -1624,6 +1624,36 @@ publishers {
 
 (Since 1.19)
 
+## [Post Build Task](https://wiki.jenkins-ci.org/display/JENKINS/Post+build+task)
+
+Searches for a regular expression in the console log and, if matched, executes a script. Requires the [Post Build Task Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Post+build+task).
+
+```groovy
+aggregateDownstreamTestResults(String jobs = null, boolean includeFailedBuilds = false)
+```
+
+Arguments:
+* `jobs` The comma delimited list of jobs to aggregate manually. Can be set to null to "automatically" aggregate downstream jobs using fingerprinting.
+* `includeFailedBuilds` If this option is true, include failed builds in results.
+
+The example manually aggregates test results from project-A and project-B, and includes failed builds in the results:
+
+```groovy
+publishers {
+  aggregateDownstreamTestResults('project-A, project-B', true)
+}
+```
+
+This example automatically aggregates test results from downstream jobs, and ignores failed builds:
+
+```groovy
+publishers {
+  aggregateDownstreamTestResults()
+}
+```
+
+(Since 1.19)
+
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
 _Note: The Password Parameter is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141_
