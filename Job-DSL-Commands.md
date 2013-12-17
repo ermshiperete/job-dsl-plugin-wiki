@@ -127,6 +127,7 @@ job(attributes) {
         grails(grailsClosure) // See [[Job Reference]] for grailsClosure syntax
         grails(targetsArg, grailsClosure)
         grails(targetsArg, useWrapperArg, grailsClosure)
+        prerequisite(projectList, warningOnlyBool) // Since 1.19
     }
     publishers {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
