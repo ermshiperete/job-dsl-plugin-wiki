@@ -1056,6 +1056,24 @@ job(type: Multijob) {
 }
 ```
 
+# [Prerequisite Build Step](https://wiki.jenkins-ci.org/display/JENKINS/Prerequisite+build+step+plugin)
+
+```
+prerequisite(String projectList = '', boolean warningOnlyBool = false)
+```
+
+Arguments:
+* `projectList` A comma delimited list of jobs to check. 
+* `warningOnlyBool` If set to true then the build will not be failed even if the checks are failed
+
+When a job is checked the following conditions must be validated before the job is marked passed.
+1. The job must exist
+1. The job must have been built at least once
+1. The job cannot currently be building
+1. The last completed build must have resulted in a stable (blue) build.
+
+(Since 1.19)
+
 # Publishers
 
 Block to contain list of publishers.
