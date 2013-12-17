@@ -1596,6 +1596,34 @@ publishers {
 
 (Since 1.19)
 
+## [Post Build Task](https://wiki.jenkins-ci.org/display/JENKINS/Post+build+task)
+
+Searches for a regular expression in the console log and, if matched, executes a script. Requires the [Post Build Task Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Post+build+task).
+
+```groovy
+postBuildTask(Closure closure) {
+    task(String logText, String script, boolean escalate = false, boolean runIfSuccessful = false)
+}
+```
+
+Arguments:
+* `logText` The regular expression used to search the console output. Will be applied to each line.
+* `script` The path to the file to execute or raw commands to run in the shell.
+* `escalate ` If set, and the execution of the specified script fails, the status of the entire job/build is escalated to failed.
+* `runIfSuccessful` If this option is true, the specified script is only executed if all previous build steps were successful.
+
+The example runs `git clean -fdx` if `BUILD SUCCESSFUL` has been in found in the console log:
+
+```groovy
+publishers {
+  postBuildTask() {
+    task('BUILD SUCCESSFUL', 'git clean -fdx')
+  }
+}
+```
+
+(Since 1.19)
+
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
 _Note: The Password Parameter is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141_
