@@ -260,7 +260,7 @@ configure {
 These are the ones in pipeline, and will be implemented sooner than later. If you're looking on working on one, claim it.
 
 * Publish - xUnit
-* Publish - Cobertura, Emma, Analysis
+* Publish - Cobertura, Analysis
 * Publish - Javadoc
 
 @wolfs:
@@ -274,6 +274,9 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 
 bealeaj12414
 * update the defaults and provide convenience methods for setting status values of the gerrit trigger
+
+@sgtcoolguy
+* Publish - Emma
 
 ## To Be Designed
 * Publish - DeployPublisher
