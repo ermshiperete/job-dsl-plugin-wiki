@@ -107,6 +107,7 @@ job(attributes) {
         sshagent(credentials)
         timestamps()
         colorizeOutput()
+        xvnc(takeScreenshot = false)
     }
     steps {
         shell(String commandStr)
