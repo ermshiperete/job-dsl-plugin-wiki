@@ -1067,10 +1067,10 @@ Arguments:
 * `warningOnlyBool` If set to true then the build will not be failed even if the checks are failed
 
 When a job is checked the following conditions must be validated before the job is marked passed.
-1. The job must exist
-1. The job must have been built at least once
-1. The job cannot currently be building
-1. The last completed build must have resulted in a stable (blue) build.
+* The job must exist
+* The job must have been built at least once
+* The job cannot currently be building
+* The last completed build must have resulted in a stable (blue) build.
 
 (Since 1.19)
 
