@@ -1709,12 +1709,12 @@ This example will run a groovy script that prints hello, world and if that fails
 
 This example will run a groovy script, and if that fails will mark the build as failed:
 ```groovy
-    groovyPostBuild('// some groovy script', MarkFailed)
+    groovyPostBuild('// some groovy script', Behavior.MarkFailed)
 ```
 
 This example will run a groovy script, and if that fails will mark the build as unstable:
 ```groovy
-    groovyPostBuild('// some groovy script', MarkUnstable)
+    groovyPostBuild('// some groovy script', Behavior.MarkUnstable)
 ```
 
 (Since 1.19)
