@@ -1698,13 +1698,23 @@ Arguments:
 * `script` The Groovy script to execute after the build. See [the plugin's page](https://wiki.jenkins-ci.org/display/JENKINS/Groovy+Postbuild+Plugin) for details on what can be done.
 * `behavior` optional. If the script fails, allows you to set mark the build as failed, unstable, or do nothing.
 
-The behavior argument uses a helper Enum called [Behavior] (https://github.com/jenkinsci/job-dsl-plugin/blob/master/job-dsl-core/src/main/groovy/javaposse/jobdsl/dsl/helpers/publisher/Behavior.groovy) to hide the integer value of the behaviors. It is available by importing javaposse.jobdsl.dsl.helpers.publishers.Behavior.
+The behavior argument uses an enum, which currently has three values: DoNothing, MarkUnstable, and MarkFailed.
 
+Examples:
+
+This example will run a groovy script that prints hello, world and if that fails, it won't affect the build's status:
 ```groovy
-enum Behavior {
-    DoNothing, MarkUnstable, MarkFailed
-    ...
-}
+    groovyPostBuild('println "hello, world"')
+```
+
+This example will run a groovy script, and if that fails will mark the build as failed:
+```groovy
+    groovyPostBuild('// some groovy script', MarkFailed)
+```
+
+This example will run a groovy script, and if that fails will mark the build as unstable:
+```groovy
+    groovyPostBuild('// some groovy script', MarkUnstable)
 ```
 
 (Since 1.19)
