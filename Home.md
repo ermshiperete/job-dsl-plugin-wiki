@@ -11,6 +11,7 @@ There is a great load of information on [the forum](https://groups.google.com/fo
 And finally, if you want to get more involved, [[here's how... | Contributing to the job dsl plugin Project]]
 
 ## Release Notes
+* 1.19 - [XVNC Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Xvnc+Plugin)
 * 1.19 - [Prerequisite Build Step](https://wiki.jenkins-ci.org/display/JENKINS/Prerequisite+build+step+plugin)
 * 1.19 - Aggregate Downstream Test Results
 * 1.19 - [Post Build Task](https://wiki.jenkins-ci.org/display/JENKINS/Post+build+task)
