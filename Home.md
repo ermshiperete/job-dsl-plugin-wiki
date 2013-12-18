@@ -15,7 +15,7 @@ And finally, if you want to get more involved, [[here's how... | Contributing to
 * 1.19 - Added support for advanced Git SCM options
 * 1.19 - [Added ItemDiscover, ItemCancel, and ScmTag permissions to the Permissions enum](https://github.com/jenkinsci/job-dsl-plugin/pull/97)
 * 1.19 - [AnsiColor Plugin](https://wiki.jenkins-ci.org/display/JENKINS/AnsiColor+Plugin)
-* 1.19 - new wrappers block, containing all build wrapper methods (**BREAKING CHANGE**)
+* 1.19 - new wrappers block, containing all build wrapper methods (**BREAKING CHANGE**, see [[Migration]])
 * 1.19 - [Timestamper](https://wiki.jenkins-ci.org/display/JENKINS/Timestamper)
 * 1.19 - [JENKINS-20284](https://issues.jenkins-ci.org/browse/JENKINS-20284)
 * 1.19 - [Text Finder](https://wiki.jenkins-ci.org/display/JENKINS/Text-finder+Plugin)
