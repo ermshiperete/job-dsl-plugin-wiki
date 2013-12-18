@@ -1686,6 +1686,29 @@ publishers {
 
 (Since 1.19)
 
+## [Groovy Postbuild](https://wiki.jenkins-ci.org/display/JENKINS/Groovy+Postbuild+Plugin)
+
+Executes Groovy scripts after a build.
+
+```groovy
+groovyPostBuild(String script, Behavior behavior = Behavior.DoNothing)
+```
+
+Arguments:
+* `script` The Groovy script to execute after the build. See [the plugin's page](https://wiki.jenkins-ci.org/display/JENKINS/Groovy+Postbuild+Plugin) for details on what can be done.
+* `behavior` optional. If the script fails, allows you to set mark the build as failed, unstable, or do nothing.
+
+The behavior argument uses a helper Enum called [Behavior] (https://github.com/jenkinsci/job-dsl-plugin/blob/master/job-dsl-core/src/main/groovy/javaposse/jobdsl/dsl/helpers/publisher/Behavior.groovy) to hide the integer value of the behaviors. It is available by importing javaposse.jobdsl.dsl.helpers.publishers.Behavior.
+
+```groovy
+enum Behavior {
+    DoNothing, MarkUnstable, MarkFailed
+    ...
+}
+```
+
+(Since 1.19)
+
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
 _Note: The Password Parameter is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141_
