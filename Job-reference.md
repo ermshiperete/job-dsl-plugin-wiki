@@ -1619,7 +1619,7 @@ publishers {
 Searches for a regular expression in the console log and, if matched, executes a script. Requires the [Post Build Task Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Post+build+task).
 
 ```groovy
-postBuildTask(Closure closure) {
+postBuildTask {
     task(String logText, String script, boolean escalate = false, boolean runIfSuccessful = false)
 }
 ```
@@ -1634,7 +1634,7 @@ The example runs `git clean -fdx` if `BUILD SUCCESSFUL` has been in found in the
 
 ```groovy
 publishers {
-  postBuildTask() {
+  postBuildTask {
     task('BUILD SUCCESSFUL', 'git clean -fdx')
   }
 }
