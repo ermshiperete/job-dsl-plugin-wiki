@@ -164,6 +164,7 @@ job(attributes) {
         postBuildTask(closure)  // See [[Job Reference]] for closure syntax, since 1.19
         aggregateDownstreamTestResults(jobs = null, includeFailedBuilds = false) // since 1.19
         groovyPostBuild(script, behavior = Behavior.DoNothing) // since 1.19, See [[Job Reference]] for details of Behavior enum
+        emma(coverageFile, closure) // See [[Job Reference]] for closure syntax, since 1.19
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
