@@ -1719,6 +1719,59 @@ This example will run a groovy script, and if that fails will mark the build as 
 
 (Since 1.19)
 
+## Emma Code Coverage
+
+Supports the [Emma Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Emma+Plugin). Only the Emma xml report file pattern is required to locate all the generated reports. Coverage thresholds are all set to defaults.
+
+```groovy
+emma(String xmlReportFilePattern)
+```
+
+Simple Example:
+```groovy
+emma('coverage-results/coverage.xml')
+```
+
+The previous example is basically equivalent to the following more verbose one, where all the default settings are visible.
+
+```groovy
+emma('coverage-results/coverage.xml') {
+    'class'(0..100)
+    method(0..70)
+    block(0..80)
+    line(0..80)
+    condition(0..<1)
+}
+```
+
+### More about targets
+
+Targets are used to mark the build as healthy/unhealthy/unstable based on given thresholds. Targets can be set separately for conditional, line, block, method and class level.
+
+Targets can be tuned using ranges for each category, or setting a specific minimum or maximum. The example above shows the category/range version. You can also use the following helper methods inside the closure (which is equivalent to the shorter example above):
+
+```groovy
+emma('coverage-results/coverage.xml') {
+    minClass(0)
+    maxClass(100)
+    minMethod(0)
+    maxMethod(70)
+    minBlock(0)
+    maxBlock(80)
+    minLine(0)
+    maxLine(80)
+    minCondition(0)
+    maxCondition(0)
+}
+```
+
+Each of the 3 parameters represent a percentage treshold. They have the following meaning:
+* healthy: Report health as 100% when coverage is greater than {healthy}% 
+* unhealthy: Report health as 0% when coverage is less than {unhealthy}%
+* failing: Mark the build as unstable when coverage is less than {failing}% 
+
+(since 1.19)
+
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
 _Note: The Password Parameter is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141_
