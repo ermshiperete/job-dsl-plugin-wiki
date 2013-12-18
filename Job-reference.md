@@ -766,6 +766,20 @@ Renders ANSI escape sequences, including color, to Console Output.
 
 (Since 1.19)
 
+## [XVNC](https://wiki.jenkins-ci.org/display/JENKINS/Xvnc+Plugin)
+
+```groovy
+job {
+    wrappers {
+        xvnc(boolean takeScreenshot = false)
+    }
+}
+```
+
+This plugin lets you run an Xvnc session during a build. This is handy if your build includes UI testing that needs a display available.
+
+(Since 1.19)
+
 # Build Steps
 
 Adds step block to contain an ordered list of build steps. Cannot be used for jobs with type 'maven'.
