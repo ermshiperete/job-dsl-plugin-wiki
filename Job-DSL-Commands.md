@@ -165,6 +165,7 @@ job(attributes) {
         aggregateDownstreamTestResults(jobs = null, includeFailedBuilds = false) // since 1.19
         groovyPostBuild(script, behavior = Behavior.DoNothing) // since 1.19, See [[Job Reference]] for details of Behavior enum
         emma(coverageFile, closure) // See [[Job Reference]] for closure syntax, since 1.19
+        archiveJavadoc(javadocClosure) // See [[Job Reference]] for closure syntax, since 1.19
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
@@ -264,7 +265,6 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 
 * Publish - xUnit
 * Publish - Cobertura, Analysis
-* Publish - Javadoc
 
 @wolfs:
 * Publish - Checkstyle, FindBugs, PMD, CCM, OWASP Dependency Analysis, Compiler Warnings, Android Lint, DRY, Task Scanner
@@ -280,6 +280,9 @@ bealeaj12414
 
 @sgtcoolguy
 * Publish - Emma
+
+@marcokrikke
+* Publish - Javadoc
 
 ## To Be Designed
 * Publish - DeployPublisher
