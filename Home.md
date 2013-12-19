@@ -11,6 +11,7 @@ There is a great load of information on [the forum](https://groups.google.com/fo
 And finally, if you want to get more involved, [[here's how... | Contributing to the job dsl plugin Project]]
 
 ## Release Notes
+* 1.19 - [Javadoc Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Javadoc+Plugin)
 * 1.19 - Added support to allow seed jobs in folders. [#109](https://github.com/jenkinsci/job-dsl-plugin/pull/109)
 * 1.19 - [Emma Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Emma+Plugin)
 * 1.19 - [Groovy Postbuild Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Groovy+Postbuild+Plugin)
