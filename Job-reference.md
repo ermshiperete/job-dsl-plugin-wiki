@@ -1744,6 +1744,25 @@ emma('coverage-results/coverage.xml') {
 }
 ```
 
+## Archive Javadoc
+
+This plugin allows you to archive generated Javadoc using the [Javadoc Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Javadoc+Plugin).
+
+```
+//Shown with defaults
+archiveJavadoc {
+    javadocDir ''  // Path to the Javadoc directory in the workspace.
+    keepAll false  // If true, retain javadoc for all the successful builds.
+}
+```
+
+Simplest usage will output with the defaults above
+```
+archiveJavadoc()
+```
+
+(Since 1.19)
+
 ### More about targets
 
 Targets are used to mark the build as healthy/unhealthy/unstable based on given thresholds. Targets can be set separately for conditional, line, block, method and class level.
