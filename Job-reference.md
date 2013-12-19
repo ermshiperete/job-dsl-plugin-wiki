@@ -11,7 +11,7 @@ If using the [folders plugin](https://wiki.jenkins-ci.org/display/JENKINS/CloudB
 ```groovy
 name('path/to/myjob')
 ```
-Note that the folders must already exist and that the seed job must be in the root (Available since 1.17).
+Note that the folders must already exist. (Available since 1.17).
 ## Display Name
 ```groovy
 displayName(String displayName)
