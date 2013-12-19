@@ -1744,25 +1744,6 @@ emma('coverage-results/coverage.xml') {
 }
 ```
 
-## Archive Javadoc
-
-This plugin allows you to archive generated Javadoc using the [Javadoc Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Javadoc+Plugin).
-
-```
-//Shown with defaults
-archiveJavadoc {
-    javadocDir ''  // Path to the Javadoc directory in the workspace.
-    keepAll false  // If true, retain javadoc for all the successful builds.
-}
-```
-
-Simplest usage will output with the defaults above
-```
-archiveJavadoc()
-```
-
-(Since 1.19)
-
 ### More about targets
 
 Targets are used to mark the build as healthy/unhealthy/unstable based on given thresholds. Targets can be set separately for conditional, line, block, method and class level.
@@ -1790,6 +1771,25 @@ Each of the 3 parameters represent a percentage treshold. They have the followin
 * failing: Mark the build as unstable when coverage is less than {failing}% 
 
 (since 1.19)
+
+## Archive Javadoc
+
+This plugin allows you to archive generated Javadoc using the [Javadoc Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Javadoc+Plugin).
+
+```
+//Shown with defaults
+archiveJavadoc {
+    javadocDir ''  // Path to the Javadoc directory in the workspace.
+    keepAll false  // If true, retain javadoc for all the successful builds.
+}
+```
+
+Simplest usage will output with the defaults above
+```
+archiveJavadoc()
+```
+
+(Since 1.19)
 
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
