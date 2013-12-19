@@ -11,16 +11,16 @@ There is a great load of information on [the forum](https://groups.google.com/fo
 And finally, if you want to get more involved, [[here's how... | Contributing to the job dsl plugin Project]]
 
 ## Release Notes
+* 1.20 - [Emma Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Emma+Plugin)
+* 1.20 - Added support for advanced Git SCM options
+* 1.20 - [Added ItemDiscover, ItemCancel, and ScmTag permissions to the Permissions enum](https://github.com/jenkinsci/job-dsl-plugin/pull/97)
 * 1.19 - [Javadoc Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Javadoc+Plugin)
 * 1.19 - Added support to allow seed jobs in folders. [#109](https://github.com/jenkinsci/job-dsl-plugin/pull/109)
-* 1.19 - [Emma Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Emma+Plugin)
 * 1.19 - [Groovy Postbuild Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Groovy+Postbuild+Plugin)
 * 1.19 - [XVNC Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Xvnc+Plugin)
 * 1.19 - [Prerequisite Build Step](https://wiki.jenkins-ci.org/display/JENKINS/Prerequisite+build+step+plugin)
 * 1.19 - Aggregate Downstream Test Results
 * 1.19 - [Post Build Task](https://wiki.jenkins-ci.org/display/JENKINS/Post+build+task)
-* 1.19 - Added support for advanced Git SCM options
-* 1.19 - [Added ItemDiscover, ItemCancel, and ScmTag permissions to the Permissions enum](https://github.com/jenkinsci/job-dsl-plugin/pull/97)
 * 1.19 - [AnsiColor Plugin](https://wiki.jenkins-ci.org/display/JENKINS/AnsiColor+Plugin)
 * 1.19 - new wrappers block, containing all build wrapper methods (**BREAKING CHANGE**, see [[Migration]])
 * 1.19 - [Timestamper](https://wiki.jenkins-ci.org/display/JENKINS/Timestamper)
