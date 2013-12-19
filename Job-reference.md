@@ -1756,11 +1756,11 @@ The previous example is basically equivalent to the following more verbose one, 
 
 ```groovy
 emma('coverage-results/coverage.xml') {
-    'class'(0..100)
-    method(0..70)
-    block(0..80)
-    line(0..80)
-    condition(0..<1)
+    classThreshold(0..100)
+    methodThreshold(0..70)
+    blockThreshold(0..80)
+    lineThreshold(0..80)
+    conditionThreshold(0..<1)
 }
 ```
 
@@ -1785,7 +1785,7 @@ emma('coverage-results/coverage.xml') {
 }
 ```
 
-Each of the 3 parameters represent a percentage treshold. They have the following meaning:
+Each of the 3 parameters represent a percentage threshold. They have the following meaning:
 * healthy: Report health as 100% when coverage is greater than {healthy}% 
 * unhealthy: Report health as 0% when coverage is less than {unhealthy}%
 * failing: Mark the build as unstable when coverage is less than {failing}% 
