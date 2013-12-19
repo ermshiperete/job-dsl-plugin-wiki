@@ -235,6 +235,7 @@ hg('http://scm') { node ->
 ## Git
 ```groovy
 git {
+    // since 1.20
     remote { // can be repeated to add multiple remotes
         name(String name) // optional
         url(String url) // use either url or github
@@ -257,7 +258,7 @@ git(String url, String branch = null, Closure configure = null)
 github(String ownerAndProject, String branch = null, String protocol = 'https', String host = 'github.com', Closure configure = null)
 ```
 
-Adds a Git SCM source. The first variant can be used for advanced configuration (since 1.19), the other two variants are shortcuts for simpler Git SCM configurations.
+Adds a Git SCM source. The first variant can be used for advanced configuration (since 1.20), the other two variants are shortcuts for simpler Git SCM configurations.
 
 The GitHub variants will derive the Git URL from the ownerAndProject, protocol and host parameters. Valid protocols are `https`, `ssh` and `git`. They also configure the source browser to point to GitHub.
 
@@ -1719,6 +1720,25 @@ This example will run a groovy script, and if that fails will mark the build as 
 
 (Since 1.19)
 
+## Archive Javadoc
+
+This plugin allows you to archive generated Javadoc using the [Javadoc Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Javadoc+Plugin).
+
+```
+//Shown with defaults
+archiveJavadoc {
+    javadocDir ''  // Path to the Javadoc directory in the workspace.
+    keepAll false  // If true, retain javadoc for all the successful builds.
+}
+```
+
+Simplest usage will output with the defaults above
+```
+archiveJavadoc()
+```
+
+(Since 1.19)
+
 ## Emma Code Coverage
 
 Supports the [Emma Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Emma+Plugin). Only the Emma xml report file pattern is required to locate all the generated reports. Coverage thresholds are all set to defaults.
@@ -1770,26 +1790,7 @@ Each of the 3 parameters represent a percentage treshold. They have the followin
 * unhealthy: Report health as 0% when coverage is less than {unhealthy}%
 * failing: Mark the build as unstable when coverage is less than {failing}% 
 
-(since 1.19)
-
-## Archive Javadoc
-
-This plugin allows you to archive generated Javadoc using the [Javadoc Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Javadoc+Plugin).
-
-```
-//Shown with defaults
-archiveJavadoc {
-    javadocDir ''  // Path to the Javadoc directory in the workspace.
-    keepAll false  // If true, retain javadoc for all the successful builds.
-}
-```
-
-Simplest usage will output with the defaults above
-```
-archiveJavadoc()
-```
-
-(Since 1.19)
+(since 1.20)
 
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
