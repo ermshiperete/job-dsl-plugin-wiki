@@ -509,6 +509,13 @@ Result:
 
 ## Configure Post Build Sonar Task - TBC
 
+In order to trigger a Sonar analysis as a Post Build Task in your job you can use the following code.
+The requirements are:
+
+* Have a Sonar Server installed somewhere.
+* Have installed the Sonar plugin in Jenkins.
+* Configured access to the Sonar Server in Jenkins (Jenkins >> Manage Jenkins >> configure >> Sonar)
+
 _configure_:
 ```groovy
 configure { project ->
@@ -539,7 +546,87 @@ Result:
 ...
 ```
 
+## Configure Post Build Artifactory Task - TBC
 
+In order to publish the result of your job into an Artifactory Repository as a Post Build Task you can use the following code.
+The requirements are:
+
+* Have an Artifactory Repository installed somewhere.
+* Have installed the Artifactory plugin in Jenkins.
+* Configured access to the Artifactory Repository in Jenkins (Jenkins >> Manage Jenkins >> configure >> Artifactory)
+
+Once the Artifactory Repository is configured you will need to get the "artifactoryName" property which will be necessary to properly configure your jobs. This property is the "serverId" <input> element found in the configuration page. It is an hidden element
+_configure_:
+```groovy
+configure { project ->
+        project / publishers / 'org.jfrog.hudson.ArtifactoryRedeployPublisher'(plugin: 'artifactory@2.2.1') << {
+            deployBuildInfo(false);
+            deployArtifacts(true);
+            evenIfUnstable(true);
+        };
+        project / publishers / 'org.jfrog.hudson.ArtifactoryRedeployPublisher' << details {
+                artifactoryUrl('http://artifactory.server.com/artifactory');
+                artifactoryName('920955330@1387638748614'); // <= You will need to change that to fit your setup 
+                repositoryKey('libs-release-local');
+                snapshotsRepositoryKey('libs-snapshot-local');
+        };
+    }
+```
+
+Result:
+```XML
+...
+<publishers>
+    ...
+    <org.jfrog.hudson.ArtifactoryRedeployPublisher plugin="artifactory@2.2.1">
+            <details>
+                <artifactoryUrl>http://artifactory.server.com/artifactory</artifactoryUrl>
+                <artifactoryName>920955330@1387638748614</artifactoryName>
+                <repositoryKey>libs-release-local</repositoryKey>
+                <snapshotsRepositoryKey>libs-snapshot-local</snapshotsRepositoryKey>
+                <stagingPlugin>
+                    <pluginName>None</pluginName>
+                </stagingPlugin>
+            </details>
+            <deployArtifacts>true</deployArtifacts>
+            <artifactDeploymentPatterns>
+                <includePatterns/>
+                <excludePatterns/>
+            </artifactDeploymentPatterns>
+            <includeEnvVars>false</includeEnvVars>
+            <deployBuildInfo>false</deployBuildInfo>
+            <envVarsPatterns>
+                <includePatterns/>
+                <excludePatterns>*password*,*secret*</excludePatterns>
+            </envVarsPatterns>
+            <evenIfUnstable>true</evenIfUnstable>
+            <runChecks>false</runChecks>
+            <violationRecipients/>
+            <includePublishArtifacts>false</includePublishArtifacts>
+            <passIdentifiedDownstream>false</passIdentifiedDownstream>
+            <scopes/>
+            <licenseAutoDiscovery>true</licenseAutoDiscovery>
+            <disableLicenseAutoDiscovery>false</disableLicenseAutoDiscovery>
+            <discardOldBuilds>false</discardOldBuilds>
+            <discardBuildArtifacts>true</discardBuildArtifacts>
+            <matrixParams/>
+            <enableIssueTrackerIntegration>false</enableIssueTrackerIntegration>
+            <aggregateBuildIssues>false</aggregateBuildIssues>
+            <allowPromotionOfNonStagedBuilds>false</allowPromotionOfNonStagedBuilds>
+            <blackDuckRunChecks>false</blackDuckRunChecks>
+            <blackDuckAppName/>
+            <blackDuckAppVersion/>
+            <blackDuckReportRecipients/>
+            <blackDuckScopes/>
+            <blackDuckIncludePublishedArtifacts>false</blackDuckIncludePublishedArtifacts>
+            <autoCreateMissingComponentRequests>true</autoCreateMissingComponentRequests>
+            <autoDiscardStaleComponentRequests>true</autoDiscardStaleComponentRequests>
+            <filterExcludedArtifactsFromBuild>false</filterExcludedArtifactsFromBuild>
+        </org.jfrog.hudson.ArtifactoryRedeployPublisher>
+    ...
+</publishers>
+...
+```
 
 # Reusable Configure Blocks
 
