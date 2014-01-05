@@ -505,6 +505,42 @@ Result:
 </publishers>
 ...
 ```
+
+
+## Configure Post Build Sonar Task - TBC
+
+_configure_:
+```groovy
+configure { project ->
+        project / publishers / 'hudson.plugins.sonar.SonarPublisher'(plugin: 'sonar@2.1') << {
+            settings(class:'jenkins.mvn.DefaultSettingsProvider');
+            globalSettings(class:'jenkins.mvn.DefaultGlobalSettingsProvider');
+        };
+    }
+```
+
+Result:
+```XML
+...
+<publishers>
+    ...
+    <hudson.plugins.sonar.SonarPublisher plugin="sonar@2.1">
+        <jdk>(Inherit From Job)</jdk>
+        <branch/>
+        <language/>
+        <mavenOpts/>
+        <jobAdditionalProperties/>
+        <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+        <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+        <usePrivateRepository>false</usePrivateRepository>
+    </hudson.plugins.sonar.SonarPublisher>
+    ...
+</publishers>
+...
+```
+
+
+
 # Reusable Configure Blocks
 
 To reuse an configure block for many jobs, the configure block can be moved to a helper class.
