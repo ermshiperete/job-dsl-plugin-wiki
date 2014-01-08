@@ -1356,6 +1356,7 @@ violations(50) {
    perFileDisplayLimit 51
    checkstyle(10, 11, 10, 'test-report/*.xml')
    findbugs(12, 13, 12)
+   jshint(10, 11, 10, 'test-report/*.xml')
 }
 ```
 
@@ -1537,6 +1538,15 @@ publishers {
 ```groovy
 publishers {
   checkstyle('**/checkstyle-result.xml') {
+    shouldDetectModules true
+  }
+}
+```
+
+### [JsHint](https://wiki.jenkins-ci.org/display/JENKINS/JSHint+Checkstyle+Plugin)
+```groovy
+publishers {
+  jshint('**/jshint-result.xml') {
     shouldDetectModules true
   }
 }
