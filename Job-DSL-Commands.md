@@ -167,6 +167,7 @@ job(attributes) {
         archiveJavadoc(javadocClosure) // See [[Job Reference]] for closure syntax, since 1.19
         emma(coverageFile, closure) // See [[Job Reference]] for closure syntax, since 1.20
         jshint(pattern, staticAnalysisClosure = null) // See [[Job Reference]] for staticAnalysisClosure syntax, since 1.20
+        associatedFiles(String files = null) // since 1.21
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
