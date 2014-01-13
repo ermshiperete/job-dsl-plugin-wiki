@@ -1819,6 +1819,16 @@ Each of the 3 parameters represent a percentage threshold. They have the followi
 
 (since 1.20)
 
+## Associated Files
+
+Supports the [Associated Files Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Associated+Files+Plugin). 
+
+```groovy
+associatedFiles(String associatedFilesPattern)
+```
+
+(since 1.20)
+
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
 _Note: The Password Parameter is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141_
