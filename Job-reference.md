@@ -1106,6 +1106,63 @@ When a job is checked the following conditions must be validated before the job 
 
 (Since 1.19)
 
+# [Parameterized Trigger as Build Step](https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin)
+
+```groovy
+downstreamParameterized(Closure downstreamClosure) {
+     trigger(String projects, String condition = 'SUCCESS', boolean triggerWithNoParameters = false, Map<String, String> blockingThresholds = [:], Closure downstreamTriggerClosure = null) {
+        currentBuild() // Current build parameters
+        propertiesFile(String propFile) // Parameters from properties file
+        gitRevision(boolean combineQueuedCommits = false) // Pass-through Git commit that was built
+        predefinedProp(String key, String value) // Predefined properties
+        predefinedProps(Map<String, String> predefinedPropsMap)
+        predefinedProps(String predefinedProps) // Newline separated
+        matrixSubset(String groovyFilter) // Restrict matrix execution to a subset
+        subversionRevision() // Subversion Revision
+     }
+}
+```
+
+Supports <a href="https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin">the Parameterized Trigger plugin</a>. The plugin is configured by adding triggers
+to other projects, multiple triggers can be specified. The projects arg is a comma separated list of downstream projects. The condition arg is one of these
+possible values: SUCCESS, UNSTABLE, UNSTABLE_OR_BETTER, UNSTABLE_OR_WORSE, FAILED.  The methods inside the downstreamTriggerClosure are optional, though it
+makes the most sense to call at least one.  Each one is relatively self documenting, mapping directly to what is seen in the UI. The predefinedProp and
+predefinedProps methods are used to accumulate properties, meaning that they can be called multiple times to build a superset of properties.
+
+In addition to the above (which is common to both the build step and publisher use cases of the Parameterized Trigger plugin), there is the blockingThresholds map argument to the trigger. This is optional, and if given, the build will block until the child build has completed. Then the build status will be updated depending on the blockingThresholds, which are the following:
+
+* buildStepFailure
+* failure
+* unstable
+
+These can each be set to any of the allowed build statuses ('SUCCESS', 'UNSTABLE', or 'FAILURE'). The parent build's status will be set to failure (or unstable, if that's configured) if the child build's status is equal to or worse than the configured status, while the buildStepFailure threshold allows you to set the parent build's status but continue to further steps as if it hadn't failed.
+
+Examples:
+```groovy
+steps {
+    downstreamParameterized {
+        trigger('Project1, Project2', 'UNSTABLE_OR_BETTER', true,
+                    ["buildStepFailure": "FAILURE",
+                            "failure": "FAILURE",
+                            "unstable": "UNSTABLE"]) {
+            currentBuild() // Current build parameters
+            propertiesFile('dir/my.properties') // Parameters from properties file
+            gitRevision(false) // Pass-through Git commit that was built
+            predefinedProp('key1', 'value1') // Predefined properties
+            predefinedProps([key2: 'value2', key3: 'value3'])
+            predefinedProps('key4=value4\nkey5=value5') // Newline separated
+            matrixSubset('label=="${TARGET}"') // Restrict matrix execution to a subset
+            subversionRevision() // Subversion Revision
+        }
+        trigger('Project2') {
+            currentBuild()
+        }
+    }
+}
+```
+
+(since 1.20)
+
 # Publishers
 
 Block to contain list of publishers.
