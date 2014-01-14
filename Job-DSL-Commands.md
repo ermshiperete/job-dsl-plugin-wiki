@@ -129,6 +129,7 @@ job(attributes) {
         grails(targetsArg, grailsClosure)
         grails(targetsArg, useWrapperArg, grailsClosure)
         prerequisite(projectList, warningOnlyBool) // Since 1.19
+        downstreamParameterized(downstreamClosure) // See [[Job Reference]] for downstreamClosure syntax
     }
     publishers {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
