@@ -128,6 +128,27 @@ authorization {
 }
 ```
 
+## [Throttle Concurrent Builds](https://wiki.jenkins-ci.org/display/JENKINS/Throttle+Concurrent+Builds+Plugin)
+
+```groovy
+job {
+    // Throttle one job on its own
+    throttleConcurrentBuilds {
+        maxPerNode 1
+        maxTotal 2
+    }
+}
+```
+
+```groovy
+job {
+    // Throttle as part of a category
+    throttleConcurrentBuilds {
+        categories(['cat-1'])
+    }
+}
+```
+
 
 # Maven
 
