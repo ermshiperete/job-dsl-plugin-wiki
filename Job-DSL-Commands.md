@@ -108,6 +108,7 @@ job(attributes) {
         timestamps()
         colorizeOutput()
         xvnc(takeScreenshot = false)
+        throttleConcurrentBuilds(throttleClosure)
     }
     steps {
         shell(String commandStr)
