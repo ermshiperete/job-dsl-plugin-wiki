@@ -11,6 +11,7 @@ There is a great load of information on [the forum](https://groups.google.com/fo
 And finally, if you want to get more involved, [[here's how... | Contributing to the job dsl plugin Project]]
 
 ## Release Notes
+* 1.20 - Some implementation classes have been moved to avoid problems with Groovy closures (**BREAKING CHANGE**, see [[Migration]])
 * 1.20 - [Parameterized Trigger Plugin for build steps](https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin)
 * 1.20 - [Associated Files Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Associated+Files+Plugin)
 * 1.20 - [JSHint Checkstyle Plugin](https://wiki.jenkins-ci.org/display/JENKINS/JSHint+Checkstyle+Plugin)
