@@ -68,6 +68,7 @@ job(attributes) {
     environmentVariables(vars)
     environmentVariables(closure) // See [[Job Reference]] for details of EnvironmentVariablesContext
     priority(value)
+    throttleConcurrentBuilds(throttleClosure)
     authorization {
         permission(permissionStr) // e.g. hudson.model.Item.Workspace:authenticated
         permission(String permEnumName, String user)
@@ -108,7 +109,6 @@ job(attributes) {
         timestamps()
         colorizeOutput()
         xvnc(takeScreenshot = false)
-        throttleConcurrentBuilds(throttleClosure)
     }
     steps {
         shell(String commandStr)
