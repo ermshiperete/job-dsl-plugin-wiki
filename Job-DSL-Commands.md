@@ -136,6 +136,7 @@ job(attributes) {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
         mailer(recipients, dontNotifyEveryUnstableBuild, sendToIndividuals)
         archiveArtifacts(glob, excludeGlob, latestOnlyBoolean)
+        archiveArtifacts(archiveArtifactsClosure) // Since 1.20, // See [[Job Reference]] for archiveArtifactsClosure syntax
         archiveJunit(glob, retainLongStdout, allowClaimingOfFailedTests, publishTestAttachments)
         publishHtml {
             report(reportDir, reportName, reportFiles, keepAll)
