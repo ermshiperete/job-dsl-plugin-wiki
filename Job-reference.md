@@ -1246,6 +1246,17 @@ publishers {
 }
 ```
 
+Since 1.20, an alternate form is also acceptable:
+
+```groovy
+archiveArtifacts {
+    pattern(String pattern)
+    exclude(String excludePattern = '')
+    allowEmpty(bool allowEmpty = true) // Will be false if function is not called
+    latestOnly(bool latestOnly = true) // Will be false if function is not called.
+}
+```
+
 ## Fingerprint / KeepDependencies
 ```groovy
 fingerprint(String targets, boolean recordBuildArtifacts = false)
