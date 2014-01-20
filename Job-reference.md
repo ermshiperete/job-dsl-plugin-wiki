@@ -285,6 +285,7 @@ git {
     branches(String... names)
     mergeOptions(String remote = null, String branch) // optional
     skipTag(boolean skipTag) // optional, defaults to false
+    clean(boolean clean) // optional, defaults to false
     wipeOutWorkspace(boolean wipeOutWorkspace) // optional, defaults to false
     remotePoll(boolean remotePoll) // optional, defaults to false
     shallowClone(boolean shallowClone) // optional, defaults to false
