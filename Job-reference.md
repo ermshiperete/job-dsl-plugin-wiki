@@ -1198,6 +1198,7 @@ conditionalSteps {
         cause(String buildCause, boolean exclusiveCondition) // Run if the build cause matches the given string
         expression(String expression, String label) // Run if the regular expression matches the label
         time(String earliest, String latest, boolean useBuildTime) // Run if the current (or build) time is between the given dates.
+        status(String worstResult, String bestResult) // Run if worstResult <= (current build status) <= bestResult
     }
     runner(String runner) // How to evaluate the results of a failure in the conditional step
     (one or more build steps)
