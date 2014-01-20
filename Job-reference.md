@@ -1185,6 +1185,59 @@ steps {
 
 (since 1.20)
 
+## [Conditional BuildStep Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Conditional+BuildStep+Plugin)
+
+```groovy
+conditionalSteps {
+    condition {
+        // Only one condition is allowed.
+        alwaysRun() // Run no matter what
+        neverRun() // Never run
+        booleanCondition(String token) // Run if the token evaluates to true.
+        stringsMatch(String arg1, String arg2, boolean ignoreCase) // Run if the two strings match
+        cause(String buildCause, boolean exclusiveCondition) // Run if the build cause matches the given string
+        expression(String expression, String label) // Run if the regular expression matches the label
+        time(String earliest, String latest, boolean useBuildTime) // Run if the current (or build) time is between the given dates.
+    }
+    runner(String runner) // How to evaluate the results of a failure in the conditional step
+    (one or more build steps)
+}
+```
+
+See the [Run Condition Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Run+Condition+Plugin) for details on the run conditions - note that not all run conditions supported by the Run Condition Plugin are supported here yet.
+
+The runner can be any one of "Fail", "Unstable", "RunUnstable", "Run", "DontRun".
+
+Examples:
+```groovy
+steps {
+    conditionalSteps {
+        condition {
+            stringsMatch('${SOME_PARAMETER}', 'pants', false)
+        }
+        runner("Fail")
+        shell("echo 'just one step')
+    }
+}
+```
+
+```groovy
+steps {
+    conditionalSteps {
+        condition {
+            time("9:00", "13:00", false)
+        }
+        runner("Unstable")
+        shell("echo 'a first step')
+        ant('build') {
+            target 'test'
+        }
+    }
+}
+```
+
+(Since 1.20)
+
 # Publishers
 
 Block to contain list of publishers.
