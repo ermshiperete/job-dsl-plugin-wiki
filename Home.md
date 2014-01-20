@@ -11,14 +11,14 @@ There is a great load of information on [the forum](https://groups.google.com/fo
 And finally, if you want to get more involved, [[here's how... | Contributing to the job dsl plugin Project]]
 
 ## Release Notes
-* 1.20 - [Added allowEmpty option to archiveArtifacts](Job-reference#archive-artifacts)
+* 1.20 - [Added allowEmpty option to archiveArtifacts](wiki/Job-reference#archive-artifacts)
 * 1.20 - [Throttle Concurrent Builds Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Throttle+Concurrent+Builds+Plugin)
 * 1.20 - Some implementation classes have been moved to avoid problems with Groovy closures (**BREAKING CHANGE**, see [[Migration]])
 * 1.20 - [Parameterized Trigger Plugin for build steps](https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin)
 * 1.20 - [Associated Files Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Associated+Files+Plugin)
 * 1.20 - [JSHint Checkstyle Plugin](https://wiki.jenkins-ci.org/display/JENKINS/JSHint+Checkstyle+Plugin)
 * 1.20 - [Emma Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Emma+Plugin)
-* 1.20 - [Added support for advanced Git SCM options](Job-reference#git)
+* 1.20 - [Added support for advanced Git SCM options](wiki/Job-reference#git)
 * 1.20 - [Added ItemDiscover, ItemCancel, and ScmTag permissions to the Permissions enum](https://github.com/jenkinsci/job-dsl-plugin/pull/97)
 * 1.19 - [Javadoc Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Javadoc+Plugin)
 * 1.19 - Added support to allow seed jobs in folders. [#109](https://github.com/jenkinsci/job-dsl-plugin/pull/109)
