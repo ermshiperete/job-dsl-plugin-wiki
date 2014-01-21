@@ -65,6 +65,8 @@ job(attributes) {
     perModuleEmail(shouldSendEmailPerModule)
     archivingDisabled(shouldDisableArchiving)
     runHeadless(shouldRunHeadless)
+    preBuildSteps(mavenPreBuildStepsClosure)
+    postBuildSteps(mavenPostBuildStepsClosure)
     environmentVariables(vars)
     environmentVariables(closure) // See [[Job Reference]] for details of EnvironmentVariablesContext
     priority(value)
