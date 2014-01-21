@@ -224,6 +224,28 @@ runHeadless(boolean shouldRunHeadless)
 
 Specifiy this to run the build in headless mode if desktop access is not required. Headless mode is not enabled by default.
 
+## Maven Pre and Post Build Steps
+```groovy
+preBuildSteps(Closure mavenPreBuildClosure)
+postBuildSteps(Closure mavenPostBuildClosure)
+```
+
+For Maven jobs, you can also run arbitrary build steps before and after the Maven execution. Note that this can only be used with Maven jobs.
+
+Examples:
+```groovy
+job(type: 'Maven') {
+  preBuildSteps {
+    shell("echo 'run before Maven'")
+  }
+  postBuildSteps {
+    shell("echo 'run after Maven'")
+  }
+}
+```
+
+(since 1.20)
+
 ## Environment Variables
 ```groovy
 environmentVariables(Map<Object,Object> vars, Closure envClosure = null)
