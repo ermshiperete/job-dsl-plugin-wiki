@@ -61,6 +61,7 @@ job(attributes) {
     rootPOM(rootPOMStr)
     goals(goalsStr)
     mavenOpts(mavenOptsStr)
+    mavenInstallation(name) // since 1.20
     localRepository(location)
     perModuleEmail(shouldSendEmailPerModule)
     archivingDisabled(shouldDisableArchiving)
@@ -117,6 +118,7 @@ job(attributes) {
         batchFile(String commandStr)
         gradle(tasksArg, switchesArg, useWrapperArg) {}
         maven(targetsArg, pomArg) {}
+        maven {} // since 1.20, see [[JobReference]]
         sbt(sbtNameArg, actionsArg, sbtFlagsArg, jvmFlagsArg, subdirPathArg) {} // See [[Job Reference]] for details
         ant(targetsArg, buildFileArg, antInstallation, antClosure) // See [[Job Reference]] for antClosure syntax
         copyArtifacts(jobName, includeGlob, targetPath, flattenFiles, optionalAllowed, copyArtifactClosure) // See [[Job Reference]] for copyArtifactClosure syntax
