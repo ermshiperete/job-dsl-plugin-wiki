@@ -152,7 +152,7 @@ job {
 
 # Maven
 
-The 'rootPOM', 'goals', 'mavenOpts', 'perModuleEmail', 'archivingDisabled' and 'runHeadless' methods can only be used in jobs with type 'maven'.
+The 'rootPOM', 'goals', 'mavenOpts', 'mavenInstallation', 'perModuleEmail', 'archivingDisabled', 'runHeadless', 'preBuildSteps' and 'postBuildSteps' methods can only be used in jobs with type 'Maven'.
 
 ## Root POM
 ```groovy
@@ -188,6 +188,15 @@ mavenOpts(String mavenOpts)
 ```
 
 The JVM options to be used when starting Maven. When specified multiple times, the options will be concatenated.
+
+## Maven Installation
+```groovy
+mavenInstallation(String name)
+```
+
+Refers to the pull down box in the UI to select which installation of Maven to use, specify the exact string seen in the UI. The last call will be the one used.
+
+(since 1.20)
 
 ## Isolated Local Maven Repository
 
@@ -871,9 +880,35 @@ Runs Gradle, defaulting to the Gradle Wrapper. Configure block is handed a hudso
 ## Maven
 ```groovy
 maven(String targetsArg = null, String pomArg = null, Closure configure = null)
+
+maven {                                               // since 1.20; all methods are optional
+    goals(String goals)                               // the goals to run, multiple calls will be accumulated
+    rootPOM(String fileName)                          // path to the POM
+    mavenOpts(String options)                         // JVM options, multiple calls will be accumulated
+    localRepository(LocalRepositoryLocation location) // can be either LocalToWorkspace or LocalToExecutor (default)
+    mavenInstallation(String name)                    // name of the Maven installation to use
+    configure(Closure configure)                      // configure block
+}
 ```
 
 Runs Apache Maven. Configure block is handed hudson.tasks.Maven.
+
+Examples:
+
+```groovy
+maven('verify')
+
+maven('clean verify', 'module-a/pom.xml')
+
+maven {
+    goals('clean')
+    goals('verify')
+    mavenOpts('-Xms256m')
+    mavenOpts('-Xmx512m')
+    localRepository(LocalToWorkspace)
+    mavenInstallation('Maven 3.1.1')
+}
+```
 
 ## Ant
 ```groovy
