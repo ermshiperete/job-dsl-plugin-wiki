@@ -1329,8 +1329,8 @@ Since 1.20, an alternate form is also acceptable:
 archiveArtifacts {
     pattern(String pattern)
     exclude(String excludePattern = '')
-    allowEmpty(bool allowEmpty = true) // Will be false if function is not called
     latestOnly(bool latestOnly = true) // Will be false if function is not called.
+    allowEmpty(bool allowEmpty = true) // Will be false if function is not called. Note: not available with jenkins <= 1.480
 }
 ```
 
