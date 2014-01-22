@@ -315,11 +315,11 @@ git {
     branch(String name) // branch names are accumulated, defaults to **
     branches(String... names)
     mergeOptions(String remote = null, String branch) // optional
-    skipTag(boolean skipTag) // optional, defaults to false
-    clean(boolean clean) // optional, defaults to false
-    wipeOutWorkspace(boolean wipeOutWorkspace) // optional, defaults to false
-    remotePoll(boolean remotePoll) // optional, defaults to false
-    shallowClone(boolean shallowClone) // optional, defaults to false
+    skipTag(boolean skipTag = true) // optional, defaults to false
+    clean(boolean clean = true) // optional, defaults to false
+    wipeOutWorkspace(boolean wipeOutWorkspace = true) // optional, defaults to false
+    remotePoll(boolean remotePoll = true) // optional, defaults to false
+    shallowClone(boolean shallowClone = true) // optional, defaults to false
     relativeTargetDir(String relativeTargetDir) // optional
     reference(String reference) // optional
     configure(Closure configure) // optional
@@ -334,7 +334,7 @@ The GitHub variants will derive the Git URL from the ownerAndProject, protocol a
 
 The Git plugin has a lot of configurable options, which are currently not all supported by the DSL. A  configure block can be used to add more options.
 
-Version 2.0 or later of the Git Plugin is required to use Jenkins managed credentials for Git authentication. The arguments for the credentials method is the description field or the UUID generated from Jenkins | Manage Jenkins | Manage Credentials. The easiest way to find this value, is to navigate Jenkins | Credentials | Global credentials | (Key Name). The look at the description in parenthesis or using the UUID in the URL.
+Version 2.0 or later of the Git Plugin is required to use Jenkins managed credentials for Git authentication. The arguments for the credentials method is the description field or the UUID generated from Jenkins | Manage Jenkins | Manage Credentials. The easiest way to find this value, is to navigate Jenkins | Credentials | Global credentials | (Key Name). Then look at the description in parenthesis or using the UUID in the URL.
 
 Examples:
 
@@ -345,7 +345,7 @@ git {
         name('remoteB')
         url('git@server:account/repo1.git')      
     }
-    clean(true)
+    clean()
     relativeTargetDir('repo1')
 }
 ```
