@@ -179,12 +179,12 @@ job(attributes) {
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
-	listTagsParam(parameterName, scmUrl, tagFilterRegex, sortNewestFirst, sortZtoA, maxTagsToDisplay, defaultValue, description)
-	choiceParam(parameterName, options, description)
-	fileParam(fileLocation, description)
-	runParam(parameterName, jobToRun, description, filter)
-	stringParam(parameterName, defaultValue, description)
-	textParam(parameterName, defaultValue, description)
+        listTagsParam(parameterName, scmUrl, tagFilterRegex, sortNewestFirst, sortZtoA, maxTagsToDisplay, defaultValue, description)
+        choiceParam(parameterName, options, description)
+        fileParam(fileLocation, description)
+        runParam(parameterName, jobToRun, description, filter)
+        stringParam(parameterName, defaultValue, description)
+        textParam(parameterName, defaultValue, description)
     }
 }
 ```
