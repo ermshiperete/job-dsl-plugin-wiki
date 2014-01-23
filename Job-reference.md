@@ -308,24 +308,28 @@ git {
     remote { // can be repeated to add multiple remotes
         name(String name) // optional
         url(String url) // use either url or github
-        github(String ownerAndProject, String protocol = "https", String host = "github.com") // will also set the browser and GitHub property
+        github(String ownerAndProject, String protocol = "https", String host = "github.com") // will also set the browser
+                                                                                              // and GitHub property
         refspec(String refspec) // optional
         credentials(String credentials) // optional
     }
-    branch(String name) // branch names are accumulated, defaults to **
+    branch(String name) // the branches to build, multiple calls are accumulated, defaults to **
     branches(String... names)
-    mergeOptions(String remote = null, String branch) // optional
-    skipTag(boolean skipTag = true) // optional, defaults to false
-    clean(boolean clean = true) // optional, defaults to false
-    wipeOutWorkspace(boolean wipeOutWorkspace = true) // optional, defaults to false
-    remotePoll(boolean remotePoll = true) // optional, defaults to false
-    shallowClone(boolean shallowClone = true) // optional, defaults to false
-    relativeTargetDir(String relativeTargetDir) // optional
-    reference(String reference) // optional
-    configure(Closure configure) // optional
+    mergeOptions(String remote = null, String branch) // merge a branch before building, optional
+    createTag(boolean createTag = true) // create a tag for every build, optional, defaults to false
+    clean(boolean clean = true) // clean after checkout, optional, defaults to false
+    wipeOutWorkspace(boolean wipeOutWorkspace = true) // wipe out workspace and force clone, optional, defaults to false
+    remotePoll(boolean remotePoll = true) // force polling using workspace, optional, defaults to false
+    shallowClone(boolean shallowClone = true) // perform shallow clone, optional, defaults to false
+    relativeTargetDir(String relativeTargetDir) // checkout to a sub-directory, optional
+    reference(String reference) // path to a reference repository, optional
+    configure(Closure configure) // optional configure block, the GitSCM node is passed in 
 }
+
 git(String url, String branch = null, Closure configure = null)
-github(String ownerAndProject, String branch = null, String protocol = 'https', String host = 'github.com', Closure configure = null)
+
+github(String ownerAndProject, String branch = null, String protocol = 'https',
+       String host = 'github.com', Closure configure = null)
 ```
 
 Adds a Git SCM source. The first variant can be used for advanced configuration (since 1.20), the other two variants are shortcuts for simpler Git SCM configurations.
