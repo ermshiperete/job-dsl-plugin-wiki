@@ -2034,6 +2034,29 @@ associatedFiles(String associatedFilesPattern)
 
 (since 1.20)
 
+## Robot Framework Reports
+
+Supports [Robot Framework Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Robot+Framework+Plugin) to publish the reports from Robot Framework execution:  
+
+```groovy
+publishRobotFrameworkReports(Closure closure = null)
+``` 
+
+If no `closure` is provided, default values will be used that are based on [Jenkins Robot Framework plugin](https://github.com/jenkinsci/robot-plugin/blob/master/src/main/java/hudson/plugins/robot/RobotPublisher.java). The following properties can configured using the closure:
+
+```groovy
+publishRobotFrameworkReports {
+    passThreshold(Double)     // A double value in range (0.0, 100.0). The default is 100.0.
+    unstableThreshold(Double) // A double value in range (0.0, 100.0). The default is 0.0.
+    onlyCritical(Boolean)     // A boolean value. The default is false
+    outputPath(String)        // The path to the reports. The default is 'target/robotframework-reports'.
+    reportFileName(String)    // The name of the report file. The default is 'report.html'.
+    logFileName(String)       // The name of the log file. The default is 'log.html'.
+    outputFileName(String)    // The name of the output file. The default is 'output.xml'.
+}
+```
+(Since 1.21)
+
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
 _Note: The Password Parameter is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141_
