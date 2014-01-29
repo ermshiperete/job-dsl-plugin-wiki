@@ -176,6 +176,7 @@ job(attributes) {
         emma(coverageFile, closure) // See [[Job Reference]] for closure syntax, since 1.20
         jshint(pattern, staticAnalysisClosure = null) // See [[Job Reference]] for staticAnalysisClosure syntax, since 1.20
         associatedFiles(String files = null) // since 1.21
+        publishRobotFrameworkReports(Closure closure = null) // Since 1.21. See [[Job Reference]] for the closure syntax
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
