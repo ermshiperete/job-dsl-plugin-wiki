@@ -112,6 +112,7 @@ job(attributes) {
         timestamps()
         colorizeOutput()
         xvnc(takeScreenshot = false)
+        toolenv(String.. tools)
     }
     steps {
         shell(String commandStr)
