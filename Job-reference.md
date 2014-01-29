@@ -855,6 +855,20 @@ This plugin lets you run an Xvnc session during a build. This is handy if your b
 
 (Since 1.19)
 
+## [Tool Environment](https://wiki.jenkins-ci.org/display/JENKINS/Tool+Environment+Plugin)
+
+```groovy
+job {
+  wrappers {
+    toolenv("Ant 1.8.2", "Maven 3.1")
+  }
+}
+```
+
+Downloads the specified tools, if needed, and puts the path to each of them in the build's environment.
+
+(since 1.21)
+
 # Build Steps
 
 Adds step block to contain an ordered list of build steps. Cannot be used for jobs with type 'maven'.
