@@ -2078,6 +2078,13 @@ publishRobotFrameworkReports {
     onlyCritical(true)
 }
 ```
+
+Or to use the default configurations with the plugin:
+
+```groovy
+publishRobotFrameworkReports()
+```
+
 (Since 1.21)
 
 # Parameters
