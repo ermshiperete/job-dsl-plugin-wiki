@@ -11,6 +11,7 @@ There is a great load of information on [the forum](https://groups.google.com/fo
 And finally, if you want to get more involved, [[here's how... | Contributing to the job dsl plugin Project]]
 
 ## Release Notes
+* 1.21 - [Publish Robot Framework reports](wiki/Job-reference#wiki-robot-framework-reports)
 * 1.21 - Templates within folders can be used
 * 1.21 - [Tool Environment Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Tool+Environment+Plugin)
 * 1.20 - [Allow to set the Maven installation](wiki/Job-reference#maven-installation)
