@@ -2060,13 +2060,22 @@ If no `closure` is provided, default values will be used that are based on [Jenk
 
 ```groovy
 publishRobotFrameworkReports {
-    passThreshold(Double)     // A double value in range (0.0, 100.0). The default is 100.0.
-    unstableThreshold(Double) // A double value in range (0.0, 100.0). The default is 0.0.
-    onlyCritical(Boolean)     // A boolean value. The default is false
+    passThreshold(double)     // A double value in range (0.0, 100.0). The default is 100.0.
+    unstableThreshold(double) // A double value in range (0.0, 100.0). The default is 0.0.
+    onlyCritical(boolean)     // A boolean value. The default is false
     outputPath(String)        // The path to the reports. The default is 'target/robotframework-reports'.
     reportFileName(String)    // The name of the report file. The default is 'report.html'.
     logFileName(String)       // The name of the log file. The default is 'log.html'.
     outputFileName(String)    // The name of the output file. The default is 'output.xml'.
+}
+```
+
+For example, to mark a build status with more relaxed threshold values and only on the critical test cases from Robot Framework:
+
+```groovy
+publishRobotFrameworkReports {
+    passThreshold(90.0)
+    onlyCritical(true)
 }
 ```
 (Since 1.21)
