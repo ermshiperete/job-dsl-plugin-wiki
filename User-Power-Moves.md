@@ -109,3 +109,7 @@ configure { project ->
 }
 ```
 But note, this will only work if the BuildFlow project type uses the same sub-elements as the free style project type. If this is not the case, you need to modify the root node further and things will get even uglier. (Hint, you can use configure)
+
+# Use DSL scripts in a Gradle project
+
+Gradle provides a way to build and test your scripts and supporting classes. See [job-dsl-gradle-example](https://github.com/sheehan/job-dsl-gradle-example) for an example.
