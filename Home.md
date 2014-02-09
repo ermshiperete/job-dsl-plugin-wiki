@@ -8,7 +8,7 @@ If you want to get fancy you'll want to read up on the _configure_ block which g
 
 There is a great load of information on [the forum](https://groups.google.com/forum/#!forum/job-dsl-plugin), but some stuff is also making its way into a [[FAQ|Frequently Asked Questions]].
 
-And finally, if you want to get more involved, [[here's how... | Contributing to the job dsl plugin Project]]
+And finally, if you want to get more involved, [here's how...](https://github.com/jenkinsci/job-dsl-plugin/blob/master/CONTRIBUTING.md)
 
 ## Release Notes
 * 1.21 - [Publish Robot Framework reports](wiki/Job-reference#wiki-robot-framework-reports)
