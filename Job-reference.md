@@ -2099,6 +2099,8 @@ Add a manual triggers for jobs that require intervention prior to execution, e.g
 buildPipelineTrigger('deploy-cluster-1, deploy-cluster-2')
 ```
 
+(Since 1.21)
+
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
 _Note: The Password Parameter is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141_
