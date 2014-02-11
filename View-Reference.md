@@ -6,8 +6,8 @@ This is the in-depth documentation of the methods available on inside the _view_
 view(type: ListView) {  // since 1.21
     name(String name)
     description(String description)
-    filterBuildQueue(boolean filterBuildQueue)
-    filterExecutors(boolean filterExecutors)
+    filterBuildQueue(boolean filterBuildQueue = true)
+    filterExecutors(boolean filterExecutors = true)
     statusFilter(StatusFilter filter)
     jobs {
         name(String jobName)
