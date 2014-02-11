@@ -2087,6 +2087,18 @@ publishRobotFrameworkReports()
 
 (Since 1.21)
 
+## Build Pipeline Trigger
+
+```groovy
+buildPipelineTrigger(String downstreamProjectNames)
+```
+
+Add a manual triggers for jobs that require intervention prior to execution, e.g. an approval process outside of Jenkins. The argument takes a comma separated list of job names. Requires the [Build Pipeline Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Build+Pipeline+Plugin).
+
+```groovy
+buildPipelineTrigger('deploy-cluster-1, deploy-cluster-2')
+```
+
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
 _Note: The Password Parameter is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141_
