@@ -11,6 +11,7 @@ There is a great load of information on [the forum](https://groups.google.com/fo
 And finally, if you want to get more involved, [here's how...](https://github.com/jenkinsci/job-dsl-plugin/blob/master/CONTRIBUTING.md)
 
 ## Release Notes
+* 1.21 - [Views](wiki/Job-DSL-Commands#wiki-view)
 * 1.21 - [Publish Robot Framework reports](wiki/Job-reference#wiki-robot-framework-reports)
 * 1.21 - Templates within folders can be used
 * 1.21 - [Tool Environment Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Tool+Environment+Plugin)
