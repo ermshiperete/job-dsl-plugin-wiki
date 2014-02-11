@@ -1,4 +1,4 @@
-### Please see the [[Job Reference]] page for the full details of the _job_ component.
+### Please see the [[Job Reference]] page for the full details of the _job_ component and the [[View Reference]] page for details about the _view_ methods.
 
 # Job Factory
 The DSL execution engine exposes only one method, called 'job'. This 'job' method implies the creation of a Jenkins job and the closure to this method then further exposed some methods where things get interesting. See the later sections to learn the specific available methods available, for when a DSL helper method isn't available, look to the [configure block](The Configure Block). Below is the simplest job possible:
@@ -190,7 +190,7 @@ job(attributes) {
     }
 }
 
-view(attributes) {  // since 1.21
+view(attributes) {  // since 1.21, see [[View Reference]]
     name(nameStr)
     description(descriptionStr)
     filterBuildQueue(filterBuildQueueBool)
@@ -259,7 +259,7 @@ view(type: ListView) {
 }
 ```
 
-Please see the [[Job Reference]] page for details.
+Please see the [[View Reference]] page for details.
 
 # Queue
 
