@@ -1,5 +1,54 @@
 This is the in-depth documentation of the methods available on inside the _view_ part of the DSL.
 
+## ListView
+
+```groovy
+view(type: ListView) {  // since 1.21
+    name(String name)
+    description(String description)
+    filterBuildQueue(boolean filterBuildQueue)
+    filterExecutors(boolean filterExecutors)
+    statusFilter(StatusFilter filter)
+    jobs {
+        name(String jobName)
+        names(String... jobNames)
+        regex(String regex)
+    }
+    columns {
+        status()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+        buildButton()
+    }
+    configure(Closure configureBlock)
+}
+```
+
+Create a view which shows jobs in a list format. Details about the options can be found below.
+
+```groovy
+view(type: ListView) {
+  name('project-A')
+  description('All jobs for project A')
+  jobs {
+    name('release-projectA')
+    regex('project-A-.+')
+  }
+  columns {
+    status()
+    weather()
+    name()
+    lastSuccess()
+    lastFailure()
+    lastDuration()
+    buildButton()
+  }
+}
+```
+
 ## Name
 
 ```groovy
