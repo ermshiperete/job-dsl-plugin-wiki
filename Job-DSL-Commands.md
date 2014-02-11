@@ -178,6 +178,7 @@ job(attributes) {
         jshint(pattern, staticAnalysisClosure = null) // See [[Job Reference]] for staticAnalysisClosure syntax, since 1.20
         associatedFiles(String files = null) // since 1.21
         publishRobotFrameworkReports(Closure closure = null) // Since 1.21. See [[Job Reference]] for the closure syntax
+        buildPipelineTrigger(downstreamProjectNames) // since 1.21
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
@@ -195,6 +196,9 @@ view(attributes) {  // since 1.21, see [[View Reference]]
     description(descriptionStr)
     filterBuildQueue(filterBuildQueueBool)
     filterExecutors(filterExecutorsBool)
+    configure(configBlock)
+
+    // ListView options
     statusFilter(filter)
     jobs {
         name(jobName)
@@ -210,7 +214,17 @@ view(attributes) {  // since 1.21, see [[View Reference]]
         lastDuration()
         buildButton()
     }
-    configure(configBlock)
+
+    // BuildPipelineView options
+    displayedBuilds(noOfDisplayedBuilds)
+    title(pipelineTitle)
+    selectedJob(rootJob)
+    triggerOnlyLatestJob(triggerOnlyLatestJobBool)
+    alwaysAllowManualTrigger(alwaysAllowManualTriggerBool)
+    showPipelineParameters(showPipelineParametersBool)
+    showPipelineParametersInHeaders(showPipelineParametersInHeadersBool)
+    refreshFrequency(seconds)
+    showPipelineDefinitionHeader(showPipelineDefinitionHeaderBool)
 }
 ```
 
