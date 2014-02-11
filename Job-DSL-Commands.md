@@ -189,6 +189,29 @@ job(attributes) {
         textParam(parameterName, defaultValue, description)
     }
 }
+
+view(attributes) {  // since 1.21
+    name(nameStr)
+    description(descriptionStr)
+    filterBuildQueue(filterBuildQueueBool)
+    filterExecutors(filterExecutorsBool)
+    statusFilter(filter)
+    jobs {
+        name(jobName)
+        names(jobNames)
+        regex(regex)
+    }
+    columns {
+        status()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+        buildButton()
+    }
+    configure(configBlock)
+}
 ```
 
 The plugin tries to provide DSL methods to cover "common use case" scenarios as simple method calls. When these methods fail you, you can always generate the XML yourself via the [configure block](The Configure Block). Sometimes, a DSL method will provide a configure block of its own, which will set the a good context to help modify a few fields.  This gives native access to the Job config XML, which is typically very straight forward to understand.
@@ -220,6 +243,23 @@ job(type: Maven) {
 ```
 
 Please see the [[Job Reference]] page for details to the _job_ component.
+
+# View
+```groovy
+view(Map<String, Object> attributes=[:], Closure closure)
+```
+
+The view method behaves like the job method explained above and will return a _View_ object.
+
+Currently only a 'type' attribute with value of 'ListView' is supported. When no type attribute is specified, a list view will be generated.
+
+```groovy
+view(type: ListView) {
+  name 'project-view'
+}
+```
+
+Please see the [[Job Reference]] page for details.
 
 # Queue
 
