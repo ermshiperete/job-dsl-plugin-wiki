@@ -27,25 +27,27 @@ view(type: ListView) {  // since 1.21
 }
 ```
 
-Create a view which shows jobs in a list format. Details about the options can be found below.
+Create a view which shows jobs in a list format. Details about the options can be found below. Similar to jobs, the view DSL can be extended using a [[configure block|The Configure Block]].
 
 ```groovy
 view(type: ListView) {
-  name('project-A')
-  description('All jobs for project A')
-  jobs {
-    name('release-projectA')
-    regex('project-A-.+')
-  }
-  columns {
-    status()
-    weather()
-    name()
-    lastSuccess()
-    lastFailure()
-    lastDuration()
-    buildButton()
-  }
+    name('project-A')
+    description('All jobs for project A')
+    filterBuildQueue()
+    filterExecutors()
+    jobs {
+        name('release-projectA')
+        regex('project-A-.+')
+    }
+    columns {
+        status()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+        buildButton()
+    }
 }
 ```
 
@@ -76,25 +78,25 @@ description('lorem ipsum')
 ## Filter Build Queue
 
 ```groovy
-filterBuildQueue(boolean filterBuildQueue)
+filterBuildQueue(boolean filterBuildQueue = true)
 ```
 
 If set to `true`. only jobs in this view will be shown in the build queue. Defaults to `false` if omitted.
 
 ```groovy
-filterBuildQueue(true)
+filterBuildQueue()
 ```
 
 ## Filter Executors
 
 ```groovy
-filterExecutors(boolean filterExecutors)
+filterExecutors(boolean filterExecutors = true)
 ```
 
 If set to `true`, only those build executors will be shown that could execute the jobs in this view.  Defaults to `false` if omitted.
 
 ```groovy
-filterExecutors(true)
+filterExecutors()
 ```
 
 ## Status Filter
