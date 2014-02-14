@@ -905,6 +905,8 @@ maven {                                               // since 1.20; all methods
     mavenOpts(String options)                         // JVM options, multiple calls will be accumulated
     localRepository(LocalRepositoryLocation location) // can be either LocalToWorkspace or LocalToExecutor (default)
     mavenInstallation(String name)                    // name of the Maven installation to use
+    properties(Map properties)                        // since 1.21; add (system)-properties
+    property(String key, String value)                // since 1.21; add a (system)-property
     configure(Closure configure)                      // configure block
 }
 ```
@@ -924,6 +926,7 @@ maven {
     mavenOpts('-Xms256m')
     mavenOpts('-Xmx512m')
     localRepository(LocalToWorkspace)
+    properties skipTests: true
     mavenInstallation('Maven 3.1.1')
 }
 ```
