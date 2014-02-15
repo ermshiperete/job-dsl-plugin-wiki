@@ -259,9 +259,15 @@ job(type: 'Maven') {
 ```groovy
 environmentVariables(Map<Object,Object> vars, Closure envClosure = null)
 environmentVariables(Closure envClosure) {
+    scriptFile(String filePath)
+    script(String content)
     env(Object key, Object value)
     envs(Map<Object, Object> map) 
     groovy(String groovyScript)
+    propertiesFile(String filePath)
+    loadFilesFromMaster(boolean loadFromMaster)
+    keepSystemVariables(boolean keepSystemVariables)
+    keepBuildVariables(boolean keepBuildVariables)
 }
 ```
 
