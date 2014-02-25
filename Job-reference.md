@@ -875,6 +875,19 @@ Downloads the specified tools, if needed, and puts the path to each of them in t
 
 (since 1.21)
 
+## Environment Variables (Since 1.21)
+```groovy
+environmentVariables(Closure envClosure) {
+    scriptFile(String filePath)
+    script(String content)
+    env(Object key, Object value)
+    envs(Map<Object, Object> map) 
+    propertiesFile(String filePath)
+}
+```
+
+Injects environment variables into the build. Requires the [EnvInject plugin](https://wiki.jenkins-ci.org/display/JENKINS/EnvInject+Plugin).
+
 # Build Steps
 
 Adds step block to contain an ordered list of build steps. Cannot be used for jobs with type 'maven'.
@@ -1140,6 +1153,17 @@ grails(String targets, boolean useWrapper = false, Closure grailsClosure = null)
 ```
 
 Supports the Grails plugin. Only targets field is required. To pass arguments to a particular target, surround the target and its arguments with double quotes.
+
+## Environment Variables (Since 1.21)
+```groovy
+environmentVariables(Closure envClosure) {
+    env(Object key, Object value)
+    envs(Map<Object, Object> map) 
+    propertiesFile(String filePath)
+}
+```
+
+Injects environment variables into the build. Requires the [EnvInject plugin](https://wiki.jenkins-ci.org/display/JENKINS/EnvInject+Plugin).
 
 # Multijob Phase
 
