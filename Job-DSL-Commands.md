@@ -113,6 +113,7 @@ job(attributes) {
         colorizeOutput()
         xvnc(takeScreenshot = false)
         toolenv(String.. tools)
+        environmentVariables(closure) // See [[Job Reference]] for details of EnvironmentVariablesContext
     }
     steps {
         shell(String commandStr)
@@ -137,6 +138,7 @@ job(attributes) {
         prerequisite(projectList, warningOnlyBool) // Since 1.19
         downstreamParameterized(downstreamClosure) // See [[Job Reference]] for downstreamClosure syntax
         conditionalSteps(conditionalClosure) // See [[Job Reference]] for conditionalClosure syntax
+        environmentVariables(closure) // See [[Job Reference]] for details of EnvironmentVariablesContext
     }
     publishers {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
