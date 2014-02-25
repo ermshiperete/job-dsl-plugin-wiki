@@ -258,7 +258,7 @@ job(type: 'Maven') {
 ## Environment Variables
 ```groovy
 environmentVariables(Map<Object,Object> vars, Closure envClosure = null)
-environmentVariables(Closure envClosure) {
+environmentVariables {
     scriptFile(String filePath)
     script(String content)
     env(Object key, Object value)
@@ -877,12 +877,16 @@ Downloads the specified tools, if needed, and puts the path to each of them in t
 
 ## Environment Variables (Since 1.21)
 ```groovy
-environmentVariables(Closure envClosure) {
-    scriptFile(String filePath)
-    script(String content)
-    env(Object key, Object value)
-    envs(Map<Object, Object> map) 
-    propertiesFile(String filePath)
+job {
+  wrappers {
+    environmentVariables {
+      scriptFile(String filePath)
+      script(String content)
+      env(Object key, Object value)
+      envs(Map<Object, Object> map) 
+      propertiesFile(String filePath)
+    }
+  }
 }
 ```
 
@@ -1156,10 +1160,14 @@ Supports the Grails plugin. Only targets field is required. To pass arguments to
 
 ## Environment Variables (Since 1.21)
 ```groovy
-environmentVariables(Closure envClosure) {
-    env(Object key, Object value)
-    envs(Map<Object, Object> map) 
-    propertiesFile(String filePath)
+job {
+  steps {
+    environmentVariables {
+      env(Object key, Object value)
+      envs(Map<Object, Object> map) 
+      propertiesFile(String filePath)
+    }
+  }
 }
 ```
 
