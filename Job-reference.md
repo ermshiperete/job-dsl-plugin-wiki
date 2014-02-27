@@ -153,7 +153,7 @@ job {
 #### Usage
 Insert text into the Build Flow text block. This can only be used in [Build Flow](https://wiki.jenkins-ci.org/display/JENKINS/Build+Flow+Plugin) job types.
 
-    ```buildFlow( <build dsl text, escaped or flat> )```
+```buildFlow( <build dsl text, escaped or flat> )```
 
 Example:
 ```groovy
