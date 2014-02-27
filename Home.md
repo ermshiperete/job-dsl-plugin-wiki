@@ -13,6 +13,7 @@ There is a great load of information on [the forum](https://groups.google.com/fo
 And finally, if you want to get more involved, [here's how...](https://github.com/jenkinsci/job-dsl-plugin/blob/master/CONTRIBUTING.md)
 
 ## Release Notes
+* 1.22 - [Build Flow](https://wiki.jenkins-ci.org/display/JENKINS/Build+Flow+Plugin) job type
 * 1.21 - [Build Pipeline Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Build+Pipeline+Plugin)
 * 1.21 - [Views](wiki/Job-DSL-Commands#wiki-view)
 * 1.21 - [Publish Robot Framework reports](wiki/Job-reference#wiki-robot-framework-reports)
