@@ -149,13 +149,48 @@ job {
 }
 ```
 
-## [Build Flow](https://wiki.jenkins-ci.org/display/JENKINS/Build+Flow+Plugin) (since 1.22)
-Insert text into the Build Flow DSL block. 
+## Build Flow 
+#### Usage
+Insert text into the Build Flow text block. This can only be used in [Build Flow](https://wiki.jenkins-ci.org/display/JENKINS/Build+Flow+Plugin) job types.
+
+    ```buildFlow( <build dsl text, escaped or flat> )```
+
+Example:
 ```groovy
-job (type:'BuildFlow'){
-    buildFlow('build ("job1")')
-    }
+job (type:'BuildFlow') {
+    buildFlow("""  
+        build("job1")
+    """) // triple-quote can be used for retaining groovy style in the embedded dsl
+}
 ```
+
+#### Using job variables in build flow text block.
+
+Using embedded DSL (that is, build flow DSL embedded in job DSL) can create more options when escaping characters. Below are a couple of examples.
+
+**Example** (passing in a variable's value, so the created job has the value in the text of the dsl block):
+
+```groovy
+CUSTOM_VARIABLE = "hello-there"
+job (type:'BuildFlow') {
+    buildFlow('build("${CUSTOM_VARIABLE}")')
+}
+```
+
+The new job will have a build flow text like this: ```build("hello-there")```
+
+**Example** (passing in a variable, so the created job has the *variable* (and not its value)):
+
+```groovy
+CUSTOM_VARIABLE = "hello-there"
+job (type:'BuildFlow') {
+    buildFlow('build("\${CUSTOM_VARIABLE}")')  //escape the dollar sign
+}
+```
+
+The new job will have a build flow text like this: ```build("${CUSTOM_VARIABLE}")```
+
+
 
 # Maven
 
