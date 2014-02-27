@@ -149,6 +149,13 @@ job {
 }
 ```
 
+## [Build Flow](https://wiki.jenkins-ci.org/display/JENKINS/Build+Flow+Plugin) (since 1.22)
+Insert text into the Build Flow DSL block. 
+```groovy
+job (type:'BuildFlow'){
+    buildFlow('build ("job1")')
+    }
+```
 
 # Maven
 
