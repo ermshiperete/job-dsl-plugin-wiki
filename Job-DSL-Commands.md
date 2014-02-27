@@ -72,6 +72,7 @@ job(attributes) {
     environmentVariables(closure) // See [[Job Reference]] for details of EnvironmentVariablesContext
     priority(value)
     throttleConcurrentBuilds(throttleClosure)
+    buildFlow(buildFlowText) // Since 1.22, can only be used on 'BuildFlow' job types. See [[Job Reference]].
     authorization {
         permission(permissionStr) // e.g. hudson.model.Item.Workspace:authenticated
         permission(String permEnumName, String user)
@@ -250,7 +251,7 @@ myJob.with {
 }
 ```
 
-A job can have optional attributes. Currently only a 'type' attribute with value of 'Freeform', 'Maven', 'Multijob' is supported. When no type attribute is specified, a free-style job will be generated. Some methods will only be available in some job types, e.g. phase is meant only in Multijob. Each dsl method should document where they are relevant.
+A job can have optional attributes. Currently only a 'type' attribute with value of 'Freeform', 'Maven', 'Multijob', or 'BuildFlow' is supported. When no type attribute is specified, a free-style job will be generated. Some methods will only be available in some job types, e.g. phase is meant only in Multijob. Each dsl method should document where they are relevant.
 
 ```groovy
 job(type: Maven) {
