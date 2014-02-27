@@ -164,7 +164,7 @@ job (type:'BuildFlow') {
 }
 ```
 
-#### Using job variables in build flow text block.
+#### Using job variables in build flow text block
 
 Using embedded DSL (that is, build flow DSL embedded in job DSL) can create more options when escaping characters. Below are a couple of examples.
 
@@ -190,9 +190,12 @@ job (type:'BuildFlow') {
 
 The new job will have a build flow text like this: ```build("${CUSTOM_VARIABLE}")```
 
-#### Loading build flow text from a file.
+#### Loading build flow text from a file
 The build flow text can also be stored in a file and set in the new job when it's created.
 
+```groovy
+buildFlow(readFileFromWorkspace("my-build-flow-text.groovy"))
+```
 
 
 # Maven
