@@ -190,6 +190,10 @@ job (type:'BuildFlow') {
 
 The new job will have a build flow text like this: ```build("${CUSTOM_VARIABLE}")```
 
+#### Loading build flow text from a file.
+The build flow text can also be stored in a file and set in the new job when it's created.
+
+```buildFlow(readFileFromWorkspace("my-build-flow-text.groovy"))```
 
 
 # Maven
