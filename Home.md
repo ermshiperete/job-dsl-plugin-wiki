@@ -14,6 +14,7 @@ And finally, if you want to get more involved, [here's how...](https://github.co
 
 ## Release Notes
 * 1.22 - [Build Flow](https://wiki.jenkins-ci.org/display/JENKINS/Build+Flow+Plugin) job type
+* 1.21 - [Execute concurrent builds](wiki/Job-reference#wiki-execute-concurrent-builds) job option
 * 1.21 - [Github Commit Notifier](wiki/Job-reference#wiki-github-commit-notifier) publisher
 * 1.21 - [Build Pipeline Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Build+Pipeline+Plugin)
 * 1.21 - [Views](wiki/Job-DSL-Commands#wiki-view)
