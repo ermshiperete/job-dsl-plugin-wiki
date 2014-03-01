@@ -81,6 +81,22 @@ logRotator(int daysToKeepInt = -1, int numToKeepInt = -1, int artifactDaysToKeep
 
 Sets up the number of builds to keep.
 
+## Execute concurrent builds
+```groovy
+concurrentBuild(boolean allowConcurrentBuild = false)
+```
+
+If enabled, Jenkins will schedule and execute multiple builds concurrently (provided that you have sufficient executors and incoming build requests).
+
+```groovy
+job {
+   ...
+   concurrentBuild(true)
+   ...
+}
+``` 
+
+
 ## Custom workspace
 ```groovy
 customWorkspace(String workspacePath)
