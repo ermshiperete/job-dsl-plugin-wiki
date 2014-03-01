@@ -56,6 +56,7 @@ job(attributes) {
     blockOnUpstreamProjects()
     blockOnDownstreamProjects()
     logRotator(daysToKeepInt, numToKeepInt, artifactDaysToKeepInt, artifactNumToKeepInt)
+    concurrentBuild(allowConcurrentBuild) // since 1.21
     jdk(jdkStr)
     keepDependencies(keep)
     rootPOM(rootPOMStr)
