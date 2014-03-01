@@ -182,6 +182,7 @@ job(attributes) {
         associatedFiles(String files = null) // since 1.21
         publishRobotFrameworkReports(Closure closure = null) // Since 1.21. See [[Job Reference]] for the closure syntax
         buildPipelineTrigger(downstreamProjectNames) // since 1.21
+        githubCommitNotifier() // since 1.21
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
