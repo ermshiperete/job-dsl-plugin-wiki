@@ -2190,6 +2190,16 @@ buildPipelineTrigger('deploy-cluster-1, deploy-cluster-2')
 
 (Since 1.21)
 
+## Github Commit Notifier
+
+This publisher sets the build status on a Github commit, using the [Github Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Github+Plugin).
+
+```
+githubCommitNotifier()
+```
+
+(Since 1.21)
+
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
 _Note: The Password Parameter is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141_
