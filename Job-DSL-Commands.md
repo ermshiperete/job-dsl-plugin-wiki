@@ -350,9 +350,6 @@ bealeaj12414
 @sgtcoolguy
 * Publish - Emma
 
-@marcokrikke
-* Publish - Javadoc
-
 ## To Be Designed
 * Publish - DeployPublisher
 * Build - Python
