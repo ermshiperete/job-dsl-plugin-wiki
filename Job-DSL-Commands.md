@@ -220,10 +220,12 @@ view(attributes) {  // since 1.21, see [[View Reference]]
         buildButton()
     }
 
-    // BuildPipelineView options
+    // BuildPipelineView options (requires version 1.4.2)
     displayedBuilds(noOfDisplayedBuilds)
     title(pipelineTitle)
     selectedJob(rootJob)
+    consoleOutputLinkStyle(consoleOutputStyle)
+    cssUrl(url)
     triggerOnlyLatestJob(triggerOnlyLatestJobBool)
     alwaysAllowManualTrigger(alwaysAllowManualTriggerBool)
     showPipelineParameters(showPipelineParametersBool)
