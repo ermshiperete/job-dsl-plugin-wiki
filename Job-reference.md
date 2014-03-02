@@ -83,7 +83,7 @@ Sets up the number of builds to keep.
 
 ## Execute concurrent builds
 ```groovy
-concurrentBuild(boolean allowConcurrentBuild = false)
+concurrentBuild(boolean allowConcurrentBuild = true)
 ```
 
 If enabled, Jenkins will schedule and execute multiple builds concurrently (provided that you have sufficient executors and incoming build requests).
@@ -91,7 +91,7 @@ If enabled, Jenkins will schedule and execute multiple builds concurrently (prov
 ```groovy
 job {
    ...
-   concurrentBuild(true)
+   concurrentBuild()
    ...
 }
 ``` 
