@@ -73,7 +73,7 @@ job(attributes) {
     environmentVariables(closure) // See [[Job Reference]] for details of EnvironmentVariablesContext
     priority(value)
     throttleConcurrentBuilds(throttleClosure)
-    buildFlow(buildFlowText) // Since 1.22, can only be used on 'BuildFlow' job types. See [[Job Reference]].
+    buildFlow(buildFlowText) // Since 1.21, can only be used on 'BuildFlow' job types. See [[Job Reference]].
     authorization {
         permission(permissionStr) // e.g. hudson.model.Item.Workspace:authenticated
         permission(String permEnumName, String user)
