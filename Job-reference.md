@@ -166,10 +166,12 @@ job {
 ```
 
 ## Build Flow 
-#### Usage
-Insert text into the Build Flow text block. This can only be used in [Build Flow](https://wiki.jenkins-ci.org/display/JENKINS/Build+Flow+Plugin) job types.
 
-```buildFlow( <build dsl text, escaped or flat> )```
+```groovy
+buildFlow(String flowDsl)
+```
+
+Insert text into the Build Flow text block. This can only be used in [Build Flow](https://wiki.jenkins-ci.org/display/JENKINS/Build+Flow+Plugin) job types.
 
 Example:
 ```groovy
@@ -179,6 +181,8 @@ job (type:'BuildFlow') {
     """) // triple-quote can be used for retaining groovy style in the embedded dsl
 }
 ```
+
+Since 1.21.
 
 #### Using job variables in build flow text block
 
