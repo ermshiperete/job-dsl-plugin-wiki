@@ -67,6 +67,8 @@ view(type: BuildPipelineView) {  // since 1.21
     // build pipeline view options
     displayedBuilds(int displayedBuilds)
     title(String title)
+    consoleOutputLinkStyle(String consoleOutputLinkStyle)
+    cssUrl(String cssUrl)
     selectedJob(String selectedJob)
     triggerOnlyLatestJob(boolean triggerOnlyLatestJob = true)
     alwaysAllowManualTrigger(boolean alwaysAllowManualTrigger = true)
