@@ -69,7 +69,7 @@ view(type: BuildPipelineView) {  // since 1.21
     title(String title)
    // consoleOutputLinkStyle and cssUrl available in version 1.4.2 of the Build Pipeline Plugin
     consoleOutputLinkStyle(Enum consoleOutputLinkStyle)
-    cssUrl(String cssUrl)
+    customCssUrl(String cssUrl)
     selectedJob(String selectedJob)
     triggerOnlyLatestJob(boolean triggerOnlyLatestJob = true)
     alwaysAllowManualTrigger(boolean alwaysAllowManualTrigger = true)
@@ -234,7 +234,7 @@ Sets a title for the pipeline. Optional.
 title('Project A CI Pipeline')
 ```
 
-### Css Url
+### Console Output Link Style
 
 ```groovy
 consoleOutputLinkStyle(Enum  outputStyle)
