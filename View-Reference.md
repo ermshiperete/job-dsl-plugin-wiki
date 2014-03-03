@@ -234,6 +234,30 @@ Sets a title for the pipeline. Optional.
 title('Project A CI Pipeline')
 ```
 
+### Css Url
+
+```groovy
+consoleOutputLinkStyle(Enum  outputStyle)
+```
+
+Defines the console output style. Options are Lightbox, NewWindow, ThisWindow
+
+```groovy
+consoleOutputLinkStyle(Lightbox)
+```
+
+### Css Url
+
+```groovy
+customCssUrl(String cssUrl)
+```
+
+Sets url for custom CSS files.
+
+```groovy
+customCssUrl('url/to/custom/css/files')
+```
+
 ### Selected Job
 
 ```groovy
