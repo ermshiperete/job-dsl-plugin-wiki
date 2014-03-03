@@ -173,37 +173,36 @@ buildFlow(String flowDsl)
 
 Insert text into the Build Flow text block. This can only be used in [Build Flow](https://wiki.jenkins-ci.org/display/JENKINS/Build+Flow+Plugin) job types.
 
-**Example:**
+Examples:
+
+Triple-quote can be used for retaining Groovy style in the embedded DSL.
+
 ```groovy
-job (type:'BuildFlow') {
+job(type: BuildFlow) {
     buildFlow("""  
         build("job1")
-    """) // triple-quote can be used for retaining groovy style in the embedded dsl
+    """)
 }
 ```
 
-Since 1.21.
-
-#### Using job variables in build flow text block
-
-**Example:**
+Using job variables in build flow text block. The new job will have a build flow text like this: `build("hello-there")`.
 
 ```groovy
 CUSTOM_VARIABLE = "hello-there"
-job (type:'BuildFlow') {
+job(type: BuildFlow) {
     buildFlow('build("${CUSTOM_VARIABLE}")')
 }
 ```
 
-The new job will have a build flow text like this: ```build("hello-there")```
-
-#### Loading build flow text from a file
 The build flow text can also be stored in a file and set in the new job when it's created.
 
 ```groovy
-buildFlow(readFileFromWorkspace("my-build-flow-text.groovy"))
+job(type: BuildFlow) {
+    buildFlow(readFileFromWorkspace("my-build-flow-text.groovy"))
+}
 ```
 
+Since 1.21.
 
 # Maven
 
