@@ -225,7 +225,7 @@ view(attributes) {  // since 1.21, see [[View Reference]]
     title(pipelineTitle)
     selectedJob(rootJob)
     // consoleOutputLinkStyle and cssUrl require 1.4.2 of the Build Pipeline Plugin
-    consoleOutputLinkStyle(consoleOutputStyle)
+    consoleOutputLinkStyle(consoleOutputLinkStyle)
     cssUrl(cssUrl)
     triggerOnlyLatestJob(triggerOnlyLatestJobBool)
     alwaysAllowManualTrigger(alwaysAllowManualTriggerBool)
