@@ -67,6 +67,7 @@ view(type: BuildPipelineView) {  // since 1.21
     // build pipeline view options
     displayedBuilds(int displayedBuilds)
     title(String title)
+   // consoleOutputLinkStyle and cssUrl available in version 1.4.2 of the Build Pipeline Plugin
     consoleOutputLinkStyle(String consoleOutputLinkStyle)
     cssUrl(String cssUrl)
     selectedJob(String selectedJob)
