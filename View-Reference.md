@@ -67,8 +67,8 @@ view(type: BuildPipelineView) {  // since 1.21
     // build pipeline view options
     displayedBuilds(int displayedBuilds)
     title(String title)
-   // consoleOutputLinkStyle and cssUrl available in version 1.4.2 of the Build Pipeline Plugin
-    consoleOutputLinkStyle(Enum consoleOutputLinkStyle)
+    // consoleOutputLinkStyle and customCssUrl available in version 1.4.2 of the Build Pipeline Plugin
+    consoleOutputLinkStyle(OutputStyle consoleOutputLinkStyle)
     customCssUrl(String cssUrl)
     selectedJob(String selectedJob)
     triggerOnlyLatestJob(boolean triggerOnlyLatestJob = true)
@@ -237,22 +237,22 @@ title('Project A CI Pipeline')
 ### Console Output Link Style
 
 ```groovy
-consoleOutputLinkStyle(Enum  outputStyle)
+consoleOutputLinkStyle(OutputStyle outputStyle)
 ```
 
-Defines the console output style. Options are Lightbox, NewWindow, ThisWindow
+Defines the console output style. Options are Lightbox, NewWindow and ThisWindow.
 
 ```groovy
-consoleOutputLinkStyle(Lightbox)
+consoleOutputLinkStyle(OutputStyle.Lightbox)
 ```
 
-### Css Url
+### CSS URL
 
 ```groovy
 customCssUrl(String cssUrl)
 ```
 
-Sets url for custom CSS files.
+Sets a URL for custom CSS files.
 
 ```groovy
 customCssUrl('url/to/custom/css/files')
