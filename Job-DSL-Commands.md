@@ -340,6 +340,10 @@ These are the ones in pipeline, and will be implemented sooner than later. If yo
 * Publish - xUnit
 * Publish - Cobertura, Analysis
 
+@kmarquardsen:
+* wrappers - ArtifactoryGenericConfigurator
+* Publish - PerformancePublisher
+
 @wolfs:
 * Publish - Checkstyle, FindBugs, PMD, CCM, OWASP Dependency Analysis, Compiler Warnings, Android Lint, DRY, Task Scanner
 
