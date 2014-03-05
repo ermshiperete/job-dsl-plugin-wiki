@@ -1779,6 +1779,7 @@ jacocoCodeCoverage {
     maximumLineCoverage '0' 
     maximumMethodCoverage '0' 
     maximumClassCoverage '0'
+    changeBuildStatus false // introduced in 1.21
 }
 ```
 
@@ -1786,6 +1787,8 @@ Simplest usage will output with the defaults above
 ```
 jacocoCodeCoverage()
 ```
+
+`changeBuildStatus` was introduced in 1.21. If not explicitly set, no value will be written to the XML for older Jacoco plugin users. If called with no arguments, it's value will be set to true.
 
 (Since 1.17)
 
