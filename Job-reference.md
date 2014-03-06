@@ -929,7 +929,7 @@ Downloads the specified tools, if needed, and puts the path to each of them in t
 
 (since 1.21)
 
-## Environment Variables (Since 1.21)
+## Environment Variables
 ```groovy
 job {
   wrappers {
@@ -945,6 +945,8 @@ job {
 ```
 
 Injects environment variables into the build. Requires the [EnvInject plugin](https://wiki.jenkins-ci.org/display/JENKINS/EnvInject+Plugin).
+
+(Since 1.21)
 
 # Build Steps
 
@@ -1212,7 +1214,7 @@ grails(String targets, boolean useWrapper = false, Closure grailsClosure = null)
 
 Supports the Grails plugin. Only targets field is required. To pass arguments to a particular target, surround the target and its arguments with double quotes.
 
-## Environment Variables (Since 1.21)
+## Environment Variables
 ```groovy
 job {
   steps {
@@ -1226,6 +1228,8 @@ job {
 ```
 
 Injects environment variables into the build. Requires the [EnvInject plugin](https://wiki.jenkins-ci.org/display/JENKINS/EnvInject+Plugin).
+
+(Since 1.21)
 
 # Multijob Phase
 
@@ -1779,7 +1783,7 @@ jacocoCodeCoverage {
     maximumLineCoverage '0' 
     maximumMethodCoverage '0' 
     maximumClassCoverage '0'
-    changeBuildStatus false // introduced in 1.21
+    changeBuildStatus false // introduced in 1.22
 }
 ```
 
@@ -1788,7 +1792,7 @@ Simplest usage will output with the defaults above
 jacocoCodeCoverage()
 ```
 
-`changeBuildStatus` was introduced in 1.21. If not explicitly set, no value will be written to the XML for older Jacoco plugin users. If called with no arguments, it's value will be set to true.
+`changeBuildStatus` was introduced in 1.22. If not explicitly set, no value will be written to the XML for older Jacoco plugin users. If called with no arguments, it's value will be set to true.
 
 (Since 1.17)
 
