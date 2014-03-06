@@ -1792,7 +1792,7 @@ Simplest usage will output with the defaults above
 jacocoCodeCoverage()
 ```
 
-`changeBuildStatus` was introduced in 1.22. If not explicitly set, no value will be written to the XML for older Jacoco plugin users. If called with no arguments, it's value will be set to true.
+`changeBuildStatus` was introduced in Jenkins Job DSL 1.22 (and in the [Jacoco Code Coverage plugin](https://wiki.jenkins-ci.org/display/JENKINS/JaCoCo+Plugin) as of 10.0.13). If not explicitly set, no value will be written to the XML for older Jacoco plugin users. If called with no arguments, it's value will be set to true.
 
 (Since 1.17)
 
