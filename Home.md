@@ -14,6 +14,7 @@ And finally, if you want to get more involved, [here's how...](https://github.co
 
 ## Release Notes
 * 1.22 (unreleased)
+ * Support for the `changeBuildStatus` element for [Jacoco Code Coverage](wiki/Job-reference#wiki-jacoco) publisher
 * 1.21 (Mar 06 2014)
  * [Build Flow](https://wiki.jenkins-ci.org/display/JENKINS/Build+Flow+Plugin) job type
  * [Execute concurrent builds](wiki/Job-reference#wiki-execute-concurrent-builds) job option
