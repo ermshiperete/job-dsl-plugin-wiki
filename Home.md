@@ -22,7 +22,7 @@ And finally, if you want to get more involved, [here's how...](https://github.co
  * [Publish Robot Framework reports](wiki/Job-reference#wiki-robot-framework-reports)
  * Templates within folders can be used
  * [Tool Environment Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Tool+Environment+Plugin)
-* 1.20
+* 1.20 (Jan 27 2014)
  * [Allow to set the Maven installation](wiki/Job-reference#maven-installation)
  * [Maven step supports more options](wiki/Job-reference#maven-1)
  * [Maven pre/post build steps supported](wiki/Job-reference#maven-pre-and-post-build-steps)
@@ -36,7 +36,7 @@ And finally, if you want to get more involved, [here's how...](https://github.co
  * [Emma Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Emma+Plugin)
  * [Added support for advanced Git SCM options](wiki/Job-reference#git)
  * [Added ItemDiscover, ItemCancel, and ScmTag permissions to the Permissions enum](https://github.com/jenkinsci/job-dsl-plugin/pull/97)
-* 1.19
+* 1.19 (Dec 19 2013)
  * [Javadoc Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Javadoc+Plugin)
  * Added support to allow seed jobs in folders. [#109](https://github.com/jenkinsci/job-dsl-plugin/pull/109)
  * [Groovy Postbuild Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Groovy+Postbuild+Plugin)
