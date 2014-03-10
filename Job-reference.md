@@ -1212,8 +1212,8 @@ copyArtifacts(String jobName, String includeGlob, String targetPath = '', boolea
     latestSuccessful() // Latest successful build
     latestSaved() // Latest saved build (marked "keep forever")
     permalink(String linkName) // Specified by permalink: lastBuild, lastStableBuild
-    buildNumber(int buildNum) // Specific Build
-    buildNumber(String buildNum) // Specific Build
+    buildNumber(int buildNumber) // Specific Build
+    buildNumber(String buildNumber) // Specific Build
     workspace() // Copy from WORKSPACE of latest completed build
     buildParameter(String parameterName) // Specified by build parameter
 }
