@@ -985,38 +985,18 @@ Injects environment variables into the build. Requires the [EnvInject plugin](ht
 ## Release
 ```groovy
 job {
-  wrappers {
-    release {
-      releaseVersionTemplate(String template)
-      doNotKeepLog(boolean keep)
-      overrideBuildParameters(boolean override)
-      parameterDefinitions(Closure parameters) 
-      preBuildSteps(Closure steps) 
-      postSuccessfulBuildSteps(Closure steps) 
-      postBuildSteps(Closure steps) 
-      postFailedBuildSteps(Closure steps)
+    wrappers {
+        release {
+            releaseVersionTemplate(String template)
+            doNotKeepLog(boolean keep = true)
+            overrideBuildParameters(boolean override = true)
+            parameterDefinitions(Closure parameters) 
+            preBuildSteps(Closure steps) 
+            postSuccessfulBuildSteps(Closure steps) 
+            postBuildSteps(Closure steps) 
+            postFailedBuildSteps(Closure steps)
+        }
     }
-  }
-}
-```
-
-Example
-```groovy
-job {
-  ...
-  wrappers {
-    ...
-    release {
-      doNotKeepLog(false)
-      overrideBuildParameters(false)
-      parameterDefinitions {
-         booleanParam('param', 'false', 'some boolean build parameter')
-      }
-      preBuildSteps {
-         shell('echo \'hello\'')
-      }
-    }
-  }
 }
 ```
 
@@ -1025,6 +1005,26 @@ Configure a release inside a Jenkins job. Requires the [Release Plugin](https://
 For details of defining parameters (parameterDefinitions) see [Reference of Parameters](https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-reference#wiki-parameters)
 
 For details of defining steps (preBuildSteps, postSuccessfulBuildSteps, postBuildSteps, postFailedBuildSteps) see [Reference of Build Steps](https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-reference#wiki-build-steps)
+
+Example
+```groovy
+job {
+  ...
+  wrappers {
+    ...
+    release {
+      doNotKeepLog()
+      overrideBuildParameters()
+      parameterDefinitions {
+         booleanParam('param', false, 'some boolean build parameter')
+      }
+      preBuildSteps {
+         shell("echo 'hello'")
+      }
+    }
+  }
+}
+```
 
 (Since 1.22)
 
