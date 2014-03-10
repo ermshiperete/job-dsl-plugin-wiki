@@ -677,7 +677,7 @@ gerrit {
 }
 ```
 
-Polls gerrit for changes. This DSL method works slightly differently by exposing most of its functionality in its own block. This is accomadating how the plugin can be pointed to multiple projects and trigger on many events. The most complex part is the events block, which takes the "short name" of an event. When looking at the raw config.xml for a Job which has Gerrit trigger, you'll see multiple class names in the triggerOnEvents element. The DSL method will take the names in the events block and prepend it with "com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.events.Plugin" and append "Event", meaning that shorter names like ChangeMerged and DraftPublished can be used. Straight from the unit test:
+Polls gerrit for changes. This DSL method works slightly differently by exposing most of its functionality in its own block. This is accommodating how the plugin can be pointed to multiple projects and trigger on many events. The most complex part is the events block, which takes the "short name" of an event. When looking at the raw config.xml for a Job which has Gerrit trigger, you'll see multiple class names in the triggerOnEvents element. The DSL method will take the names in the events block and prepend it with "com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.events.Plugin" and append "Event", meaning that shorter names like ChangeMerged and DraftPublished can be used. Straight from the unit test:
 
 ```groovy
 gerrit {
@@ -690,6 +690,32 @@ gerrit {
     configure { node ->
         node / gerritBuildSuccessfulVerifiedValue << '10'
     }
+}
+```
+
+## Github Pull Request Trigger
+```groovy
+pullRequest {
+    admins(String admin)
+    admins(Iterable<String> admins)
+    userWhitelist(String user)
+    userWhitelist(Iterable<String> users)
+    orgWhitelist(String organization)
+    orgWhitelist(Iterable<String> organizations)
+    cron(String cron)
+    triggerPhrase(String triggerPhrase)
+    onlyTriggerPhrase(boolean onlyTriggerPhrase = false)
+    useGitHubHooks(boolean useGithubHooks = false)
+    permitAll(boolean permitAll = false)
+    autoCloseFailedPullRequests(boolean autoCloseFailedPullRequests = false)
+}
+```
+
+
+
+```groovy
+pullRequest {
+  
 }
 ```
 
