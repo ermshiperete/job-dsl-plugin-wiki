@@ -117,6 +117,7 @@ job(attributes) {
         xvnc(takeScreenshot = false)
         toolenv(String.. tools)
         environmentVariables(closure) // See [[Job Reference]] for details of EnvironmentVariablesContext
+        release(closure) // See [[Job Reference]] for details
     }
     steps {
         shell(String commandStr)
