@@ -982,6 +982,32 @@ Injects environment variables into the build. Requires the [EnvInject plugin](ht
 
 (Since 1.21)
 
+## Release
+```groovy
+job {
+  wrappers {
+    release {
+      releaseVersionTemplate(String template)
+      doNotKeepLog(boolean keep)
+      overrideBuildParameters(boolean override)
+      parameterDefinitions(Closure parameters) 
+      preBuildSteps(Closure steps) 
+      postSuccessfulBuildSteps(Closure steps) 
+      postBuildSteps(Closure steps) 
+      postFailedBuildSteps(Closure steps)
+    }
+  }
+}
+```
+
+Configure a release inside a Jenkins job. Requires the [Release Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Release+Plugin).
+
+For details of defining parameters (parameterDefinitions) see [Reference of Parameters](https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-reference#wiki-parameters)
+
+For details of defining steps (preBuildSteps, postSuccessfulBuildSteps, postBuildSteps, postFailedBuildSteps) see [Reference of Build Steps](https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-reference#wiki-build-steps)
+
+(Since 1.22)
+
 # Build Steps
 
 Adds step block to contain an ordered list of build steps. Cannot be used for jobs with type 'maven'.
