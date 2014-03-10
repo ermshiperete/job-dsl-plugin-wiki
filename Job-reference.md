@@ -698,16 +698,16 @@ gerrit {
 pullRequest {
     admins(String admin)
     admins(Iterable<String> admins)
-    userWhitelist(String user)
-    userWhitelist(Iterable<String> users)
-    orgWhitelist(String organization)
-    orgWhitelist(Iterable<String> organizations)
-    cron(String cron)
-    triggerPhrase(String triggerPhrase)
-    onlyTriggerPhrase(boolean onlyTriggerPhrase = false)
-    useGitHubHooks(boolean useGithubHooks = false)
-    permitAll(boolean permitAll = false)
-    autoCloseFailedPullRequests(boolean autoCloseFailedPullRequests = false)
+    userWhitelist(String user) // user to whitelist
+    userWhitelist(Iterable<String> users) // users to whitelist
+    orgWhitelist(String organization) // organization to whitelist
+    orgWhitelist(Iterable<String> organizations) // organizations to whitelist
+    cron(String cron) // set cron schedule (defaults to : 'H/5 * * * *')
+    triggerPhrase(String triggerPhrase) // set phrase to trigger by commenting within the pull request
+    onlyTriggerPhrase(boolean onlyTriggerPhrase = false) // Only build pull requests with phrase (defaults to false)
+    useGitHubHooks(boolean useGithubHooks = false) // (defaults to false)
+    permitAll(boolean permitAll = false) // (defaults to false)
+    autoCloseFailedPullRequests(boolean autoCloseFailedPullRequests = false) // (defaults to false)
 }
 ```
 
