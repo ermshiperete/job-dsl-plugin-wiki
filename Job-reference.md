@@ -1031,81 +1031,81 @@ job {
 ## Maven Release
 ```groovy
 job {
-  wrappers {
-    mavenRelease {
-        scmUserEnvVar(String userEnvironmentVariableName)
-        scmPasswordEnvVar(String passwordEnvironmentVariableName)
-        releaseEnvVar(String releaseEnvironmentVariableName)
+    wrappers {
+        mavenRelease {
+            scmUserEnvVar(String userEnvironmentVariableName)
+            scmPasswordEnvVar(String passwordEnvironmentVariableName)
+            releaseEnvVar(String releaseEnvironmentVariableName)
 
-        releaseGoals(String goals)
-        dryRunGoals(String goals)
+            releaseGoals(String goals)
+            dryRunGoals(String goals)
 
-        selectCustomScmCommentPrefix(boolean selectCustomScmCommentPrefix)
-        selectAppendHudsonUsername(boolean selectAppendHudsonUsername)
-        selectScmCredentials(boolean selectScmCredentials)
+            selectCustomScmCommentPrefix(boolean selectCustomScmCommentPrefix)
+            selectAppendHudsonUsername(boolean selectAppendHudsonUsername)
+            selectScmCredentials(boolean selectScmCredentials)
 
-        numberOfReleaseBuildsToKeep(int numberOfReleaseBuildsToKeep)
+            numberOfReleaseBuildsToKeep(int numberOfReleaseBuildsToKeep)
+        }
     }
-  }
 }
 ```
 
 Example: using the default values
 ```groovy
 job {
-  ...
-  wrappers {
     ...
-    mavenRelease()
-  }
+    wrappers {
+        ...
+        mavenRelease()
+    }
 }
 ```
 
 Example: overwriting the default values
 ```groovy
 job {
-  ...
-  wrappers {
     ...
-    mavenRelease() {
-        scmUserEnvVar 'MY_USER_ENV'
-        scmPasswordEnvVar 'MY_PASSWORD_ENV'
-        releaseEnvVar 'RELEASE_ENV'
+    wrappers {
+        ...
+        mavenRelease() {
+            scmUserEnvVar 'MY_USER_ENV'
+            scmPasswordEnvVar 'MY_PASSWORD_ENV'
+            releaseEnvVar 'RELEASE_ENV'
 
-        releaseGoals '-DautoVersionSubmodules -DcommitByProject release:prepare release:perform'
-        dryRunGoals '-DdryRun=true -DautoVersionSubmodules -DcommitByProject release:prepare'
+            releaseGoals '-DautoVersionSubmodules -DcommitByProject release:prepare release:perform'
+            dryRunGoals '-DdryRun=true -DautoVersionSubmodules -DcommitByProject release:prepare'
         
-        selectCustomScmCommentPrefix()
-        selectAppendHudsonUsername()
-        selectScmCredentials()
+            selectCustomScmCommentPrefix()
+            selectAppendHudsonUsername()
+            selectScmCredentials()
         
-        numberOfReleaseBuildsToKeep 10
+            numberOfReleaseBuildsToKeep 10
+        }
     }
-  }
 }
 ```
 
 Default values
 ```groovy
 job {
-  ...
-  wrappers {
     ...
-    mavenRelease() {
-        scmUserEnvVar ''
-        scmPasswordEnvVar ''
-        releaseEnvVar 'IS_M2RELEASEBUILD'
+    wrappers {
+        ...
+        mavenRelease() {
+            scmUserEnvVar ''
+            scmPasswordEnvVar ''
+            releaseEnvVar 'IS_M2RELEASEBUILD'
 
-        releaseGoals '-Dresume=false release:prepare release:perform'
-        dryRunGoals '-Dresume=false -DdryRun=true release:prepare'
+            releaseGoals '-Dresume=false release:prepare release:perform'
+            dryRunGoals '-Dresume=false -DdryRun=true release:prepare'
         
-        selectCustomScmCommentPrefix false
-        selectAppendHudsonUsername false
-        selectScmCredentials false
+            selectCustomScmCommentPrefix false
+            selectAppendHudsonUsername false
+            selectScmCredentials false
         
-        numberOfReleaseBuildsToKeep 1
+            numberOfReleaseBuildsToKeep 1
+        }
     }
-  }
 }
 ```
 
