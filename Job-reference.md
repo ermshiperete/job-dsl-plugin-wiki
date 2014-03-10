@@ -1009,20 +1009,20 @@ For details of defining steps (preBuildSteps, postSuccessfulBuildSteps, postBuil
 Example
 ```groovy
 job {
-  ...
-  wrappers {
     ...
-    release {
-      doNotKeepLog()
-      overrideBuildParameters()
-      parameterDefinitions {
-         booleanParam('param', false, 'some boolean build parameter')
-      }
-      preBuildSteps {
-         shell("echo 'hello'")
-      }
+    wrappers {
+        ...
+        release {
+            doNotKeepLog()
+            overrideBuildParameters()
+            parameterDefinitions {
+                booleanParam('param', false, 'some boolean build parameter')
+            }
+            preBuildSteps {
+                shell("echo 'hello'")
+            }
+        }
     }
-  }
 }
 ```
 
