@@ -1028,6 +1028,91 @@ For details of defining steps (preBuildSteps, postSuccessfulBuildSteps, postBuil
 
 (Since 1.22)
 
+## Maven Release
+```groovy
+job {
+  wrappers {
+    mavenRelease {
+        scmUserEnvVar(String userEnvironmentVariableName)
+        scmPasswordEnvVar(String passwordEnvironmentVariableName)
+        releaseEnvVar(String releaseEnvironmentVariableName)
+
+        releaseGoals(String goals)
+        dryRunGoals(String goals)
+
+        selectCustomScmCommentPrefix(boolean selectCustomScmCommentPrefix)
+        selectAppendHudsonUsername(boolean selectAppendHudsonUsername)
+        selectScmCredentials(boolean selectScmCredentials)
+
+        numberOfReleaseBuildsToKeep(int numberOfReleaseBuildsToKeep)
+    }
+  }
+}
+```
+
+Example: using the default values
+```groovy
+job {
+  ...
+  wrappers {
+    ...
+    mavenRelease()
+  }
+}
+```
+
+Example: overwriting the default values
+```groovy
+job {
+  ...
+  wrappers {
+    ...
+    mavenRelease() {
+        scmUserEnvVar 'MY_USER_ENV'
+        scmPasswordEnvVar 'MY_PASSWORD_ENV'
+        releaseEnvVar 'RELEASE_ENV'
+
+        releaseGoals '-DautoVersionSubmodules -DcommitByProject release:prepare release:perform'
+        dryRunGoals '-DdryRun=true -DautoVersionSubmodules -DcommitByProject release:prepare'
+        
+        selectCustomScmCommentPrefix()
+        selectAppendHudsonUsername()
+        selectScmCredentials()
+        
+        numberOfReleaseBuildsToKeep 10
+    }
+  }
+}
+```
+
+Default values
+```groovy
+job {
+  ...
+  wrappers {
+    ...
+    mavenRelease() {
+        scmUserEnvVar ''
+        scmPasswordEnvVar ''
+        releaseEnvVar 'IS_M2RELEASEBUILD'
+
+        releaseGoals '-Dresume=false release:prepare release:perform'
+        dryRunGoals '-Dresume=false -DdryRun=true release:prepare'
+        
+        selectCustomScmCommentPrefix false
+        selectAppendHudsonUsername false
+        selectScmCredentials false
+        
+        numberOfReleaseBuildsToKeep 1
+    }
+  }
+}
+```
+
+Configure a maven release inside a Jenkins job. Job type need to be "Maven". Requires the [M2 Release Plugin](https://wiki.jenkins-ci.org/display/JENKINS/M2+Release+Plugin).
+
+(Since 1.22)
+
 # Build Steps
 
 Adds step block to contain an ordered list of build steps. Cannot be used for jobs with type 'maven'.
