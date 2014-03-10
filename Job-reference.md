@@ -1000,6 +1000,26 @@ job {
 }
 ```
 
+Example
+```groovy
+job {
+  ...
+  wrappers {
+    ...
+    release {
+      doNotKeepLog(false)
+      overrideBuildParameters(false)
+      parameterDefinitions {
+         booleanParam('param', 'false', 'some boolean build parameter')
+      }
+      preBuildSteps {
+         shell('echo \'hello\'')
+      }
+    }
+  }
+}
+```
+
 Configure a release inside a Jenkins job. Requires the [Release Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Release+Plugin).
 
 For details of defining parameters (parameterDefinitions) see [Reference of Parameters](https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-reference#wiki-parameters)
