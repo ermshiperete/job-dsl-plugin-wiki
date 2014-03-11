@@ -1033,17 +1033,82 @@ job {
 job {
     wrappers {
         mavenRelease {
-            scmUserEnvVar(String userEnvironmentVariableName)
-            scmPasswordEnvVar(String passwordEnvironmentVariableName)
-            releaseEnvVar(String releaseEnvironmentVariableName)
+            /**
+             * If defined, an environment variable with this name will hold the scm username when triggering a
+             * release build (this is the username the user enters when triggering a release build, not the username
+             * given to Jenkins' SCM configuration of the job).
+             *
+             * @param scmUserEnvVar (default: <<empty>>)
+             */
+            scmUserEnvVar(String scmUserEnvVar)
 
-            releaseGoals(String goals)
-            dryRunGoals(String goals)
+            /**
+             * If defined, an environment variable with this name will hold the scm password when triggering a
+             * release build (this is the password the user enters when triggering a release build, not the password
+             * given to Jenkins' SCM configuration of the job).
+             *
+             * As the passed passwords would potentially get written to the logs and therefore visible to users,
+             * we recommend you to install the
+             * <a href="https://wiki.jenkins-ci.org/display/JENKINS/Mask+Passwords+Plugin">Mask Password Plugin</a>.
+             *
+             * @param scmPasswordEnvVar (default: <<empty>>)
+             */
+            scmPasswordEnvVar(String scmPasswordEnvVar)
 
+            /**
+             * An environment variable with this name indicates whether the current build is a release build or not.
+             * This can be used e.g. within a shell or the conditional buildstep to do pre and post release processing.
+             * The value will be boolean (true if it is a release build, false if its not a release build).
+             *
+             * @param releaseEnvVar (default: "IS_M2RELEASEBUILD")
+             */
+            releaseEnvVar(String releaseEnvVar)
+
+            /**
+             * Enter the goals you wish to use as part of the release process. e.g. "release:prepare release:perform"
+             *
+             * @param releaseGoals (default: "-Dresume=false release:prepare release:perform")
+             */
+            releaseGoals(String releaseGoals)
+
+            /**
+             * Enter the goals you wish to use as part of the 'dryRun' - to simulate the release build.
+             * e.g. "release:prepare -DdryRun=true"
+             *
+             * @param dryRunGoals (default: "-Dresume=false -DdryRun=true release:prepare")
+             */
+            dryRunGoals(String dryRunGoals)
+
+            /**
+             * Enable this to have the "Select custom SCM comment prefix" option selected by default
+             * in the "Perform Maven Release" view.
+             *
+             * @param selectCustomScmCommentPrefix (default: false)
+             */
             selectCustomScmCommentPrefix(boolean selectCustomScmCommentPrefix)
+
+            /**
+             * Enable this to have the "Append Jenkins Username" option (part of the "Specify custom SCM comment prefix"
+             * configuration) selected by default in the "Perform Maven Release" view.
+             *
+             * @param selectAppendHudsonUsername (default: false)
+             */
             selectAppendHudsonUsername(boolean selectAppendHudsonUsername)
+
+            /**
+             * Enable this to have the "specify SCM login/password" option selected by default in the
+             * "Perform Maven Release" view.
+             *
+             * @param selectScmCredentials (default: false)
+             */
             selectScmCredentials(boolean selectScmCredentials)
 
+            /**
+             * Specify the number of successful release builds to keep forever. A value of -1 will lock all successful
+             * release builds, 0 will not lock any builds.
+             *
+             * @param numberOfReleaseBuildsToKeep (default: 1)
+             */
             numberOfReleaseBuildsToKeep(int numberOfReleaseBuildsToKeep)
         }
     }
