@@ -1181,12 +1181,16 @@ Configure a maven release inside a Jenkins job. Job type need to be "Maven". Req
 ## Workspace Cleanup Plugin
 
 ```groovy
-preBuildCleanup {
-    includePattern(String pattern)
-    excludePattern(String pattern)
-    deleteDirectories(boolean deleteDirectories = true)
-    cleanupParameter(String parameter)
-    deleteCommand(String command)
+job {
+    wrappers {
+        preBuildCleanup {
+            includePattern(String pattern)
+            excludePattern(String pattern)
+            deleteDirectories(boolean deleteDirectories = true)
+            cleanupParameter(String parameter)
+            deleteCommand(String command)
+        }
+    }
 }
 ```
 
@@ -1196,15 +1200,23 @@ Examples:
 
 ```groovy
 // cleanup all files
-preBuildCleanup()
+job {
+    wrappers {
+        preBuildCleanup()
+    }
+}
 ```
 
 ```groovy
 // cleanup all files and directories in target directories, but only if the CLEANUP build parameter is set to 'true'
-preBuildCleanup {
-  includePattern('**/target/**')
-  deleteDirectories()
-  cleanupParameter('CLEANUP')
+job {
+    wrappers {
+        preBuildCleanup {
+            includePattern('**/target/**')
+            deleteDirectories()
+            cleanupParameter('CLEANUP')
+        }
+    }
 }
 ```
 
@@ -1679,9 +1691,13 @@ steps {
 ## Parameterized Remote Trigger
 
 ````groovy
-remoteTrigger(String remoteJenkinsName, String jobName) {
-    parameter(String name, String value)
-    parameters(Map<String, String> parameters)
+job {
+    steps {
+        remoteTrigger(String remoteJenkinsName, String jobName) {
+            parameter(String name, String value)
+            parameters(Map<String, String> parameters)
+        }
+    }
 }
 ```
 
@@ -1691,14 +1707,22 @@ Examples:
 
 ````groovy
 // start the job 'test-flow' on the Jenkins instance named 'test-ci' without parameters
-remoteTrigger('test-ci', 'test-flow')
+job {
+    steps {
+        remoteTrigger('test-ci', 'test-flow')
+    }
+}
 ```
 
 ````groovy
 // start the job 'test-flow' on the Jenkins instance named 'test-ci' with three parameters
-remoteTrigger('test-ci', 'test-flow') {
-  parameter('VERSION', '$PIPELINE_VERSION')
-  parameters(BRANCH: 'feature-A', STAGING_REPO_ID: '41234232')
+job {
+    steps {
+        remoteTrigger('test-ci', 'test-flow') {
+            parameter('VERSION', '$PIPELINE_VERSION')
+            parameters(BRANCH: 'feature-A', STAGING_REPO_ID: '41234232')
+        }
+    }
 }
 ```
 
@@ -2507,15 +2531,19 @@ githubCommitNotifier()
 ## Git Publisher
 
 ```groovy
-git {
-    pushOnlyIfSuccess(boolean pushOnlyIfSuccess = true)
-    pushMerge(boolean pushMerge = true)
-    tag(String targetRepoName, String tagName) {
-        message(String message)
-        create(boolean create = true)
-        update(boolean update = true)
+job {
+    publishers {
+        git {
+            pushOnlyIfSuccess(boolean pushOnlyIfSuccess = true)
+            pushMerge(boolean pushMerge = true)
+            tag(String targetRepoName, String tagName) {
+                message(String message)
+                create(boolean create = true)
+                update(boolean update = true)
+            }
+            branch(String targetRepoName, String branchName)
+        }
     }
-    branch(String targetRepoName, String branchName)
 }
 ```
 
@@ -2525,19 +2553,27 @@ Examples:
 
 ```groovy
 // push a to branch if the job succeeded
-git {
-    pushOnlyIfSuccess()
-    branch('origin', 'staging')
+job {
+    publishers {
+        git {
+            pushOnlyIfSuccess()
+            branch('origin', 'staging')
+        }
+    }
 }
 ```
 
 ```groovy
 // create and push a tag if the job succeeded, the tag name and message are parametrized.
-git {
-    pushOnlyIfSuccess()
-    tag('origin', 'foo-$PIPELINE_VERSION') {
-        message('Release $PIPELINE_VERSION')
-        create()
+job {
+    publishers {
+        git {
+            pushOnlyIfSuccess()
+            tag('origin', 'foo-$PIPELINE_VERSION') {
+                message('Release $PIPELINE_VERSION')
+                create()
+            }
+        }
     }
 }
 ```
