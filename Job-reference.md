@@ -1178,6 +1178,38 @@ Configure a maven release inside a Jenkins job. Job type need to be "Maven". Req
 
 (Since 1.22)
 
+## Workspace Cleanup Plugin
+
+```groovy
+preBuildCleanup {
+    includePattern(String pattern)
+    excludePattern(String pattern)
+    deleteDirectories(boolean deleteDirectories = true)
+    cleanupParameter(String parameter)
+    deleteCommand(String command)
+}
+```
+
+Deleted files from the workspace before the build starts. Requires the [Workspace Cleanup Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Workspace+Cleanup+Plugin).
+
+Examples:
+
+```groovy
+// cleanup all files
+preBuildCleanup()
+```
+
+```groovy
+// cleanup all files and directories in target directories, but only if the CLEANUP build parameter is set to 'true'
+preBuildCleanup {
+  includePattern('**/target/**')
+  deleteDirectories()
+  cleanupParameter('CLEANUP')
+}
+```
+
+(since 1.22)
+
 # Build Steps
 
 Adds step block to contain an ordered list of build steps. Cannot be used for jobs with type 'maven'.
