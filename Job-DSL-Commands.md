@@ -144,6 +144,7 @@ job(attributes) {
         downstreamParameterized(downstreamClosure) // See [[Job Reference]] for downstreamClosure syntax
         conditionalSteps(conditionalClosure) // See [[Job Reference]] for conditionalClosure syntax
         environmentVariables(closure) // See [[Job Reference]] for details of EnvironmentVariablesContext
+        remoteTrigger(remoteJenkinsName, jobName, remoteTriggerClosure) // Since 1.22
     }
     publishers {
         extendedEmail(recipients, subjectTemplate, contentTemplate ) {}
