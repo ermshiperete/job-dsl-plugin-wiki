@@ -2444,6 +2444,46 @@ githubCommitNotifier()
 
 (Since 1.21)
 
+## Git Publisher
+
+```groovy
+git {
+    pushOnlyIfSuccess(boolean pushOnlyIfSuccess = true)
+    pushMerge(boolean pushMerge = true)
+    tag(String targetRepoName, String tagName) {
+        message(String message)
+        create(boolean create = true)
+        update(boolean update = true)
+    }
+    branch(String targetRepoName, String branchName)
+}
+```
+
+Push tags or branches to a Git repository. Requires the [Git Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin).
+
+Examples:
+
+```groovy
+// push a to branch if the job succeeded
+git {
+    pushOnlyIfSuccess()
+    branch('origin', 'staging')
+}
+```
+
+```groovy
+// create and push a tag if the job succeeded, the tag name and message are parametrized.
+git {
+    pushOnlyIfSuccess()
+    tag('origin', 'foo-$PIPELINE_VERSION') {
+        message('Release $PIPELINE_VERSION')
+        create()
+    }
+}
+```
+
+(Since 1.22)
+
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**
 _Note: The Password Parameter is not yet supported. See https://issues.jenkins-ci.org/browse/JENKINS-18141_
