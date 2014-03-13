@@ -187,6 +187,7 @@ job(attributes) {
         publishRobotFrameworkReports(Closure closure = null) // Since 1.21. See [[Job Reference]] for the closure syntax
         buildPipelineTrigger(downstreamProjectNames) // since 1.21
         githubCommitNotifier() // since 1.21
+        git(gitPublisherClosure) // since 1.22
     }
     parameters {
         booleanParam(parameterName, defaultValue, description)
