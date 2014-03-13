@@ -1644,6 +1644,34 @@ steps {
 
 (Since 1.20)
 
+## Parameterized Remote Trigger
+
+````groovy
+remoteTrigger(String remoteJenkinsName, String jobName) {
+    parameter(String name, String value)
+    parameters(Map<String, String> parameters)
+}
+```
+
+Triggers a job on another Jenkins instance. Requires the [Parameterized Remote Trigger Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Remote+Trigger+Plugin).
+
+Examples:
+
+````groovy
+// start the job 'test-flow' on the Jenkins instance named 'test-ci' without parameters
+remoteTrigger('test-ci', 'test-flow')
+```
+
+````groovy
+// start the job 'test-flow' on the Jenkins instance named 'test-ci' with three parameters
+remoteTrigger('test-ci', 'test-flow') {
+  parameter('VERSION', '$PIPELINE_VERSION')
+  parameters(BRANCH: 'feature-A', STAGING_REPO_ID: '41234232')
+}
+```
+
+(since 1.22)
+
 # Publishers
 
 Block to contain list of publishers.
