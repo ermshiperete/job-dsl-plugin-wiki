@@ -716,8 +716,8 @@ Builds pull requests from GitHub and will report the results directly to the pul
 ```groovy
 pullRequest {
     admins('USER_ID')
-    userWhitelist('me@me.com')
-    orgWhitelist('your_github_org')
+    userWhitelist('you@you.com')
+    orgWhitelist('your_github_org', 'another_org')
     cron('H/5 * * * *')
     triggerPhrase('Ok to test')
     onlyTriggerPhrase(true)
