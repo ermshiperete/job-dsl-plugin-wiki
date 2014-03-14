@@ -711,7 +711,7 @@ pullRequest {
 }
 ```
 
-Builds pull requests from GitHub and will report the results directly to the pull request. Requires the [GitHub pull request builder plugin](https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin) 
+Builds pull requests from GitHub and will report the results directly to the pull request. Requires the [GitHub pull request builder plugin](https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin). (Available since 1.22)
 
 ```groovy
 pullRequest {
