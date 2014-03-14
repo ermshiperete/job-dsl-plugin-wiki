@@ -101,7 +101,7 @@ job(attributes) {
         scm(cronString)
         githubPush()
         gerrit(gerritClosure) // See [[Job Reference]] for gerritClosure syntax
-        pullRequest(pullRequestClosure) // See [[Job Reference]] for pullRequestClosure syntax
+        pullRequest(pullRequestClosure) // since 1.22 See [[Job Reference]] for pullRequestClosure syntax
         urlTrigger([cronString,] urlTriggerClosure) // See [[Job Reference]] for closure syntax 
         snapshotDependencies(checkSnapshotDependencies)
     }
