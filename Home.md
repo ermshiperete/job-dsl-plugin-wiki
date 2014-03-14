@@ -14,6 +14,7 @@ And finally, if you want to get more involved, [here's how...](https://github.co
 
 ## Release Notes
 * 1.22 (unreleased)
+ * [Github Pull Request Builder Plugin](https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin)
  * [Workspace Cleanup Plugin](https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-reference#wiki-workspace-cleanup-plugin)
  * [Parameterized Remote Trigger Plugin](https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-reference#wiki-parameterized-remote-trigger)
  * [Git Publisher](https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-reference#wiki-git-publisher)
