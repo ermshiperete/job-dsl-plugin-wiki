@@ -704,10 +704,10 @@ pullRequest {
     orgWhitelist(Iterable<String> organizations) // organizations to whitelist
     cron(String cron) // set cron schedule (defaults to : 'H/5 * * * *')
     triggerPhrase(String triggerPhrase) // set phrase to trigger by commenting within the pull request
-    onlyTriggerPhrase(boolean onlyTriggerPhrase = false) // Only build pull requests with phrase (defaults to false)
-    useGitHubHooks(boolean useGithubHooks = false) // (defaults to false)
-    permitAll(boolean permitAll = false) // (defaults to false)
-    autoCloseFailedPullRequests(boolean autoCloseFailedPullRequests = false) // (defaults to false)
+    onlyTriggerPhrase(boolean onlyTriggerPhrase = true) // Only build pull requests with phrase (defaults to true)
+    useGitHubHooks(boolean useGithubHooks = true) // (defaults to true)
+    permitAll(boolean permitAll = true) // (defaults to true)
+    autoCloseFailedPullRequests(boolean autoCloseFailedPullRequests = true) // (defaults to true)
 }
 ```
 
