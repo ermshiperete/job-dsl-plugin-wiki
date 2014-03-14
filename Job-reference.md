@@ -725,6 +725,11 @@ pullRequest {
     permitAll(true)
     autoCloseFailedPullRequests(true)
 }
+
+// Git configuration needed for pull request
+remote {
+        github('test-owner/test-project', 'https', 'github.com')
+    }
 ```
 
 ## URL Trigger
