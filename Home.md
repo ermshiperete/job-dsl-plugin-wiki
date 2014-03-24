@@ -1,6 +1,6 @@
 Welcome to the jenkins-job-dsl wiki!
 
-Highly recommended starting point is the tutorial, [[Tutorial: Using the Jenkins Job DSL]]
+Highly recommended starting point is the tutorial, [[Tutorial - Using the Jenkins Job DSL]]
 
 Once you know how to create a "seed" job from the tutorial, start looking at the [[Real World Examples]] for examples to steal from.  **For formal documentation, the [[Job DSL Commands]]** page has what is available directly in the DSL at this time, and there are also some [[User Power Moves]] you can try to make your life easier.
 
