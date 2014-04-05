@@ -118,13 +118,11 @@ job(attributes) {
         toolenv(String.. tools)
         environmentVariables(closure) // See [[Job Reference]] for details of EnvironmentVariablesContext
         release(closure) // since 1.22, see [[Job Reference]] for details
-        mavenRelease(closure) // since 1.22, see [[Job Reference]] for closure syntax
         preBuildCleanup(closure) // since 1.22
     }
     steps {
         shell(String commandStr)
         batchFile(String commandStr)
-        gradle {} // since 1.23, see [[JobReference]]
         gradle(tasksArg, switchesArg, useWrapperArg) {}
         maven(targetsArg, pomArg) {}
         maven {} // since 1.20, see [[JobReference]]

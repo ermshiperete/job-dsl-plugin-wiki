@@ -455,136 +455,6 @@ git {
 
 ## Subversion
 
-**BEGIN Unreleased Feature - Documentation is a work in progress**
-
-### Job DSL Plugin Version X.XX or greater
-
-As of version X.XX of the Job DSL Plugin, the Subversion plugin can be configured using an improved svn closure.  The following are the methods availble in the svn closure (note: these methods are **not** available in the older svn(...) closures):
-
-```groovy
-svn {
-    /*
-     * At least one location MUST be specified.
-     * Additional locations can be specified by calling location() multiple times.
-     *   svnUrl   - What to checkout from SVN.
-     *   localDir - Destination directory relative to workspace.
-     *              If not specified, defaults to '.'.
-     */
-    location(String svnUrl, String localDir = '.')
-
-    /*
-     * The checkout strategy that should be used.  This is a global setting for all
-     * locations.
-     *   strategy - Strategy to use. Possible values:
-     *                CheckoutStrategy.Update
-     *                CheckoutStrategy.Checkout
-     *                CheckoutStrategy.UpdateWithClean
-     *                CheckoutStrategy.UpdateWithRevert
-     *
-     * If no checkout strategy is configured, the default is CheckoutStrategy.Update.
-     */
-    checkoutStrategy(CheckoutStrategy strategy)
-
-    /*
-     * Add an excluded region.  Each call to excludedRegion() adds to the list of
-     * excluded regions.
-     * If excluded regions are configured, and Jenkins is set to poll for changes,
-     * Jenkins will ignore any files and/or folders that match the specified
-     * patterns when determining if a build needs to be triggered.
-     *   pattern - RegEx
-     */
-    excludedRegion(String pattern)
-
-    /*
-     * Add a list of excluded regions.  Each call to excludedRegions() adds to the
-     * list of excluded regions.
-     * If excluded regions are configured, and Jenkins is set to poll for changes,
-     * Jenkins will ignore any files and/or folders that match the specified
-     * patterns when determining if a build needs to be triggered.
-     *   patterns - RegEx
-     */
-    excludedRegions(Iterable<String> patterns)
-
-    /*
-     * Add an included region.  Each call to includedRegion() adds to the list of
-     * included regions.
-     * If included regions are configured, and Jenkins is set to poll for changes,
-     * Jenkins will ignore any files and/or folders that do _not_ match the specified
-     * patterns when determining if a build needs to be triggered.
-     *   pattern - RegEx
-     */
-    includedRegion(String pattern)
-
-    /*
-     * Add a list of included regions.  Each call to includedRegions() adds to the
-     * list of included regions.
-     * If included regions are configured, and Jenkins is set to poll for changes,
-     * Jenkins will ignore any files and/or folders that do _not_ match the specified
-     * patterns when determining if a build needs to be triggered.
-     *   patterns - RegEx
-     */
-    includedRegions(Iterable<String> patterns)
-
-    /*
-     * Add an excluded user.  Each call to excludedUser() adds to the list of
-     * excluded users.
-     * If excluded users are configured, and Jenkins is set to poll for changes,
-     * Jenkins will ignore any revisions committed by the specified users when
-     * determining if a build needs to be triggered.
-     *   user - User to ignore when triggering builds
-     */
-    excludedUser(String user)
-
-    /*
-     * Add a list of excluded users.  Each call to excludedUsers() adds to the
-     * list of excluded users.
-     * If excluded users are configured, and Jenkins is set to poll for changes,
-     * Jenkins will ignore any revisions committed by the specified users when
-     * determining if a build needs to be triggered.
-     *   users - Users to ignore when triggering builds
-     */
-    excludedUsers(Iterable<String> users)
-
-    /*
-     * Add an exluded commit message.  Each call to excludedCommitMsg() adds to the list of
-     * excluded commit messages.
-     * If excluded messages are configured, and Jenkins is set to poll for changes,
-     * Jenkins will ignore any revisions with commit messages that match the specified
-     * patterns when determining if a build needs to be triggered.
-     *   pattern - RegEx
-     */
-    excludedCommitMsg(String pattern)
-
-    /*
-     * Add a list of excluded commit messages.  Each call to excludedCommitMsgs() adds to the
-     * list of excluded commit messages.
-     * If excluded messages are configured, and Jenkins is set to poll for changes,
-     * Jenkins will ignore any revisions with commit messages that match the specified
-     * patterns when determining if a build needs to be triggered.
-     *   patterns - RegEx
-     */
-    excludedCommitMsgs(Iterable<String> patterns)
-
-    /*
-     * Set an excluded revision property.
-     * If an excluded revision property is set, and Jenkins is set to poll for changes,
-     * Jenkins will ignore any revisions that are marked with the specified
-     * revision property when determining if a build needs to be triggered.
-     * This only works in Subversion 1.5 servers or greater.
-     *   pattern - RegEx
-     */
-    excludedRevProp(String revisionProperty)
-}
-```
-Note that no support for a configure block is available in the new svn closure.  Use the job closure's configure method instead.
-
-### Job DSL Plugin Version less than X.XX
-
-If using a version of the Job DSL Plugin older than X.XX, the following configuration methods are available.
-Note; For backwards compatibility, these are still supported in version X.XX and above.
-
-**END Unreleased Feature**
-
 ```groovy
 svn(String svnUrl, String localDir='.', Closure configure = null)
 ```
@@ -694,41 +564,54 @@ gerrit {
 ```
 
 ## Github Pull Request Trigger
+
 ```groovy
 pullRequest {
-    admins(String admin)
-    admins(Iterable<String> admins)
-    userWhitelist(String user) // user to whitelist
-    userWhitelist(Iterable<String> users) // users to whitelist
-    orgWhitelist(String organization) // organization to whitelist
-    orgWhitelist(Iterable<String> organizations) // organizations to whitelist
-    cron(String cron) // set cron schedule (defaults to : 'H/5 * * * *')
+    admins(String admin) // add admin
+    admins(Iterable<String> admins) // add admins
+    userWhitelist(String user) // add user to whitelist
+    userWhitelist(Iterable<String> users) // add users to whitelist
+    orgWhitelist(String organization) // add organization to whitelist
+    orgWhitelist(Iterable<String> organizations) // add organizations to whitelist
+    cron(String cron) // set cron schedule, defaults to 'H/5 * * * *'
     triggerPhrase(String triggerPhrase) // set phrase to trigger by commenting within the pull request
-    onlyTriggerPhrase(boolean onlyTriggerPhrase = true) // Only build pull requests with phrase (defaults to true)
-    useGitHubHooks(boolean useGithubHooks = true) // (defaults to true)
-    permitAll(boolean permitAll = true) // (defaults to true)
-    autoCloseFailedPullRequests(boolean autoCloseFailedPullRequests = true) // (defaults to true)
+    onlyTriggerPhrase(boolean onlyTriggerPhrase = true) // defaults to false if not specified
+    useGitHubHooks(boolean useGithubHooks = true) // defaults to false if not specified
+    permitAll(boolean permitAll = true) // defaults to false if not specified
+    autoCloseFailedPullRequests(boolean autoCloseFailedPullRequests = true) // defaults to false if not specified
 }
 ```
 
 Builds pull requests from GitHub and will report the results directly to the pull request. Requires the [GitHub pull request builder plugin](https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin). (Available since 1.22)
 
-```groovy
-pullRequest {
-    admins('USER_ID')
-    userWhitelist('you@you.com')
-    orgWhitelist('your_github_org', 'another_org')
-    cron('H/5 * * * *')
-    triggerPhrase('Ok to test')
-    onlyTriggerPhrase(true)
-    useGitHubHooks(true)
-    permitAll(true)
-    autoCloseFailedPullRequests(true)
-}
+The pull request builder plugin requires a special Git SCM configuration, see the plugin documentation for details.
 
-// Git configuration needed for pull request
-remote {
-    github('test-owner/test-project', 'https', 'github.com')
+```groovy
+job {
+    ...
+    scm {
+        git {
+            remote {
+                github('test-owner/test-project')
+                refspec('+refs/pull/*:refs/remotes/origin/pr/*')
+            }
+            branch('${sha1}')
+        }
+    }
+    triggers {
+        pullRequest {
+            admins('USER_ID')
+            userWhitelist('you@you.com')
+            orgWhitelist('your_github_org', 'another_org')
+            cron('H/5 * * * *')
+            triggerPhrase('Ok to test')
+            onlyTriggerPhrase()
+            useGitHubHooks()
+            permitAll()
+            autoCloseFailedPullRequests()
+        }
+    }
+    ...
 }
 ```
 
@@ -1033,156 +916,6 @@ job {
 
 (Since 1.22)
 
-## Maven Release
-```groovy
-job {
-    wrappers {
-        mavenRelease {
-            /**
-             * If defined, an environment variable with this name will hold the scm username when triggering a
-             * release build (this is the username the user enters when triggering a release build, not the username
-             * given to Jenkins' SCM configuration of the job).
-             *
-             * @param scmUserEnvVar (default: <<empty>>)
-             */
-            scmUserEnvVar(String scmUserEnvVar)
-
-            /**
-             * If defined, an environment variable with this name will hold the scm password when triggering a
-             * release build (this is the password the user enters when triggering a release build, not the password
-             * given to Jenkins' SCM configuration of the job).
-             *
-             * As the passed passwords would potentially get written to the logs and therefore visible to users,
-             * we recommend you to install the
-             * <a href="https://wiki.jenkins-ci.org/display/JENKINS/Mask+Passwords+Plugin">Mask Password Plugin</a>.
-             *
-             * @param scmPasswordEnvVar (default: <<empty>>)
-             */
-            scmPasswordEnvVar(String scmPasswordEnvVar)
-
-            /**
-             * An environment variable with this name indicates whether the current build is a release build or not.
-             * This can be used e.g. within a shell or the conditional buildstep to do pre and post release processing.
-             * The value will be boolean (true if it is a release build, false if its not a release build).
-             *
-             * @param releaseEnvVar (default: "IS_M2RELEASEBUILD")
-             */
-            releaseEnvVar(String releaseEnvVar)
-
-            /**
-             * Enter the goals you wish to use as part of the release process. e.g. "release:prepare release:perform"
-             *
-             * @param releaseGoals (default: "-Dresume=false release:prepare release:perform")
-             */
-            releaseGoals(String releaseGoals)
-
-            /**
-             * Enter the goals you wish to use as part of the 'dryRun' - to simulate the release build.
-             * e.g. "release:prepare -DdryRun=true"
-             *
-             * @param dryRunGoals (default: "-Dresume=false -DdryRun=true release:prepare")
-             */
-            dryRunGoals(String dryRunGoals)
-
-            /**
-             * Enable this to have the "Select custom SCM comment prefix" option selected by default
-             * in the "Perform Maven Release" view.
-             *
-             * @param selectCustomScmCommentPrefix (default: false)
-             */
-            selectCustomScmCommentPrefix(boolean selectCustomScmCommentPrefix)
-
-            /**
-             * Enable this to have the "Append Jenkins Username" option (part of the "Specify custom SCM comment prefix"
-             * configuration) selected by default in the "Perform Maven Release" view.
-             *
-             * @param selectAppendHudsonUsername (default: false)
-             */
-            selectAppendHudsonUsername(boolean selectAppendHudsonUsername)
-
-            /**
-             * Enable this to have the "specify SCM login/password" option selected by default in the
-             * "Perform Maven Release" view.
-             *
-             * @param selectScmCredentials (default: false)
-             */
-            selectScmCredentials(boolean selectScmCredentials)
-
-            /**
-             * Specify the number of successful release builds to keep forever. A value of -1 will lock all successful
-             * release builds, 0 will not lock any builds.
-             *
-             * @param numberOfReleaseBuildsToKeep (default: 1)
-             */
-            numberOfReleaseBuildsToKeep(int numberOfReleaseBuildsToKeep)
-        }
-    }
-}
-```
-
-Example: using the default values
-```groovy
-job {
-    ...
-    wrappers {
-        ...
-        mavenRelease()
-    }
-}
-```
-
-Example: overwriting the default values
-```groovy
-job {
-    ...
-    wrappers {
-        ...
-        mavenRelease() {
-            scmUserEnvVar 'MY_USER_ENV'
-            scmPasswordEnvVar 'MY_PASSWORD_ENV'
-            releaseEnvVar 'RELEASE_ENV'
-
-            releaseGoals '-DautoVersionSubmodules -DcommitByProject release:prepare release:perform'
-            dryRunGoals '-DdryRun=true -DautoVersionSubmodules -DcommitByProject release:prepare'
-        
-            selectCustomScmCommentPrefix()
-            selectAppendHudsonUsername()
-            selectScmCredentials()
-        
-            numberOfReleaseBuildsToKeep 10
-        }
-    }
-}
-```
-
-Default values
-```groovy
-job {
-    ...
-    wrappers {
-        ...
-        mavenRelease() {
-            scmUserEnvVar ''
-            scmPasswordEnvVar ''
-            releaseEnvVar 'IS_M2RELEASEBUILD'
-
-            releaseGoals '-Dresume=false release:prepare release:perform'
-            dryRunGoals '-Dresume=false -DdryRun=true release:prepare'
-        
-            selectCustomScmCommentPrefix false
-            selectAppendHudsonUsername false
-            selectScmCredentials false
-        
-            numberOfReleaseBuildsToKeep 1
-        }
-    }
-}
-```
-
-Configure a maven release inside a Jenkins job. Job type need to be "Maven". Requires the [M2 Release Plugin](https://wiki.jenkins-ci.org/display/JENKINS/M2+Release+Plugin).
-
-(Since 1.22)
-
 ## Workspace Cleanup Plugin
 
 ```groovy
@@ -1251,26 +984,6 @@ gradle(String tasksArg = null, String switchesArg = null, Boolean useWrapperArg 
 ```
 
 Runs Gradle, defaulting to the Gradle Wrapper. Configure block is handed a hudson.plugins.gradle.Gradle node.
-
-closure gradle command, which support all currently availibe jenkins/gradle plugin options:
-```groovy
-gradle {
-    tasks('task1')
-    switches('--profile -Pasd=1')
-    useWrapper(true)
-    description('gradle task for executing task1 with profile')
-    rootBuildScriptDir('some/path/where/you/gradle/project/reside')
-    buildFile('other')
-    fromRootBuildScriptDir(true)
-    makeExecutable(true)
-    gradleName('jenkins-gradle-combobox-item-name')
-    configure {
-      it / 'unknownOption' << 'on'
-    }
-}
-```
-
-
 
 ## Maven
 ```groovy
