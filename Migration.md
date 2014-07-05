@@ -1,3 +1,46 @@
+## Migrating to 1.24
+
+### Build Timeout
+
+In version 1.24 the dsl for the build timeout plugin has been modified and the
+generated xml requires a newer version of the build timeout plugin.
+The old dsl still works but has been deprecated.
+
+DSL prior to 1.24
+```groovy
+timeout(String type) { //type is one of: 'absolute', 'elastic', 'likelyStuck'
+    limit 15       // timeout in minutes
+    percentage 200 // percentage of runtime to consider a build timed out
+}
+
+timeout(35, false)
+```
+
+DSL since 1.24
+```groovy
+timeout {
+   absolute(15)
+   failBuild()
+   writeDescription('Build failed due to timeout after {0} minutes')
+}
+
+timeout {
+    absolute(35)
+    failBuild(false)
+}
+```
+
+See the [[Job Reference]] for further details.
+
+### Gerrit Trigger
+
+Before 1.24, the Gerrit trigger configuration used hardwired configuration for unset label configurations
+(successfulVerified +1, failedVerified -1, everything else 0, these are the default values of the central Gerrit trigger
+plugin configuration). Now the Gerrit trigger configuration correctly honors central configuration of labels. If you use
+non-default labels in your central configuration, you might need to change the trigger label configuration of your jobs.
+
+See the [[Job Reference]] for further details.
+
 ## Migrating to 1.20
 
 In version 1.20, some implementation classes have been moved to work around a [bug](http://jira.codehaus.org/browse/GROOVY-5875) in Groovy. When these classes have been used to [extend the DSL](Extending-the-DSL-from-your-Job-Scripts), import statements and fully qualified class names have to be adjusted.

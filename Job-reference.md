@@ -12,6 +12,10 @@ If using the [folders plugin](https://wiki.jenkins-ci.org/display/JENKINS/CloudB
 name('path/to/myjob')
 ```
 Note that the folders must already exist. (Available since 1.17).
+
+The name is treated as absolute to the Jenkins root by default, but the seed job can be configured to interpret names
+relative to the seed job. (since 1.24)
+
 ## Display Name
 ```groovy
 displayName(String displayName)
@@ -24,7 +28,13 @@ The name to display instead of the actual job name. (Available since 1.16)
 using(String templateName)
 ```
 
-Refers to a template Job to be used as the basis for this job. These are loaded before any configure blocks or DSL commands.  Template Jobs are just standard Jenkins Jobs which are used for their underlying config.xml. When they are changed, the seed job will attempt to re-run, which has the side-effect of cascading changes of the template the jobs generated from it.
+Refers to a template Job to be used as the basis for this job. These are loaded before any configure blocks or DSL
+commands.  Template Jobs are just standard Jenkins Jobs which are used for their underlying config.xml. When they are
+changed, the seed job will attempt to re-run, which has the side-effect of cascading changes of the template the jobs
+generated from it.
+
+The template name is treated as absolute to the Jenkins root by default, but the seed job can be configured to interpret
+names relative to the seed job. (since 1.24)
 
 ## Description
 ```groovy
@@ -110,6 +120,29 @@ jdk(String jdkStr)
 ```
 
 Selects the JDK to be used for this project. The jdkStr must match the name of a JDK installation defined in the Jenkins system configuration. The default JDK will be used when the jdk method is omitted.
+
+## Batch Tasks
+
+```groovy
+job {
+    batchTask(String name, String script)
+}
+```
+
+Adds batch tasks that are not regularly executed to projects, such as releases, integration, archiving. Can be called
+multiple times to add more batch tasks. Requires the
+[Batch Task Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Batch+Task+Plugin).
+
+Example:
+
+```groovy
+job {
+    batchTask('upload', 'curl --upload-file build/dist.zip http://www.example.com/upload')
+    batchTask('release', readFileFromWorkspace('scripts/release.sh'))
+}
+```
+
+(since 1.24)
 
 ## Security
 ```groovy
@@ -395,6 +428,7 @@ git {
     wipeOutWorkspace(boolean wipeOutWorkspace = true) // wipe out workspace and force clone, optional, defaults to false
     remotePoll(boolean remotePoll = true) // force polling using workspace, optional, defaults to false
     shallowClone(boolean shallowClone = true) // perform shallow clone, optional, defaults to false
+    pruneBranches(boolean pruneBranches = true) // prune obsolete local branches, optional, defaults to false
     relativeTargetDir(String relativeTargetDir) // checkout to a sub-directory, optional
     reference(String reference) // path to a reference repository, optional
     configure(Closure configure) // optional configure block, the GitSCM node is passed in 
@@ -520,6 +554,60 @@ cloneWorkspace(String parentProject, String criteriaArg = 'Any')
 
 Support the Clone Workspace plugin, by copy the workspace of another build. This complements another job which published their workspace.
 
+## Base ClearCase
+
+```groovy
+baseClearCase {
+    configSpec(String... configSpec)
+    loadRules(String... loadRules)
+    mkviewOptionalParameter(String... parameter)
+    viewName(String viewName) // Default: 'Jenkins_${USER_NAME}_${NODE_NAME}_${JOB_NAME}${DASH_WORKSPACE_NUMBER}'
+    viewPath(String viewPath) // Default: //view
+```
+
+Support for the [ClearCase plugin](http://wiki.jenkins-ci.org/display/JENKINS/ClearCase+Plugin).
+
+`configSpec`, `loadRules`, `mkviewOptionalParameter` can also be called multiple times as these configurations can be
+quite long.
+
+Example defining config spec and load rules:
+
+```groovy
+baseClearCase {
+    configSpec('''element * CHECKEDOUT
+element * /main/LATEST''')
+    loadRules('/vob/some_vob')
+```
+
+Example defining config spec and load rules with multiple methods calls:
+
+```groovy
+baseClearCase {
+    configSpec('element * CHECKEDOUT')
+    configSpec('element * /main/LATEST')
+    loadRules('/vob/some_vob')
+    loadRules('/vob/another_vob')
+```
+
+Example defining config spec and load rules using varargs parameters:
+
+```groovy
+baseClearCase {
+    configSpec('element * CHECKEDOUT', 'element * /main/LATEST')
+    loadRules('/vob/some_vob', '/vob/another_vob'')
+```
+
+This is another example which reads the config spec from a file in the seed job's workspace using
+`readFileFromWorkspace`:
+
+```groovy
+baseClearCase {
+    configSpec(readFileFromWorkspace('configSpec.txt'))
+    loadRules('/vob/some_vob')
+```
+
+(since 1.24)
+
 # Triggers
 
 
@@ -547,21 +635,31 @@ githubPush()
 Enables the job to be started whenever a change is pushed to a github repository. Requires that Jenkins has the github plugin installed and that it is registered as service hook for the repository (also works with Github Enterprise). (Since 1.16)
 
 ## Gerrit
+
 ```groovy
 gerrit {
-    events(Closure eventClosure) // Free form listing of event names
-    project(String projectName, List<String> branches) // Can be called multiple times
-    project(String projectName, String branches) // Can be called multiple times
-    buildStarted(int verified, int codeReview) //Updates the gerrit report values for the build started event
-     buildSuccessful(int verified, int codeReview) //Updates the gerrit report values for the build successful event
-    buildFailed(int verified, int codeReview) //Updates the gerrit report values for the build failed event 
-    buildUnstable(int verified, int codeReview) //Updates the gerrit report values for the build unstable event 
-    buildNotBuilt(int verified, int codeReview) //Updates the gerrit report values for the build not built event 
-    configure(Closure configureClosure) // Handed com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.GerritTrigger
+    events(Closure eventClosure)                          // free form listing of event names
+    project(String projectName, List<String> branches)    // can be called multiple times
+    project(String projectName, String branches)          // can be called multiple times
+    buildStarted(Integer verified, Integer codeReview)    // updates the Gerrit report values for the build started event, use null to keep the default value
+    buildSuccessful(Integer verified, Integer codeReview) // updates the Gerrit report values for the build successful event, use null to keep the default value
+    buildFailed(Integer verified, Integer codeReview)     // updates the Gerrit report values for the build failed event, use null to keep the default value
+    buildUnstable(Integer verified, Integer codeReview)   // updates the Gerrit report values for the build unstable event, use null to keep the default value
+    buildNotBuilt(Integer verified, Integer codeReview)   // updates the Gerrit report values for the build not built event, use null to keep the default value
+    configure(Closure configureClosure)                   // the com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.GerritTrigger node is handed in
 }
 ```
 
-Polls gerrit for changes. This DSL method works slightly differently by exposing most of its functionality in its own block. This is accommodating how the plugin can be pointed to multiple projects and trigger on many events. The most complex part is the events block, which takes the "short name" of an event. When looking at the raw config.xml for a Job which has Gerrit trigger, you'll see multiple class names in the triggerOnEvents element. The DSL method will take the names in the events block and prepend it with "com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.events.Plugin" and append "Event", meaning that shorter names like ChangeMerged and DraftPublished can be used. Straight from the unit test:
+Polls Gerrit for changes. This DSL method works slightly differently by exposing most of its functionality in its own
+block. This is accommodating how the plugin can be pointed to multiple projects and trigger on many events. The events
+block takes the "short name" of an event. When looking at the raw config.xml for a job which uses the Gerrit trigger,
+you'll see multiple class names in the triggerOnEvents element. The DSL method will take the names in the events block
+and prepend it with 'com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.events.Plugin' and append 'Event',
+meaning that shorter names like ChangeMerged and DraftPublished can be used.
+
+Requires the [Gerrit Trigger Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger).
+
+Example:
 
 ```groovy
 gerrit {
@@ -571,9 +669,7 @@ gerrit {
     }
     project('reg_exp:myProject', ['ant:feature-branch', 'plain:origin/refs/mybranch'])
     project('test-project', '**')
-    configure { node ->
-        node / gerritBuildSuccessfulVerifiedValue << '10'
-    }
+    buildSuccessful(10, null)
 }
 ```
 
@@ -728,16 +824,25 @@ rvm('ruby-2.0@gemset')
 
 Configures the job to prepare a Ruby environment controlled by RVM for the build. Requires at least the ruby version, can take also a gemset specification to prevent side effects with other builds. (Available since 1.16)
 
-## Timeout
+## Build Timeout
 
 ```groovy
-timeout(String type) { //type is one of: 'absolute', 'elastic', 'likelyStuck'
-    limit 15       // timeout in minutes
-    percentage 200 // percentage of runtime to consider a build timed out
+timeout {
+    elastic(int percentage = 150, int numberOfBuilds = 3, int minutesDefault = 60)
+    noActivity(int seconds = 180)
+    absolute(int minutes = 3)                  // default
+    likelyStuck()
+    failBuild(boolean fail = true)
+    writeDescription(String description)
+    limit(int limit)                           // deprecated
+    percentage(int percentage)                 // deprecated
+    writeDescription(boolean writeDesc = true) // deprecated
 }
 ```
 
-The timeout method enables you to define a timeout for builds. It can either be absolute (build times out after a fixed number of minutes), elastic (times out if build runs x% longer than the average build duration) or likelyStuck. (Available since 1.16)
+The timeout method enables you to define a timeout for builds. It can either be absolute (build times out after a fixed number of minutes), elastic (times out if build runs x% longer than the average build duration) or likelyStuck.
+
+Requires version 1.12 or later of the [Build Timeout Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Build-timeout+Plugin).
 
 The simplest invocation looks like this:
 
@@ -750,33 +855,62 @@ It defines an absolute timeout with a maximum build time of 3 minutes.
 Here is an absolute timeout:
 
 ```groovy
-timeout('absolute') {
-    limit 60              // 60 minutes before timeout
+timeout {
+    absolute(60)   // 60 minutes before timeout
 }
 ```
 
-The elastic timeout accepts two parameters: a percentage for determining builds that take longer than normal an a limit that is used if there is no average successful build duration (i.e. no jobs run or all runs failed):
+The elastic timeout accepts three parameters: a percentage for determining builds that take longer than normal,
+a limit that is used if there is no average successful build duration (i.e. no jobs run or all runs failed) and
+the number of successful/unstable builds to consider to calculate the average duration:
 
 ```groovy
-timeout('elastic') {
-    limit 30        // 30 minutes default timeout (no successful builds available as reference)
-    percentage 300  // Build will timeout when it take 3 time longer than the reference build duration
+timeout {
+    elastic(
+        300, // Build will timeout when it take 3 time longer than the reference build duration, default = 150
+        3,   // Number of builds to consider for average calculation
+        30)  // 30 minutes default timeout (no successful builds available as reference)
 }
 ```
 
 The likelyStuck timeout times out a build when it is likely to be stuck. Does not take extra configuration parameters.
 
 ```groovy
-timeout('likelyStuck')
+timeout {
+    likelyStuck()
+}
+```
+
+The noActivity timeout times out a build when there has been no console activity for a certain duration.
+
+```groovy
+timeout {
+    noActivity(180) // Timeout if there has been no activity for 180 seconds
+}
+```
+
+When the timeout happens, the default action is to abort if no other actions are configured. There are two other actions:
+
+- Fail the build
+- Add a build description
+
+They are both simultaneously allowed and configured like this:
+
+```groovy
+timeout {
+   absolute(30)
+   failBuild()
+   writeDescription('Build failed due to timeout after {0} minutes')
+}
 ```
 
 The following syntax has been available before 1.16 and will be retained for compatibility reasons:
 
 ```groovy
-timeout(int timeoutInMinutes, Boolean shoudFailBuild = true)
+timeout(int timeoutInMinutes, Boolean shouldFailBuild = true)
 ```
 
-Using the build timeout plugin, it can fail a build after a certain amount of time.
+(since 1.24)
 
 ## Port allocation
 ```groovy
@@ -1012,6 +1146,100 @@ job {
 ```
 
 (since 1.23)
+
+## Build Name Setter Plugin
+
+```groovy
+job {
+    wrappers {
+        buildName(String nameTemplate)
+    }
+}
+```
+
+Configures the [Build Name Setter Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Build+Name+Setter+Plugin). Token
+expansion mechanism is provided by the
+[Token Macro Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Token+Macro+Plugin).
+
+Example:
+```groovy
+// define the build name based on the build number and an environment variable
+job {
+    wrappers {
+        buildName('#${BUILD_NUMBER} on ${ENV,var="BRANCH"}')
+    }
+}
+```
+
+(since 1.24)
+
+## Keychains
+
+```groovy
+job {
+    wrappers {
+        keychains {
+            keychain(String keychain, String identity, String prefix = '')
+            delete(boolean delete = true)
+            overwrite(boolean overwrite = true)
+        }
+    }
+}
+```
+
+Configures keychains for the build. Requires the [Keychains and Provisioning Profiles
+Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Keychains+and+Provisioning+Profiles+Plugin).
+
+`keychain` can be used multiple times to add more keychains. With a single keychain, the prefix is optional. When using
+multiple keychains, a prefix to differentiate between them.
+
+Example:
+
+```groovy
+job {
+    wrappers {
+        keychains {
+            keychain('test1', 'test2')
+            delete()
+            overwrite()
+        }
+    }
+}
+```
+
+(since 1.24)
+
+## Exclusion Resources
+
+```groovy
+job {
+    wrappers {
+        exclusionResources(String... resourceNames)
+        exclusionResources(Iterable<String> resourceNames)
+    }
+}
+```
+
+Configures exclusion plugin resources that are required for the `criticalBlock` step. The critical block contains
+the build steps of the critical zone.
+Requires the [Exclusion Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Exclusion-Plugin).
+
+Example:
+
+```groovy
+job {
+    wrappers {
+        exclusionResources('first', 'second')
+    }
+    steps {
+        criticalBlock {
+            shell('echo Hello World!')
+        }
+    }
+}
+```
+
+(since 1.24)
 
 # Build Steps
 
@@ -1348,6 +1576,105 @@ job(type: Multijob) {
    }
 }
 ```
+# [MatrixJob](https://wiki.jenkins-ci.org/display/JENKINS/Building+a+matrix+project)
+
+The `axes`, `sequential`, `touchStoneFiler` and `combinationFilter` methods can only be used in jobs with type `Matrix`.
+Any elements which can be added to a freestyle project can also be added to a MatrixJob and these will be run for each
+of the matrix combinations.
+
+See also [Building a matrix project](https://wiki.jenkins-ci.org/display/JENKINS/Building+a+matrix+project).
+
+## Axes
+
+```groovy
+job(type: Matrix) {
+    axes {
+        text(String name, String... values)
+        text(String name, Iterable<String> values)
+        label(String name, String... labels)
+        label(String name, Iterable<String> labels)
+        labelExpression(String name, String... expressions)
+        labelExpression(String name, Iterable<String> expressions)
+        jdk(String... jdks)
+        jdk(Iterable<String> jdks)
+        configure(Closure configClosure)
+    }
+}
+```
+
+This block builds the separate axes and the individual methods (except for `jdk`) can be called multiple times with
+separate label names.
+
+The configure block can be used to add axes that are currently not supported by the Job DSL Plugin. The `axes` node is
+passed into the configure block.
+
+Example:
+
+```groovy
+job(type: Matrix) {
+    axes {
+        label('label', 'linux', 'windows')
+        jdk('jdk6', 'jdk7')
+        configure { axes ->
+            axes << 'org.acme.FooAxis'()
+        }
+    }
+}
+```
+
+## Run Sequentially
+
+```groovy
+job(type: Matrix) {
+    runSequentially(boolean runSequentially = true)
+}
+```
+
+Run each matrix combination in sequence. If omitted, Jenkins will try to build the combinations in parallel if possible.
+
+Example:
+
+```groovy
+job(type: Matrix) {
+    sequential()
+}
+```
+
+## Touchstone Builds
+
+```groovy
+job(type: Matrix) {
+    touchStoneFilter(String expression, boolean continueOnFailure = false)
+}
+```
+
+An expression of which combination to run first, the second parameter controls if a failure stops the other builds. 
+
+Example:
+
+```groovy
+job(type: Matrix) {
+    touchStoneFilter('label=="linux"')
+}
+```
+
+## Combination Filter
+
+```groovy
+job(type: Matrix) {
+    combinationFilter(String expression)
+}
+```
+
+An expression to limit which combinations can be run.
+
+Example:
+
+```groovy
+job(type: Matrix) {
+    combinationFilter('jdk=="jdk-6" || label=="linux"')
+}
+```
 
 # [Prerequisite Build Step](https://wiki.jenkins-ci.org/display/JENKINS/Prerequisite+build+step+plugin)
 
@@ -1440,7 +1767,7 @@ conditionalSteps {
         status(String worstResult, String bestResult) // Run if worstResult <= (current build status) <= bestResult
         shell(String command) // Run if shell script succeeds (Since 1.23)
         batch(String command) // Run if batch script succeeds (Since 1.23)
-        fileExits(String file, BaseDir baseDir) // Run if file exists relative to baseDir. BaseDir can be one of JENKINS_HOME, ARTIFACTS_DIR and WORKSPACE (Since 1.23)
+        fileExists(String file, BaseDir baseDir) // Run if file exists relative to baseDir. BaseDir can be one of JENKINS_HOME, ARTIFACTS_DIR and WORKSPACE (Since 1.23)
         not(Closure condition) // Run if the condition is not satisfied (Since 1.23)
         and(Closure... conditions) // Run if all conditions are satisfied (Since 1.23)
         or(Closure... conditions) // Run if any condition is satisfied (Since 1.23)
@@ -1544,6 +1871,20 @@ job {
 ```
 
 (since 1.22)
+
+# Critical Block Start/End
+
+```groovy
+job {
+    steps {
+        criticalBlock(Closure stepClosure)
+    }
+}
+```
+
+See [Exclusion Resources](#exclusion-resources).
+
+(since 1.24)
 
 # Publishers
 
@@ -2084,6 +2425,8 @@ Moreover, the warningsClosure takes, additional to all the options from the stat
 * excludePattern
 * resolveRelativePaths
 
+Requires version 4.0 or later of the [Warnings Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Warnings+Plugin).
+
 ## Text Finder
 
 Searches for keywords in files or the console log and uses that to downgrade a build to be unstable or a failure. Requires the [Text Finder Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Text-finder+Plugin).
@@ -2324,16 +2667,20 @@ publishRobotFrameworkReports()
 ## Build Pipeline Trigger
 
 ```groovy
-buildPipelineTrigger(String downstreamProjectNames, Closure closure) {
-    parameters { // Parameters closure (Since 1.23)
-        currentBuild() // Current build parameters
-        propertiesFile(String propFile) // Parameters from properties file
-        gitRevision(boolean combineQueuedCommits = false) // Pass-through Git commit that was built
-        predefinedProp(String key, String value) // Predefined properties
-        predefinedProps(Map<String, String> predefinedPropsMap)
-        predefinedProps(String predefinedProps) // Newline separated
-        matrixSubset(String groovyFilter) // Restrict matrix execution to a subset
-        subversionRevision() // Subversion Revision
+job {
+    publishers {
+        buildPipelineTrigger(String downstreamProjectNames) {
+            parameters { // since 1.23
+                currentBuild()
+                propertiesFile(String propFile)
+                gitRevision(boolean combineQueuedCommits = false)
+                predefinedProp(String key, String value)
+                predefinedProps(Map<String, String> predefinedPropsMap)
+                predefinedProps(String predefinedProps)
+                matrixSubset(String groovyFilter)
+                subversionRevision()
+            }
+        }
     }
 }
 ```
@@ -2345,21 +2692,32 @@ Jenkins. The argument takes a comma separated list of job names. Requires the
 The `parameters` closure and the methods inside it are optional, though it makes the most sense to call at least one.
 Each one is relatively self documenting, mapping directly to what is seen in the UI. The `predefinedProp` and
 `predefinedProps` methods are used to accumulate properties, meaning that they can be called multiple times to build a
-superset of properties. They are basically equivalent to the ones defined for `downstreamParameterized()`
+superset of properties. They are basically equivalent to the ones defined for `downstreamParameterized`.
 
-
-```groovy
-buildPipelineTrigger('deploy-cluster-1, deploy-cluster-2')
-```
+Examples:
 
 ```groovy
-buildPipelineTrigger('deploy-cluster-1, deploy-cluster-2') {
-    predefinedProp('GIT_COMMIT', '$GIT_COMMIT')
-    predefinedProp('ARTIFACT_BUILD_NUMBER', '$BUILD_NUMBER')
+job {
+    publishers {
+        buildPipelineTrigger('deploy-cluster-1, deploy-cluster-2')
+    }
 }
 ```
 
-(Since 1.21)
+```groovy
+job {
+    publishers {
+        buildPipelineTrigger('deploy-cluster-1, deploy-cluster-2') {
+            parameters {
+                predefinedProp('GIT_COMMIT', '$GIT_COMMIT')
+                predefinedProp('ARTIFACT_BUILD_NUMBER', '$BUILD_NUMBER')
+            }
+        }
+    }
+}
+```
+
+(since 1.21)
 
 ## Github Commit Notifier
 
@@ -2599,6 +2957,157 @@ job {
     }
 }
 ```
+
+## Rundeck Notifier
+
+```groovy
+job {
+    publishers {
+        rundeck(String jobId) {
+            options(Map<String, String> option)           // defaults to empty map if omitted
+            option(String key, String value)
+            tag(String tag)                               // defaults to empty string if omitted
+            nodeFilters(Map<String, String> filters)      // defaults to empty map if omitted
+            nodeFilter(String key, String value)
+            shouldWaitForRundeckJob(boolean value = true) // defaults to false if omitted
+            shouldFailTheBuild(boolean value = true)      // defaults to false if omitted
+        }
+    }
+}
+```
+
+Configure a Jenkins job to trigger a Rundeck job as a post-build action. Requires the
+[RunDeck Plugin](https://wiki.jenkins-ci.org/display/JENKINS/RunDeck+Plugin).
+
+Examples:
+
+```groovy
+job {
+    publishers {
+        rundeck('13eba461-179d-40a1-8a08-bafee33fdc12') {
+    }
+}
+```
+
+```groovy
+job {
+    publishers {
+        rundeck('13eba461-179d-40a1-8a08-bafee33fdc12') {
+            options(artifact: 'app', env: 'dev')
+            option('version', '1.1')
+            tag('deploy app to dev')
+            nodeFilters(hostname: 'dev(\\d+).company.net')
+            nodeFilter('tags', 'www+dev')
+            shouldWaitForRundeckJob()
+            shouldFailTheBuild()
+        }
+    }
+}
+```
+
+(since 1.24)
+
+## xUnit
+
+```groovy
+job {
+    publishers {
+        archiveXUnit {
+            aUnit {
+                pattern(String pattern)                     // empty by default
+                skipNoTestFiles(boolean value = true)       // defaults to false
+                failIfNotNew(boolean value = true)          // defaults to true
+                deleteOutputFiles(boolean value = true)     // defaults to true
+                stopProcessingIfError(boolean value = true) // defaults to true
+            }
+            boostTest { ... }                               // see aUnit closure above
+            cTest { ... }                                   // see aUnit closure above
+            check { ... }                                   // see aUnit closure above
+            cppTest { ... }                                 // see aUnit closure above
+            cppUnit { ... }                                 // see aUnit closure above
+            embUnit { ... }                                 // see aUnit closure above
+            fpcUnit { ... }                                 // see aUnit closure above
+            googleTest { ... }                              // see aUnit closure above
+            jUnit { ... }                                   // see aUnit closure above
+            msTest { ... }                                  // see aUnit closure above
+            mbUnit { ... }                                  // see aUnit closure above
+            nUnit { ... }                                   // see aUnit closure above
+            phpUnit { ... }                                 // see aUnit closure above
+            qTestLib { ... }                                // see aUnit closure above
+            unitTestvalgrind { ... }                        // see aUnit closure above
+            customTool {
+                // all options from the aUnit closure above, plus
+                stylesheet(String url)                      // empty by default
+            }
+            failedThresholds {
+                unstable(int threshold)                     // defaults to 0
+                unstableNew(int threshold)                  // defaults to 0
+                failure(int threshold)                      // defaults to 0
+                failureNew(int threshold)                   // defaults to 0
+            }
+            skippedThresholds {
+                unstable(int threshold)                     // defaults to 0
+                unstableNew(int threshold)                  // defaults to 0
+                failure(int threshold)                      // defaults to 0
+                failureNew(int threshold)                   // defaults to 0
+            }
+            thresholdMode(ThresholdMode mode)               // defaults to ThresholdMode.NUMBER
+            timeMargin(int margin)                          // defaults to 3000
+        }
+    }
+}
+```
+
+Configures a job to collect test results. Requires the
+[xUnit Plugin](https://wiki.jenkins-ci.org/display/JENKINS/xUnit+Plugin).
+For more details about individual options, please see the plugin page.
+
+The threshold mode can either be `ThresholdMode.NUMBER` or `ThresholdMode.PERCENT`.
+
+Examples:
+
+```groovy
+job {
+    publishers {
+        archiveXUnit {
+            jUnit {
+                pattern 'my_file.xml'
+            }
+        }
+    }
+}
+```
+
+```groovy
+job {
+    publishers {
+        archiveXUnit {
+            aUnit {
+                pattern 'my_file.xml'
+            }
+            jUnit {
+                pattern 'my_other_file.xml'
+            }
+            failedThresholds {
+                unstable 10
+                unstableNew 10
+                failure 10
+                failureNew 10
+            }
+            skippedThresholds {
+                unstable 5
+                unstableNew 5
+                failure 5
+                failureNew 5
+            }
+            thresholdMode ThresholdMode.PERCENT
+            timeMargin 4000
+        }
+    }
+}
+```
+
+(since 1.24)
 
 # Parameters
 **Note: In all cases apart from File Parameter the parameterName argument can't be null or empty**

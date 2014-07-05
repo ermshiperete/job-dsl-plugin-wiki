@@ -13,6 +13,21 @@ There is a great load of information on [the forum](https://groups.google.com/fo
 And finally, if you want to get more involved, [here's how...](https://github.com/jenkinsci/job-dsl-plugin/blob/master/CONTRIBUTING.md)
 
 ## Release Notes
+* 1.24 (July 05 2014)
+ * Support for [Build Name Setter Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Build+Name+Setter+Plugin)
+ * Support for [RunDeck Plugin](https://wiki.jenkins-ci.org/display/JENKINS/RunDeck+Plugin)
+ * Support for [ClearCase Plugin](https://wiki.jenkins-ci.org/display/JENKINS/ClearCase+Plugin)
+ * Support for [Keychains and Provisioning Profiles Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Keychains+and+Provisioning+Profiles+Plugin)
+ * Support for [xUnit Plugin](https://wiki.jenkins-ci.org/display/JENKINS/xUnit+Plugin)
+ * Support for [Batch Task Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Batch+Task+Plugin)
+ * Support for [Matrix Projects](https://wiki.jenkins-ci.org/display/JENKINS/Building+a+matrix+project)
+ * Extend support for [Build Timeout](https://wiki.jenkins-ci.org/display/JENKINS/Build-timeout+Plugin)
+ * Added option for treating job names relative to the seed job
+ * Added pruneBranches option for Git SCM
+ * Fixed ClassCastException when removing folder ([JENKINS-23289](https://issues.jenkins-ci.org/browse/JENKINS-23289))
+ * Fixed GerritContext not honoring default settings ([JENKINS-23318](https://issues.jenkins-ci.org/browse/JENKINS-23318))
+ * Moved PerforcePasswordEncryptor to javaposse.jobdsl.dsl.helpers.scm package
+ * Support for [Exclusion Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Exclusion-Plugin)
 * 1.23 (May 23 2014)
  * Added support for injecting globally defined passwords ([EnvInject Plugin](https://wiki.jenkins-ci.org/display/JENKINS/EnvInject+Plugin))
  * Added file name to exception message when reading missing workspace files ([JENKINS-23006](https://issues.jenkins-ci.org/browse/JENKINS-23006))
