@@ -144,6 +144,47 @@ job {
 
 (since 1.24)
 
+## Lockable Resources
+
+```groovy
+job {
+    lockableResources(String resources) {
+        resourcesVariable(String name) // reserved resources variable name
+        resourceNumber(int number)     // number of the listed resources to request
+    }
+}
+```
+
+Lock resources while a job is running. Requires the
+[Lockable Resources Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Lockable+Resources+Plugin).
+
+Examples:
+
+```groovy
+// lock single resource
+job {
+    lockableResources('lock-resource')
+}
+
+// notation that locks three resources at once
+job {
+    lockableResources('resource1 resource2 resource3')
+}
+
+// lock two available resources from given three and capture locked resources in the variable name
+job {
+    lockableResources('resource1 resource2 resource3') {
+        resourcesVariable('LOCKED_RESOURCES')
+        resourceNumber(2)
+    }
+    steps {
+        shell('echo Following resources are locked: $LOCKED_RESOURCES')
+    }
+}
+```
+
+(Since 1.25)
+
 ## Security
 ```groovy
 permission(String)
@@ -239,14 +280,15 @@ Since 1.21.
 
 # Maven
 
-The 'rootPOM', 'goals', 'mavenOpts', 'mavenInstallation', 'perModuleEmail', 'archivingDisabled', 'runHeadless', 'preBuildSteps' and 'postBuildSteps' methods can only be used in jobs with type 'Maven'.
+The `rootPOM`, `goals`, `mavenOpts`, `mavenInstallation`, `perModuleEmail`, `archivingDisabled`, `runHeadless`,
+ `preBuildSteps`, `postBuildSteps` and `providedSettings` methods can only be used in jobs with type `Maven`.
 
 ## Root POM
 ```groovy
 rootPOM(String rootPOM)
 ```
 
-To use a different 'pom.xml' in some other directory than the workspace root.
+To use a different `pom.xml` in some other directory than the workspace root.
 
 ## Goals
 ```groovy
@@ -330,7 +372,7 @@ For Maven jobs, you can also run arbitrary build steps before and after the Mave
 
 Examples:
 ```groovy
-job(type: 'Maven') {
+job(type: Maven) {
   preBuildSteps {
     shell("echo 'run before Maven'")
   }
@@ -341,6 +383,27 @@ job(type: 'Maven') {
 ```
 
 (since 1.20)
+
+## Maven Settings
+
+```groovy
+job(type: Maven) {
+    providedSettings(String mavenSettingsName)
+}
+```
+
+Use managed Maven settings. Requires the
+[Config File Provider Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Config+File+Provider+Plugin).
+
+Example:
+
+```groovy
+job(type: Maven) {
+    providedSettings('central-mirror')
+}
+```
+
+(since 1.25)
 
 ## Environment Variables
 ```groovy
@@ -429,6 +492,7 @@ git {
     remotePoll(boolean remotePoll = true) // force polling using workspace, optional, defaults to false
     shallowClone(boolean shallowClone = true) // perform shallow clone, optional, defaults to false
     pruneBranches(boolean pruneBranches = true) // prune obsolete local branches, optional, defaults to false
+    localBranch(String branch) // check out to specific local branch
     relativeTargetDir(String relativeTargetDir) // checkout to a sub-directory, optional
     reference(String reference) // path to a reference repository, optional
     configure(Closure configure) // optional configure block, the GitSCM node is passed in 
@@ -677,7 +741,7 @@ gerrit {
 
 ```groovy
 pullRequest {
-    admins(String admin) // add admin
+    admin(String admin) // add admin
     admins(Iterable<String> admins) // add admins
     userWhitelist(String user) // add user to whitelist
     userWhitelist(Iterable<String> users) // add users to whitelist
@@ -1241,6 +1305,51 @@ job {
 
 (since 1.24)
 
+## Maven Release
+
+```groovy {
+job(type: Maven) {
+    wrappers {
+        mavenRelease {
+            scmUserEnvVar(String scmUserEnvVar) // empty by default
+            scmPasswordEnvVar(String scmPasswordEnvVar) // empty by default
+            releaseEnvVar(String releaseEnvVar) // default to 'IS_M2RELEASEBUILD'
+            releaseGoals(String releaseGoals) // defaults to '-Dresume=false release:prepare release:perform'
+            dryRunGoals(String dryRunGoals) // defaults to '-Dresume=false -DdryRun=true release:prepare'
+            selectCustomScmCommentPrefix(boolean selected = true) // defaults to false
+            selectAppendJenkinsUsername(boolean selected = true) // defaults to false
+            selectScmCredentials(boolean selected = true) // defaults to false
+            numberOfReleaseBuildsToKeep(int number) // defaults to 1
+        }
+    }
+}
+```
+
+Allows to perform a release build using the maven-release-plugin. Only available for jobs with type `Maven`. Requires
+the [M2 Release Plugin](https://wiki.jenkins-ci.org/display/JENKINS/M2+Release+Plugin).
+
+Example:
+
+```groovy
+job(type: Maven) {
+    wrappers {
+        mavenRelease {
+            scmUserEnvVar('MY_USER_ENV')
+            scmPasswordEnvVar('MY_PASSWORD_ENV')
+            releaseEnvVar('RELEASE_ENV')
+            releaseGoals('release:prepare release:perform')
+            dryRunGoals('-DdryRun=true release:prepare')
+            selectCustomScmCommentPrefix()
+            selectAppendJenkinsUsername()
+            selectScmCredentials()
+            numberOfReleaseBuildsToKeep(10)
+        }
+    }
+}
+```
+
+(since 1.25)
+
 # Build Steps
 
 Adds step block to contain an ordered list of build steps. Cannot be used for jobs with type 'maven'.
@@ -1278,11 +1387,14 @@ maven {                                               // since 1.20; all methods
     mavenInstallation(String name)                    // name of the Maven installation to use
     properties(Map properties)                        // since 1.21; add (system)-properties
     property(String key, String value)                // since 1.21; add a (system)-property
+    providedSettings(String mavenSettingsName)        // since 1.25
     configure(Closure configure)                      // configure block
 }
 ```
 
-Runs Apache Maven. Configure block is handed hudson.tasks.Maven.
+Runs Apache Maven. Configure block is handed `hudson.tasks.Maven`. The 
+[Config File Provider Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Config+File+Provider+Plugin) is required to
+use `providedSettings`.
 
 Examples:
 
@@ -1299,6 +1411,7 @@ maven {
     localRepository(LocalToWorkspace)
     properties skipTests: true
     mavenInstallation('Maven 3.1.1')
+    providedSettings('central-mirror')
 }
 ```
 
@@ -1362,6 +1475,51 @@ sbt(/*standard parameters here*/) {
     newParameter 'foo'
 }
 ```
+
+## Rake
+
+```groovy
+job {
+    steps {
+        rake {
+            task(String task)                     // a single task to execute
+            tasks(Iterable<String> tasks)         // a list of tasks to execute
+            file(String file)                     // path to a Rakefile
+            installation(String installation)     // Ruby installation to use
+            libDir(String libDir)                 // path to Rake library directory
+            workingDir(String workingDir)         // path the working directory in which Rake should be executed
+            bundleExec(boolean bundleExec = true) // execute Rake with Bundler 'bundle exec rake'
+            silent(boolean silent = true)         // do not print to STDOUT
+        }
+        rake(String tasksArg, Closure rakeClosure = null) // see above for rakeClosure syntax
+    }
+}
+```
+
+Executes Rake as a build step. Requires the [Rake Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Rake+plugin).
+
+Examples:
+
+```groovy
+job {
+    steps {
+        rake('task')
+        
+        rake('first') {
+            task('second')
+            tasks(['third', 'fourth'])
+            file('/opt/app/Rakefile')
+            installation('ruby-2.0.0-p481')
+            libDir('./rakelib')
+            workingDir('/opt/app')
+            bundleExec()
+            silent()
+        }
+    }
+}
+```
+
+(Since 1.25)
 
 ## DSL
 ```groovy
@@ -1483,6 +1641,36 @@ systemGroovyScriptFile(String fileName, Closure systemGroovyClosure = null) {
 
 Runs a system groovy script, which is executed inside the Jenkins master. Thus it will have access to all the internal objects of Jenkins and can be used to alter the state of Jenkins. The `systemGroovyCommand` method will run an inline script and the `systemGroovyScriptFile` will execute a script file from the generated job's workspace. The closure block can be used to add variable bindings and extra classpath entries for a script. The methods in the closure block can be called multiple times to add any number of bindings or classpath entries. The Groovy plugin must be installed to use these build steps.
 
+## vSphere Cloud
+
+```groovy
+job {
+    steps {
+        vSpherePowerOff(String server, String vm)
+        vSpherePowerOn(String server, String vm)
+        vSphereRevertToSnapshot(String server, String vm, String snapshot)
+    }
+}
+```
+
+These build steps manage virtual machines running in VMWare vSphere. Requires the
+[vSphere Cloud Plugin](https://wiki.jenkins-ci.org/display/JENKINS/vSphere+Cloud+Plugin).
+
+Example:
+
+```groovy
+// power off the VM 'foo' on server 'vsphere.acme.org', then revert to snapshot 'clean' and power on again
+job {
+    steps {
+        vSpherePowerOff('vsphere.acme.org', 'foo')
+        vSphereRevertToSnapshot('vsphere.acme.org', 'foo', 'clean')
+        vSpherePowerOn('vsphere.acme.org', 'foo')
+    }
+}
+```
+
+(Since 1.25)
+
 ## Grails
 ```groovy
 grails {
@@ -1527,25 +1715,36 @@ Injects environment variables into the build. Requires the [EnvInject plugin](ht
 # Multijob Phase
 
 ```
-phase(String name, String continuationConditionArg = 'SUCCESSFUL', Closure phaseClosure = null) {
-    phaseName(String phaseName)
-    continuationCondition(String continuationCondition)
-    job(String jobName, boolean currentJobParameters = true, boolean exposedScm = true, Closure phaseJobClosure = null)  {
-        currentJobParameters(boolean currentJobParameters = true) 
-        exposedScm(boolean exposedScm = true)
-        boolParam(String paramName, boolean defaultValue = false)
-        fileParam(String propertyFile, boolean failTriggerOnMissing = false)
-        sameNode(boolean nodeParam = true) 
-        matrixParam(String filter)
-        subversionRevision(boolean includeUpstreamParameters = false)
-        gitRevision(boolean combineQueuedCommits = false) 
-        prop(Object key, Object value)
-        props(Map<String, String> map)
+job(type: Multijob) {
+    steps {
+        phase(String name, String continuationConditionArg = 'SUCCESSFUL', Closure phaseClosure = null) {
+            phaseName(String phaseName)
+            continuationCondition(String continuationCondition)
+            job(String jobName, boolean currentJobParameters = true, boolean exposedScm = true, Closure phaseJobClosure = null) {
+                currentJobParameters(boolean currentJobParameters = true)
+                exposedScm(boolean exposedScm = true)
+                boolParam(String paramName, boolean defaultValue = false)
+                fileParam(String propertyFile, boolean failTriggerOnMissing = false)
+                sameNode(boolean nodeParam = true)
+                matrixParam(String filter)
+                subversionRevision(boolean includeUpstreamParameters = false)
+                gitRevision(boolean combineQueuedCommits = false)
+                prop(Object key, Object value)
+                props(Map<String, String> map)
+                disableJob(boolean exposedScm = true) // since 1.25
+                killPhaseCondition(String killPhaseCondition) // since 1.25
+            }
+        }
     }
 }
 ```
 
-Phases allow jobs to be group together to be run in parallel, they only exist in a Multijob typed job. The name and continuationConditionArg can be set directly in the phase method or in the closure. The job method is used to list each job in the phase, and hence can be called multiple times. Each call can be further configured with the parameters which will be sent to it. The parameters are show above and documented in different parts of this page. See below for an example of multiple phases strung together:
+Phases allow jobs to be group together to be run in parallel, they only exist in a Multijob typed job. The name and
+continuationConditionArg can be set directly in the phase method or in the closure. The job method is used to list each
+job in the phase, and hence can be called multiple times. Each call can be further configured with the parameters which
+will be sent to it. The parameters are show above and documented in different parts of this page. See below for an
+example of multiple phases strung together. Requires the
+[Multijob Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Multijob+Plugin).
 
 ```
 job(type: Multijob) {
@@ -1554,7 +1753,6 @@ job(type: Multijob) {
             phaseName 'Second'
             job('JobZ') {
                 fileParam('my1.properties')
-                fileParam('my2.properties')
             }
         }
         phase('Third') {
@@ -1576,6 +1774,9 @@ job(type: Multijob) {
    }
 }
 ```
+
+(since 1.16)
+
 # [MatrixJob](https://wiki.jenkins-ci.org/display/JENKINS/Building+a+matrix+project)
 
 The `axes`, `sequential`, `touchStoneFiler` and `combinationFilter` methods can only be used in jobs with type `Matrix`.
@@ -2929,7 +3130,7 @@ job {
             cleanWhenNotBuilt(boolean value = true) // defaults to true if omitted
             cleanWhenAborted(boolean value = true) // defaults to true if omitted
             failBuildWhenCleanupFails(boolean value = true) // defaults to true if omitted
-            externalDeleteCommand(String command)
+            deleteCommand(String command)
         }
     }
 }

@@ -11,7 +11,7 @@ job {
 }
 ```
 
-There are similar methods to create Jenkins views and folders:
+There are similar methods to create Jenkins views, folders and config files:
 
 ```groovy
 view {
@@ -21,10 +21,14 @@ view {
 folder {
     name 'my-folder'
 }
+
+configFile {
+    name 'my-config'
+}
 ```
 
-The name is treated as absolute to the Jenkins root by default, but the seed job can be configured to interpret names
-relative to the seed job. (since 1.24)
+When defining jobs, views or folders the name is treated as absolute to the Jenkins root by default, but the seed job
+can be configured to interpret names relative to the seed job. (since 1.24)
 
 In the closure provided to `job` there are a few top level methods, like `label` and `chucknorris`. Others are nested
 deeper in blocks which represent their role in Jenkins, e.g. the `publishers` block contains all the publisher actions.
@@ -68,6 +72,7 @@ job(Map<String, ?> arguments = [:]) {
     jdk(String jdk)
     keepDependencies(boolean keep = true)
     label(String label)
+    lockableResources(String resources, Closure lockableResourcesClosure) // since 1.25
     logRotator(int daysToKeep = -1, int numToKeep = -1, int artifactDaysToKeep = -1,
                int artifactNumToKeep = -1)
     priority(int value)
@@ -184,6 +189,8 @@ job(Map<String, ?> arguments = [:]) {
         phase(String name, Closure phaseClosure = null)
         phase(String name, String continuationConditionArg, Closure phaseClosure)
         prerequisite(String projectList = '', boolean warningOnly = false) // since 1.19 
+        rake(Closure rakeClosure = null) // since 1.25
+        rake(String tasksArg, Closure rakeClosure = null) // since 1.25
         remoteTrigger(String remoteJenkinsName, String jobName,
                       Closure remoteTriggerClosure) // since 1.22
         sbt(String sbtName = null, String actions = null, String sbtFlags = null,
@@ -191,6 +198,9 @@ job(Map<String, ?> arguments = [:]) {
         shell(String command)
         systemGroovyCommand(String command, Closure systemGroovyClosure = null)
         systemGroovyScriptFile(String fileName, Closure systemGroovyClosure = null)
+        vSpherePowerOff(String server, String vm)
+        vSpherePowerOn(String server, String vm)
+        vSphereRevertToSnapshot(String server, String vm, String snapshot)
     }
     publishers {
         aggregateDownstreamTestResults(String jobs = null, 
@@ -284,6 +294,10 @@ job(Map<String, ?> arguments = [:]) {
     runHeadless(boolean shouldRunHeadless)
     preBuildSteps(Closure stepsClosure)
     postBuildSteps(Closure stepsClosure)
+    providedSettings(String mavenSettingsName) // since 1.25
+    wrappers {
+        mavenRelease(Closure mavenReleaseClosure = null) // since 1.25
+    }
 
     // BuildFlow options
     buildFlow(String buildFlowText) // since 1.21
@@ -346,6 +360,20 @@ view(Map<String, Object> arguments = [:]) { // since 1.21
     showPipelineDefinitionHeader(boolean showPipelineDefinitionHeader = true)
     showPipelineParameters(boolean showPipelineParameters = true)
     showPipelineParametersInHeaders(boolean showPipelineParametersInHeaders = true)
+
+    // SectionedView options, since 1.25
+    sections {
+        listView(Closure listNiewSectionClosure)
+    }
+
+    // NestedView options, since 1.25
+    views {
+        view(Map<String, Object> arguments = [:], Closure viewClosure)
+    }
+    columns {
+        status()
+        weather()
+    }
 }
 
 folder { // since 1.23
@@ -357,10 +385,16 @@ folder { // since 1.23
     // common options
     displayName(String displayName)
 }
+
+configFile(Map<String, Object> arguments = [:]) { // since 1.25
+    name(String name)
+    comment(String comment)
+    content(String content)
+}
 ```
 
 The plugin tries to provide DSL methods to cover "common use case" scenarios as simple method calls. When these methods
-fail you, you can always generate the XML yourself via [[The Configure Block]]. Sometimes, a DSL
+fail you, you can always generate the underlying XML yourself via [[The Configure Block]]. Sometimes, a DSL
 method will provide a configure block of its own, which will set the a good context to help modify a few fields. 
 This gives native access to the job config XML, which is typically very straight forward to understand.
 
@@ -406,8 +440,8 @@ view(Map<String, Object> attributes = [:], Closure closure)
 
 The `view` method behaves like the `job` method explained above and will return a _View_ object.
 
-Currently only a `type` attribute with value of `ListView` or `BuildPipelineView` is supported. When no type is
-specified, a list view will be generated.
+Currently only a `type` attribute with value of `ListView`, `BuildPipelineView`, `SectionedView` or `NestedView` is
+supported. When no type is specified, a list view will be generated.
 
 ```groovy
 view(type: ListView) {
@@ -454,6 +488,32 @@ folder {
 }
 ```
 
+# Config File
+
+```groovy
+configFile(Map<String, Object> attributes = [:], Closure closure)
+```
+
+The `configFile` method behaves like the `job` method explained above and will return a _ConfigFile_ object.
+
+A config file can have optional attributes. Currently only a `type` attribute with value of `Custom` or `MavenSettings`
+is supported. When no type is specified, a custom config file will be generated.
+
+Config files will be created before jobs to ensure that the file exists before it is referenced.
+
+```groovy
+configFile {
+  name 'my-config'
+  comment 'My important configuration'
+  content '<some-xml/>'
+}
+
+configFile(type: MavenSettings) {
+  name 'central-mirror'
+  content readFileFromWorkspace('maven-settings/central-mirror.xml')
+}
+```
+
 # Queue
 
 ```groovy
@@ -467,19 +527,31 @@ which was generated by the DSL, but it could be.
 # Reading Files from Workspace
 
 ```groovy
-InputStream streamFileFromWorkspace(String filePath) throws IOException
-String readFileFromWorkspace(String filePath) throws IOException
+InputStream streamFileFromWorkspace(String filePath)
+String readFileFromWorkspace(String filePath)
+String readFileFromWorkspace(String jobName, String filePath) // since 1.25
 ```
 
-Anywhere in the script you can read in a file from the current workspace using the above calls. This assumes that you
-checked out some source control as part of the job processing the DSL. This can be useful when populating fields on a
-generated job, e.g.
+With the first two variants, you can read in a file from the current workspace anywhere in the script. This assumes that
+you checked out some source control as part of the job processing the DSL. This can be useful when populating fields on
+a generated job, e.g.
 
 ```groovy
 job {
     steps {
         shell(readFileFromWorkspace('build.sh')
     }
+}
+```
+
+And with the third variant, you can read a file from the workspace of any job. This can be used to set the description
+of a job from a file in the job's workspace. The method will return `null` when the job or the file does not exist or
+the job has no workspace, e.g. when it has not been built yet.
+
+```groovy
+job {
+    name('acme-tests')
+    description(readFileFromWorkspace('acme-tests', 'README.txt'))
 }
 ```
 
@@ -520,7 +592,7 @@ job {
 
 See [[The Configure Block]] page for details.
 
-# Job Factory
+# DSL Factory
 
 Because the engine is just Groovy, you can call other Groovy classes available in the workspace. When in those methods
 the `job` method is no longer available, so it is recommended to pass in the current context to make this method
@@ -534,8 +606,8 @@ Then the `BuildFramework` class has everything it needs to make `job` calls:
 
 ```groovy
 class BuildFramework {
-    static ant(jobFactory, arg1, arg2) {
-        jobFactory.job {
+    static ant(dslFactory, arg1, arg2) {
+        dslFactory.job {
             name arg1
             steps {
                 ant(arg2)
