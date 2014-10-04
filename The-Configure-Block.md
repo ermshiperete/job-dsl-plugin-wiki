@@ -36,7 +36,7 @@ job {
     scm {
         git {
             remote {
-                url('git@server:account/repo1.git')      
+                url('git@server:account/repo1.git')
             }
             configure { node ->
                 // node represents <hudson.plugins.git.GitSCM>
@@ -47,7 +47,7 @@ job {
 ```
 
 Other DSL elements allow configure blocks to be used directly without a `configure` method.
- 
+
 ```groovy
 job {
     steps {
@@ -58,9 +58,9 @@ job {
 }
 ```
 
-The `configure` method can be stated multiple times and configure blocks are run in the order they are provided. 
+The `configure` method can be stated multiple times and configure blocks are run in the order they are provided.
 
-See the [[Job Reference]] for details about the configure blocks supported by DSL methods. 
+See the [[Job Reference]] for details about the configure blocks supported by DSL methods.
 
 # Transforming XML
 
@@ -76,6 +76,16 @@ Things to keep in mind:
 * `+` adds siblings, so once we have one node, you can keep adding siblings, but will need an initial peer to add to.
 * Children can be easily accessed if they exist, if they don't exist you have to append them. This means accessing deep
   trees is laborious.
+* Groovy key words (e.g. `switch`), methods each object inherits (e.g. `properties`) and element names
+  containing operators (e.g. `.`) must be put into quotes:
+
+```groovy
+configure {
+    it / 'properties' / 'com.example.Test' {
+        'switch'('on')
+    }
+}
+```
 
 To ease navigation, two key operators have been overridden. Try to use them as much as possible:
 
@@ -91,7 +101,7 @@ Here is an (inelegant) configure block which may explain what Groovy sees, e.g.
 
 ```groovy
 configure {
-    // "it" is a groovy.util.Node  
+    // "it" is a groovy.util.Node
     //    representing the job's config.xml's root "project" element.
     // anotherNode is also groovy.util.Node
     //    obtained with the overloaded "/" operator
@@ -165,7 +175,7 @@ job {
             artifactDaysToKeep(-1)
             artifactNumToKeep(-1)
         }
-        
+
         // Alters existing value
         (project / logRotator / daysToKeep).value = 2
     }
@@ -174,7 +184,7 @@ job {
 
 Result:
 ```xml
-<project>  
+<project>
     <logRotator>
         <daysToKeep>2</daysToKeep>
         <numToKeep>10</numToKeep>
@@ -416,12 +426,12 @@ def gitConfigWithSubdir(subdir, remote) {
     { node ->
         // use remote name given
         node / 'userRemoteConfigs' / 'hudson.plugins.git.UserRemoteConfig' / name(remote)
-    
+
         // use local dir given
         node / 'extensions' << 'hudson.plugins.git.extensions.impl.RelativeTargetDirectory' {
             relativeTargetDir subdir
         }
-    
+
         // clean after checkout
         node / 'extensions' << 'hudson.plugins.git.extensions.impl.CleanCheckout'()
     }
@@ -465,7 +475,7 @@ Result:
 
 DSL:
 ```groovy
-// this creates XML for version 1.x of the Git Plugin, but version 2.x is backwards compatible  
+// this creates XML for version 1.x of the Git Plugin, but version 2.x is backwards compatible
 job {
     scm {
         git {
@@ -733,7 +743,7 @@ job {
         project / publishers << 'org.jfrog.hudson.ArtifactoryRedeployPublisher' {
             details {
                 artifactoryUrl('http://artifactory.server.com/artifactory')
-                artifactoryName('925330@138764814') // <= You will need to change that to fit your setup 
+                artifactoryName('925330@138764814') // <= You will need to change that to fit your setup
                 repositoryKey('libs-release-local')
                 snapshotsRepositoryKey('libs-snapshot-local')
             }

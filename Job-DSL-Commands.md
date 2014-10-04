@@ -50,7 +50,7 @@ from right to left. Many methods provide options in deeper nested blocks which a
 ```groovy
 job(Map<String, ?> arguments = [:]) {
     name(String name)
-    
+
     // DSL specific methods
     using(String templateName)
     configure(Closure configBlock)
@@ -64,6 +64,7 @@ job(Map<String, ?> arguments = [:]) {
     checkoutRetryCount(int times = 3)
     concurrentBuild(boolean allowConcurrentBuild = true) // since 1.21
     customWorkspace(String workspacePath)
+    deliveryPipelineConfiguration(String stageName, String taskName = null) // since 1.26
     description(String description)
     disabled(boolean shouldDisable = true)
     displayName(String displayName)
@@ -75,6 +76,7 @@ job(Map<String, ?> arguments = [:]) {
     lockableResources(String resources, Closure lockableResourcesClosure) // since 1.25
     logRotator(int daysToKeep = -1, int numToKeep = -1, int artifactDaysToKeep = -1,
                int artifactNumToKeep = -1)
+    notifications(Closure notificationClosure) // since 1.26
     priority(int value)
     quietPeriod(int seconds = 5)
     throttleConcurrentBuilds(Closure throttleClosure)
@@ -93,6 +95,7 @@ job(Map<String, ?> arguments = [:]) {
                       boolean sortNewestFirst = false, boolean sortZtoA = false,
                       String maxTagsToDisplay = 'all', String defaultValue = null,
                       String description = null)
+        nodeParam(String parameterName, Closure closure = null) // since 1.26
         runParam(String parameterName, String jobToRun, String description = null,
                  String filter = null)
         stringParam(String parameterName, String defaultValue = null,
@@ -131,13 +134,16 @@ job(Map<String, ?> arguments = [:]) {
         allocatePorts(Closure closure = null)
         allocatePorts(String[] ports, Closure closure = null)
         buildName(String nameTemplate) // since 1.24
+        buildUserVars() // since 1.26
         colorizeOutput(String colorMap)
+        deliveryPipelineVersion(String template, boolean setDisplayName = false) // since 1.26
         environmentVariables(Closure envClosure)
         exclusionResources(String... resourceNames) // since 1.24
         exclusionResources(Iterable<String> resourceNames) // since 1.24
         injectPasswords() // since 1.23
         keychains(Closure closure) // since 1.24
         logSizeChecker(Closure closure = null) // since 1.23
+        maskPasswords() // since 1.26
         preBuildCleanup(Closure closure = null) // since 1.22
         release(Closure releaseClosure) // since 1.22
         runOnSameNodeAs(String jobName, boolean useSameWorkspace = false)
@@ -148,7 +154,8 @@ job(Map<String, ?> arguments = [:]) {
         timeout(Integer timeoutInMinutes, Boolean shouldFailBuild = true) // deprecated
         timestamps()
         toolenv(String... tools)
-        xvnc(boolean takeScreenshot = false)
+        xvnc(boolean takeScreenshot) // deprecated
+        xvnc(Closure xvncClosure = null) // since 1.26
     }
     steps {
         ant(Closure antClosure = null)
@@ -169,7 +176,7 @@ job(Map<String, ?> arguments = [:]) {
         criticalBlock(Closure stepClosure) // since 1.24
         downstreamParameterized(Closure downstreamClosure)
         dsl(Closure dslClosure = null)
-        dsl(String scriptText, String removedJobAction = null, 
+        dsl(String scriptText, String removedJobAction = null,
             boolean ignoreExisting = false)
         dsl(Collection<String> externalScripts, String removedJobAction = null,
             boolean ignoreExisting = false)
@@ -188,7 +195,7 @@ job(Map<String, ?> arguments = [:]) {
         phase(Closure phaseClosure)
         phase(String name, Closure phaseClosure = null)
         phase(String name, String continuationConditionArg, Closure phaseClosure)
-        prerequisite(String projectList = '', boolean warningOnly = false) // since 1.19 
+        prerequisite(String projectList = '', boolean warningOnly = false) // since 1.19
         rake(Closure rakeClosure = null) // since 1.25
         rake(String tasksArg, Closure rakeClosure = null) // since 1.25
         remoteTrigger(String remoteJenkinsName, String jobName,
@@ -203,17 +210,19 @@ job(Map<String, ?> arguments = [:]) {
         vSphereRevertToSnapshot(String server, String vm, String snapshot)
     }
     publishers {
-        aggregateDownstreamTestResults(String jobs = null, 
+        aggregateDownstreamTestResults(String jobs = null,
                                        boolean includeFailedBuilds = false) // since 1.19
         allowBrokenBuildClaiming()
+        analysisCollector(Closure analysisCollectorClosure = null) // since 1.26
         androidLint(String pattern, Closure staticAnalysisClosure = null)
         archiveArtifacts(String glob, String excludeGlob = null,
                          boolean latestOnlyBoolean = false)
         archiveArtifacts(Closure archiveArtifactsClosure) // since 1.20
         archiveJavadoc(Closure javadocClosure) // since 1.19
-        archiveJunit(String glob, boolean retainLongStdout = false,
+        archiveJunit(String glob, boolean retainLongStdout,
                      boolean allowClaimingOfFailedTests = false,
-                     boolean publishTestAttachments = false)
+                     boolean publishTestAttachments = false) // deprecated
+        archiveJunit(String glob, Closure junitClosure = null) // since 1.26
         archiveXunit(Closure xunitClosure) // since 1.24
         associatedFiles(String files = null) // since 1.20
         buildDescription(String regularExpression, String description = '',
@@ -238,6 +247,7 @@ job(Map<String, ?> arguments = [:]) {
         findbugs(String pattern, boolean isRankActivated = false,
                  Closure staticAnalysisClosure = null)
         fingerprint(String targets, boolean recordBuildArtifacts = false)
+        flexiblePublish(Closure flexiblePublishClosure) // since 1.26
         flowdock(String token, Closure flowdockClosure = null) // since 1.23
         flowdock(String[] tokens, flowdockClosure = null) // since 1.23
         git(Closure gitPublisherClosure) // since 1.22
@@ -257,8 +267,8 @@ job(Map<String, ?> arguments = [:]) {
         publishCloneWorkspace(String workspaceGlob, String workspaceExcludeGlob,
                               String criteria, String archiveMethod,
                               Closure cloneWorkspaceClosure)
-        publishCloneWorkspace(String workspaceGlob, String workspaceExcludeGlob = '', 
-                              String criteria = 'Any', String archiveMethod = 'TAR', 
+        publishCloneWorkspace(String workspaceGlob, String workspaceExcludeGlob = '',
+                              String criteria = 'Any', String archiveMethod = 'TAR',
                               boolean overrideDefaultExcludes = false,
                               Closure cloneWorkspaceClosure = null)
         publishHtml(Closure htmlReportClosure)
@@ -269,6 +279,7 @@ job(Map<String, ?> arguments = [:]) {
         publishRobotFrameworkReports(Closure closure = null) // since 1.21
         publishScp(String site, Closure scpClosure)
         rundeck(String jobId, Closure rundeckClosure = null) // since 1.24
+        s3(String profile, Closure s3Closure) // since 1.26
         stashNotifier(Closure stashNotifierClosure = null) // since 1.23
         tasks(String pattern, excludePattern = '', high = '', normal = '', low = '',
               ignoreCase = false, Closure staticAnalysisClosure = null)
@@ -321,10 +332,10 @@ job(Map<String, ?> arguments = [:]) {
 
 view(Map<String, Object> arguments = [:]) { // since 1.21
     name(String name)
-    
+
     // DSL specific methods
     configure(Closure configBlock)
-    
+
     // common options
     description(String description)
     filterBuildQueue(boolean filterBuildQueue)
@@ -360,6 +371,7 @@ view(Map<String, Object> arguments = [:]) { // since 1.21
     showPipelineDefinitionHeader(boolean showPipelineDefinitionHeader = true)
     showPipelineParameters(boolean showPipelineParameters = true)
     showPipelineParametersInHeaders(boolean showPipelineParametersInHeaders = true)
+    startsWithParameters(boolean startsWithParameters = true) // since 1.26
 
     // SectionedView options, since 1.25
     sections {
@@ -374,11 +386,25 @@ view(Map<String, Object> arguments = [:]) { // since 1.21
         status()
         weather()
     }
+
+    // DeliveryPipelineView options, since 1.26
+    pipelineInstances(int number)
+    showAggregatedPipeline(boolean showAggregatedPipeline = true)
+    columns(int number)
+    sorting(Sorting sorting)
+    updateInterval(int seconds)
+    enableManualTriggers(boolean enable = true)
+    showAvatars(boolean showAvatars = true)
+    showChangeLog(boolean showChangeLog = true)
+    pipelines {
+        component(String name, String initialJob)
+        regex(String regex)
+    }
 }
 
 folder { // since 1.23
     name(String name)
-    
+
     // DSL specific methods
     configure(Closure configBlock)
 
@@ -395,7 +421,7 @@ configFile(Map<String, Object> arguments = [:]) { // since 1.25
 
 The plugin tries to provide DSL methods to cover "common use case" scenarios as simple method calls. When these methods
 fail you, you can always generate the underlying XML yourself via [[The Configure Block]]. Sometimes, a DSL
-method will provide a configure block of its own, which will set the a good context to help modify a few fields. 
+method will provide a configure block of its own, which will set the a good context to help modify a few fields.
 This gives native access to the job config XML, which is typically very straight forward to understand.
 
 (Note: The full XML can be found for any job, view or folder by taking the Jenkins URL and appending `/config.xml` to
@@ -440,8 +466,8 @@ view(Map<String, Object> attributes = [:], Closure closure)
 
 The `view` method behaves like the `job` method explained above and will return a _View_ object.
 
-Currently only a `type` attribute with value of `ListView`, `BuildPipelineView`, `SectionedView` or `NestedView` is
-supported. When no type is specified, a list view will be generated.
+Currently only a `type` attribute with value of `ListView`, `BuildPipelineView`, `SectionedView`, `NestedView` or
+`DeliveryPipelineView` is supported. When no type is specified, a list view will be generated.
 
 ```groovy
 view(type: ListView) {
