@@ -186,11 +186,16 @@ job {
 (Since 1.25)
 
 ## Security
+
 ```groovy
-permission(String)
-permission(String permEnumName, String user)
-permission(Permissions perm, String user)
-permissionAll(String user)
+job {
+    authorization {
+        permission(String)
+        permission(String permEnumName, String user)
+        permission(Permissions perm, String user)
+        permissionAll(String user)
+    }
+}
 ```
 
 Creates permission records. The first form adds a specific permission, e.g. 'hudson.model.Item.Workspace:authenticated', as seen in the config.xml. The second form simply breaks apart the permission from the user name, to make scripting easier. The third uses a helper Enum called [Permissions] (https://github.com/jenkinsci/job-dsl-plugin/blob/master/job-dsl-core/src/main/groovy/javaposse/jobdsl/dsl/helpers/Permissions.groovy) to hide some of the names of permissions. It is available by importing javaposse.jobdsl.dsl.helpers.Permissions. By using the enum you get some basic type checking. A flaw with this system is that Jenkins plugins can create their own permissions, and the job-dsl plugin doesn't necessarily know about them. The last form will take everything in the Permissions enum and gives them to the user, this method also suffers from the problem that not all permissions from every plugin are included.
@@ -199,22 +204,24 @@ The permissions as of the latest version can be found in [the Permissions enum](
 
 ```groovy
 // Gives permission for the special authenticated group to see the workspace of the job
-authorization {
-    permission('hudson.model.Item.Workspace:authenticated')
+job {
+    authorization {
+        permission('hudson.model.Item.Workspace:authenticated')
+    }
 }
-```
 
-```groovy
 // Gives discover permission for the special anonymous user
-authorization {
-    permission(Permissions.ItemDiscover, 'anonymous')
+job {
+    authorization {
+        permission(Permissions.ItemDiscover, 'anonymous')
+    }
 }
-```
 
-```groovy
 // Gives all permissions found in the Permissions enum to the special authenticated group
-authorization {
-    permissionAll('authenticated')
+job {
+    authorization {
+        permissionAll('authenticated')
+    }
 }
 ```
 
@@ -1092,17 +1099,26 @@ Adds timestamps to the console log.
 
 (Since 1.19)
 
-## [AnsiColor](https://wiki.jenkins-ci.org/display/JENKINS/AnsiColor+Plugin)
+## AnsiColor
 
 ```groovy
 job {
     wrappers {
-        colorizeOutput('xterm') // when no parameter is given it will fall back to 'xterm'
+        colorizeOutput(String colorMap = 'xterm')
     }
 }
 ```
 
-Renders ANSI escape sequences, including color, to Console Output.
+Renders ANSI escape sequences, including color, to console output. Requires the
+[AnsiColor Plugin](https://wiki.jenkins-ci.org/display/JENKINS/AnsiColor+Plugin).
+
+```groovy
+job {
+    wrappers {
+        colorizeOutput()
+    }
+}
+```
 
 (Since 1.19)
 
@@ -1472,7 +1488,7 @@ job {
 }
 ```
 
-Masks the passwords that occur in the console output. Requires the 
+Masks the passwords that occur in the console output. Requires the
 [Mask Passwords Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Mask+Passwords+Plugin)
 
 (since 1.26)
@@ -1491,6 +1507,86 @@ Adds a number of environment variables with information of the current user to t
 [Build User Vars Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Build+User+Vars+Plugin).
 
 (since 1.26)
+
+## NodeJS
+
+```groovy
+job {
+    wrappers {
+        nodejs(String installation)
+    }
+}
+```
+
+Sets up a NodeJS environment. Requires the [NodeJS Plugin](https://wiki.jenkins-ci.org/display/JENKINS/NodeJS+Plugin).
+
+```groovy
+job {
+    wrappers {
+        nodejs('NodeJS 0.10.26')
+    }
+}
+```
+
+(since 1.27)
+
+## Golang
+
+```groovy
+job {
+    wrappers {
+        golang(String version)
+    }
+}
+```
+
+Adds a wrapper for a golang environment. Requires the
+[Golang Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Go+Plugin).
+
+```groovy
+job {
+    wrappers {
+        golang('Go 1.3.3')
+    }
+}
+```
+
+(since 1.27)
+
+## rbenv
+
+```groovy
+job {
+    wrappers {
+        rbenv(String rubyVersion) {
+            ignoreLocalVersion(boolean ignore = true) // defaults to false
+            gems(String... gems)
+            root(String root)                         // defaults to '$HOME/.rbenv'
+            rbenvRepository(String repository)        // defaults to 'https://github.com/sstephenson/rbenv.git'
+            rbenvRevision(String revision)            // defaults to 'master'
+            rubyBuildRepository(String repository)    // defaults to 'https://github.com/sstephenson/ruby-build.git'
+            rubyBuildRevision(String revision)        // defaults to 'master'
+        }
+    }
+}
+```
+
+Adds the ability to specify the rbenv wrapper to be used during job execution. You can specify the ruby version to used
+(or installed if it is not already) and which gems you would like available during the job execution. Requires the
+[rbenv Plugin](https://wiki.jenkins-ci.org/display/JENKINS/rbenv+plugin).
+
+```groovy
+job {
+    wrappers {
+        rbenv('2.1.2') {
+            ignoreLocalVersion()
+            gems('bundler', 'rake')
+        }
+    }
+}
+```
+
+(since 1.27)
 
 # Build Steps
 
@@ -1511,11 +1607,43 @@ batchFile(String commandStr)
 Supports running a Windows batch file as a build step.
 
 ## Gradle
+
 ```groovy
-gradle(String tasksArg = null, String switchesArg = null, Boolean useWrapperArg = true, Closure configure = null)
+job {
+    steps {
+        gradle(String tasksArg = null, String switchesArg = null,
+               Boolean useWrapperArg = true, Closure configure = null)
+        gradle { // since 1.27
+            tasks(String tasks)                                           // can be called multiple times
+            switches(String switches)                                     // can be called multiple times
+            useWrapper(boolean useWrapper = true)                         // defaults to true
+            description(String description)
+            rootBuildScriptDir(String rootBuildScriptDir)
+            buildFile(String buildFile)
+            fromRootBuildScriptDir(boolean fromRootBuildScriptDir = true) // defaults to true
+            gradleName(String gradleName)                                 // defaults to '(Default)'
+            makeExecutable(boolean makeExecutable = true)                 // defaults to false
+            configure(Closure configureBlock)
+        }
+    }
+}
 ```
 
-Runs Gradle, defaulting to the Gradle Wrapper. Configure block is handed a hudson.plugins.gradle.Gradle node.
+Runs Gradle, defaulting to the Gradle Wrapper. A `hudson.plugins.gradle.Gradle` node is passed into the configure block.
+Requires the [Gradle Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Gradle+Plugin).
+
+```groovy
+job {
+    steps {
+        gradle('check')
+        gradle {
+            tasks('clean')
+            tasks('check')
+            switches('--info')
+        }
+    }
+}
+```
 
 ## Maven
 ```groovy
@@ -2117,7 +2245,8 @@ conditionalSteps {
         stringsMatch(String arg1, String arg2, boolean ignoreCase) // Run if the two strings match
         cause(String buildCause, boolean exclusiveCondition) // Run if the build cause matches the given string
         expression(String expression, String label) // Run if the regular expression matches the label
-        time(String earliest, String latest, boolean useBuildTime) // Run if the current (or build) time is between the given dates.
+        time(int earliestHour, int earliestMinute, int latestHour, int latestMinute,
+             boolean useBuildTime) // Run if the current (or build) time is between the given dates.
         status(String worstResult, String bestResult) // Run if worstResult <= (current build status) <= bestResult
         shell(String command) // Run if shell script succeeds (Since 1.23)
         batch(String command) // Run if batch script succeeds (Since 1.23)
@@ -2154,7 +2283,7 @@ steps {
 steps {
     conditionalSteps {
         condition {
-            time("9:00", "13:00", false)
+            time(9, 0, 13, 0, false)
         }
         runner("Unstable")
         shell("echo 'a first step')
@@ -2292,26 +2421,40 @@ publishers {
 (Since 1.17)
 
 ## Archive Artifacts
-```groovy
-archiveArtifacts(String glob, String excludeGlob = null, Boolean latestOnlyBoolean = false)
-```
-
-Supports archiving artifacts with each build. Simple example:
 
 ```groovy
-publishers {
-    archiveArtifacts 'build/test-output/**/*.html'
+job {
+    publishers {
+        archiveArtifacts(String glob, String excludeGlob = null, Boolean latestOnlyBoolean = false)
+        archiveArtifacts { // since 1.20
+            pattern(String pattern) // can be called multiple since 1.27
+            exclude(String excludePattern)
+            latestOnly(Boolean latestOnly = true) // defaults to false if not called
+            allowEmpty(Boolean allowEmpty = true) // defaults to false if not called
+        }
+    }
 }
 ```
 
-Since 1.20, an alternate form is also acceptable:
+Supports archiving artifacts with each build.
+
+Examples:
 
 ```groovy
-archiveArtifacts {
-    pattern(String pattern)
-    exclude(String excludePattern = '')
-    latestOnly(bool latestOnly = true) // Will be false if function is not called.
-    allowEmpty(bool allowEmpty = true) // Will be false if function is not called. Note: not available with jenkins <= 1.480
+job {
+    publishers {
+        archiveArtifacts('build/test-output/**/*.html')
+    }
+}
+
+job {
+    publishers {
+        archiveArtifacts {
+            pattern('build/test-output/**/*.html')
+            pattern('build/test-output/**/*.xml')
+            latestOnly()
+        }
+    }
 }
 ```
 
@@ -2378,7 +2521,7 @@ job {
                      boolean allowClaimingOfFailedTests = false,
                      boolean publishTestAttachments = false) // deprecated
         archiveJunit(String glob) { // since 1.26
-            retainLongStdout(boolean retain = true) // options, defaults to false 
+            retainLongStdout(boolean retain = true) // options, defaults to false
             testDataPublishers {
                 allowClaimingOfFailedTests()
                 publishTestAttachments()
@@ -2399,7 +2542,7 @@ is required for `publishTestStabilityData`.
 job {
     publishers {
         archiveJunit('**/target/surefire-reports/*.xml')
-        archiveJunit('**/minitest-reports/*.xml') {        
+        archiveJunit('**/minitest-reports/*.xml') {
             retainLongStdout()
             testDataPublishers {
                 publishTestStabilityData()
@@ -2447,14 +2590,31 @@ publishJabber(String target, String strategyName, String channelNotificationName
 Supports <a href="https://wiki.jenkins-ci.org/display/JENKINS/Jabber+Plugin">Jabber Plugin</a>. A few arguments can be specified in the method call or in the closure.
 
 ## SCP Publisher
+
 ```groovy
-publishScp(String site, Closure scpClosure) {
-    entry(String source, String destination = '', boolean keepHierarchy = false)
+job {
+    publishers {
+        publishScp(String site) {
+            entry(String source, String destination = '', boolean keepHierarchy = false)
+            entries(Iterable<String> sources, String destination = '', boolean keepHierarchy = false) // since 1.27
+        }
+    }
 }
 ```
 
-Supports <a href="https://wiki.jenkins-ci.org/display/JENKINS/SCP+plugin">SCP Plugin</a>. First arg, site, is specified globally by the plugin. Each entry is
-individually specified in the closure block, e.g. entry can be called multiple times.
+The `site` is specified in the global Jenkins configuration. Each entry is individually specified in the closure block,
+e.g. entry can be called multiple times. Requires the
+[SCP Plugin](https://wiki.jenkins-ci.org/display/JENKINS/SCP+plugin).
+
+```groovy
+job {
+    publishers {
+        publishScp('docs.acme.org') {
+            entry('build/docs/**', 'project-a', true)
+        }
+    }
+}
+```
 
 ## CloneWorkspace Publisher
 ```groovy
@@ -3165,6 +3325,7 @@ job {
         git {
             pushOnlyIfSuccess(boolean pushOnlyIfSuccess = true)
             pushMerge(boolean pushMerge = true)
+            forcePush(boolean forcePush = true) // since 1.27
             tag(String targetRepoName, String tagName) {
                 message(String message)
                 create(boolean create = true)
@@ -3177,6 +3338,7 @@ job {
 ```
 
 Push tags or branches to a Git repository. Requires the [Git Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin).
+The `forcePush` option requires version 2.2.6 or later of the Git Plugin.
 
 Examples:
 

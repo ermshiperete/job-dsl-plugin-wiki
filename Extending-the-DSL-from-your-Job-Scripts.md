@@ -25,7 +25,7 @@ job {
     }
 }
 ```
-If you find these monkey-patches useful, consider [submitting them to the Core DSL as an enhancement.](https://github.com/jenkinsci/job-dsl-plugin/blob/master/CONTRIBUTING.md).
+If you find these monkey-patches useful, consider [submitting them to the Core DSL as an enhancement.](Contributing-to-the-job-dsl-plugin-Project).
 
 ## Using helper files
 

@@ -135,16 +135,19 @@ job(Map<String, ?> arguments = [:]) {
         allocatePorts(String[] ports, Closure closure = null)
         buildName(String nameTemplate) // since 1.24
         buildUserVars() // since 1.26
-        colorizeOutput(String colorMap)
+        colorizeOutput(String colorMap = 'xterm')
         deliveryPipelineVersion(String template, boolean setDisplayName = false) // since 1.26
         environmentVariables(Closure envClosure)
         exclusionResources(String... resourceNames) // since 1.24
         exclusionResources(Iterable<String> resourceNames) // since 1.24
+        golang(String version) // since 1.27
         injectPasswords() // since 1.23
         keychains(Closure closure) // since 1.24
         logSizeChecker(Closure closure = null) // since 1.23
         maskPasswords() // since 1.26
+        nodejs(String installation) // since 1.27
         preBuildCleanup(Closure closure = null) // since 1.22
+        rbenv(String rubyVersion, Closure rbenvClosure = null) // since 1.27
         release(Closure releaseClosure) // since 1.22
         runOnSameNodeAs(String jobName, boolean useSameWorkspace = false)
         rvm(String rubySpecification)
@@ -183,6 +186,7 @@ job(Map<String, ?> arguments = [:]) {
         environmentVariables(Closure envClosure)
         gradle(String tasks = null, String switches = null, Boolean useWrapperArg = true,
                Closure configure = null)
+        gradle(Closure gradleClosure) // since 1.27
         grails(Closure grailsClosure)
         grails(String targets, Closure grailsClosure)
         grails(String targets, boolean useWrapperArg = false, Closure grailsClosure)
