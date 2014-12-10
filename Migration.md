@@ -19,6 +19,7 @@ DSL since 1.27
 job {
     name('foo')
 }
+```
 
 ### Permissions
 
