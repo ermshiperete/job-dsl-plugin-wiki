@@ -50,6 +50,15 @@ label(String labelStr)
 
 Label which specifies which nodes this job can run on, e.g. 'X86&&Ubuntu'
 
+## Previous Names
+```groovy
+previousNames(String regex)
+```
+
+Is used by the Plugin when the jobs configuration is updated. If exactly one jobs exists matching this regular expression
+then it is renamed to the name of the current job before the configuration is updated.
+The regular expression needs to match the full name of the job, i.e. with folders included.
+
 ## Disable
 
 ```groovy
@@ -409,7 +418,7 @@ localRepository(LocalToWorkspace)
 
 ## Email Per Module
 ```groovy
-perModuleEmail(boolean shouldSendEmailPerModule)
+perModuleEmail(boolean shouldSendEmailPerModule) // deprecated since 1.29
 ```
 
 Enable or disable email notifications for each Maven module.
@@ -1010,27 +1019,34 @@ Configures the job to prepare a Ruby environment controlled by RVM for the build
 ## Build Timeout
 
 ```groovy
-timeout {
-    elastic(int percentage = 150, int numberOfBuilds = 3, int minutesDefault = 60)
-    noActivity(int seconds = 180)
-    absolute(int minutes = 3)                  // default
-    likelyStuck()
-    failBuild(boolean fail = true)
-    writeDescription(String description)
-    limit(int limit)                           // deprecated
-    percentage(int percentage)                 // deprecated
-    writeDescription(boolean writeDesc = true) // deprecated
+job {
+    wrappers {
+        timeout {
+            elastic(int percentage = 150, int numberOfBuilds = 3, int minutesDefault = 60)
+            noActivity(int seconds = 180)
+            absolute(int minutes = 3)                  // default
+            likelyStuck()
+            failBuild(boolean fail = true)
+            writeDescription(String description)
+        }
+    }
 }
 ```
 
-The timeout method enables you to define a timeout for builds. It can either be absolute (build times out after a fixed number of minutes), elastic (times out if build runs x% longer than the average build duration) or likelyStuck.
+The timeout method enables you to define a timeout for builds. It can either be absolute (build times out after a fixed
+number of minutes), elastic (times out if build runs x% longer than the average build duration) or likelyStuck.
 
-Requires version 1.12 or later of the [Build Timeout Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Build-timeout+Plugin).
+Requires version 1.12 or later of the
+[Build Timeout Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Build-timeout+Plugin).
 
 The simplest invocation looks like this:
 
 ```groovy
-timeout()
+job {
+    wrappers {
+        timeout()
+    }
+}
 ```
 
 It defines an absolute timeout with a maximum build time of 3 minutes.
@@ -1038,8 +1054,12 @@ It defines an absolute timeout with a maximum build time of 3 minutes.
 Here is an absolute timeout:
 
 ```groovy
-timeout {
-    absolute(60)   // 60 minutes before timeout
+job {
+    wrappers {
+        timeout {
+            absolute(60)   // 60 minutes before timeout
+        }
+    }
 }
 ```
 
@@ -1048,31 +1068,45 @@ a limit that is used if there is no average successful build duration (i.e. no j
 the number of successful/unstable builds to consider to calculate the average duration:
 
 ```groovy
-timeout {
-    elastic(
-        300, // Build will timeout when it take 3 time longer than the reference build duration, default = 150
-        3,   // Number of builds to consider for average calculation
-        30)  // 30 minutes default timeout (no successful builds available as reference)
+job {
+    wrappers {
+        timeout {
+            elastic(
+                300, // Build will timeout when it take 3 time longer than the reference build duration, default = 150
+                3,   // Number of builds to consider for average calculation
+                30   // 30 minutes default timeout (no successful builds available as reference)
+            )
+        }
+    }
 }
 ```
 
 The likelyStuck timeout times out a build when it is likely to be stuck. Does not take extra configuration parameters.
 
 ```groovy
-timeout {
-    likelyStuck()
+job {
+    wrappers {
+        timeout {
+            likelyStuck()
+        }
+    }
 }
 ```
 
 The noActivity timeout times out a build when there has been no console activity for a certain duration.
 
 ```groovy
-timeout {
-    noActivity(180) // Timeout if there has been no activity for 180 seconds
+job {
+    wrappers {
+        timeout {
+            noActivity(180) // Timeout if there has been no activity for 180 seconds
+        }
+    }
 }
 ```
 
-When the timeout happens, the default action is to abort if no other actions are configured. There are two other actions:
+When the timeout happens, the default action is to abort if no other actions are configured. There are two other
+actions:
 
 - Fail the build
 - Add a build description
@@ -1080,17 +1114,15 @@ When the timeout happens, the default action is to abort if no other actions are
 They are both simultaneously allowed and configured like this:
 
 ```groovy
-timeout {
-   absolute(30)
-   failBuild()
-   writeDescription('Build failed due to timeout after {0} minutes')
+job {
+    wrappers {
+        timeout {
+            absolute(30)
+            failBuild()
+            writeDescription('Build failed due to timeout after {0} minutes')
+        }
+    }
 }
-```
-
-The following syntax has been available before 1.16 and will be retained for compatibility reasons:
-
-```groovy
-timeout(int timeoutInMinutes, Boolean shouldFailBuild = true)
 ```
 
 (since 1.24)
@@ -1986,58 +2018,56 @@ job {
 
 (Since 1.25)
 
-## DSL
+## Job DSL
+
 ```groovy
-dsl {
-    removeAction(String removeAction)      // one of: 'DISABLE', 'IGNORE', 'DELETE'
-    external (String... dslFilenames)      // one or more filenames/-paths in the workspace containing DSLs
-    text (String dslSpecification)         // direct specification of DSL as String
-    ignoreExisting(boolean ignoreExisting) // flag if to ignore existing jobs
-}
-
-/* equivalent calls as parameters instead of closure */
-def dsl(String scriptText, String removedJobAction = null, boolean ignoreExisting = false)
-def dsl(Collection<String> externalScripts, String removedJobAction = null, boolean ignoreExisting = false)
-```
-
-The DSL build step creates a new job that in turn is able to generate other jobs. Particularly useful to generate a monitoring Job for things like feature/release branches. (Available since 1.16)
-
-Sample definition using several DSL files:
-```groovy
-dsl {
-    removeAction 'DISABLE'
-    external 'some-dsl.groovy','some-other-dsl.groovy'
-    external 'still-another-dsl.groovy'
-    ignoreExisting true
-}
-
-/* same definition using parameters instead of closure */
-dsl(['some-dsl.groovy','some-other-dsl.groovy','still-another-dsl.groovy'], 'DISABLE', true)
-```
-
-Another sample that specifies the DSL text directly:
-```groovy
-dsl {
-    removeAction('DELETE')
-    text '''
 job {
-    foo()
-    bar {
-        baz()
+    steps {
+        dsl(String scriptText, String removedJobAction = null, boolean ignoreExisting = false)
+        dsl(Iterable<String> externalScripts, String removedJobAction = null, boolean ignoreExisting = false)
+        dsl {
+            removeAction(String removeAction)             // one of: 'DISABLE', 'IGNORE', 'DELETE'
+            external(String... dslFileNames)              // file names of Job DSL scripts in the workspace
+            external(Iterable<String> dslFileNames)       // file names of Job DSL scripts in the workspace
+            text(String dslSpecification)                 // direct specification of Job DSL scripts as string
+            ignoreExisting(boolean ignoreExisting = true) // flag if to ignore existing jobs
+            additionalClasspath(String classpath)         // since 1.29
+        }
     }
 }
-}
 
-/* same definition using parameters instead of closure */
-dsl('''
+Allows the programmatic creation of jobs, folders and views using the Job DSL.
+
+```groovy
 job {
-    foo()
-    bar {
-        baz()
+    steps {
+        dsl {
+            external('projectA.groovy', 'projectB.groovy')
+            external('projectC.groovy')
+            removeAction('DISABLE')
+            ignoreExisting()
+            additionalClasspath('lib')
+        }
     }
 }
-''', 'DELETE')
+
+job {
+    steps {
+        dsl(['projectA.groovy', 'projectB.groovy'], 'DELETE')
+    }
+}
+
+job {
+    steps {
+        dsl {
+            text(readFileFromWorkspace('more-jobs.groovy'))
+            removeAction('DELETE')
+        }
+    }
+}
 ```
+
+(since 1.16)
 
 ## Copy Artifacts
 
@@ -2546,6 +2576,60 @@ steps {
 
 (Since 1.20)
 
+## Repository Connector
+
+```groovy
+job {
+    steps {
+        resolveArtifacts {
+            targetDirectory(String targetDirectory)
+            failOnError(boolean failOnError = true)
+            enableRepoLogging(boolean enableRepoLogging = true)
+            snapshotUpdatePolicy(String updatePolicy)
+            releaseUpdatePolicy(String updatePolicy)
+            artifact {
+                groupId(String groupId)
+                artifactId(String artifactId)
+                classifier(String classifier)
+                version(String version)
+                extension(String extension)
+                targetFileName(String targetFileName)
+            }
+        }
+    }
+}
+```
+
+Resolves artifacts from a Maven repository. Requires the
+[Repository Connector Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Repository+Connector+Plugin).
+
+Valid arguments for `snapshotUpdatePolicy` and `releaseUpdatePolicy` are either `daily`, `never` or `always`.
+
+```groovy
+job {
+    steps {
+        resolveArtifacts {
+            failOnError()
+            snapshotUpdatePolicy 'always'
+            targetDirectory 'lib'
+            artifact {
+                groupId 'org.slf4j'
+                artifactId 'slf4j-api'
+                version '[1.7.5,1.7.6]'
+            }
+            artifact {
+                groupId 'ch.qos.logback'
+                artifactId 'logback-classic'
+                version '1.1.1'
+                classifier 'sources'
+            }
+        }
+    }
+}
+```
+
+(since 1.29)
+
 ## Parameterized Remote Trigger
 
 ````groovy
@@ -2554,12 +2638,17 @@ job {
         remoteTrigger(String remoteJenkinsName, String jobName) {
             parameter(String name, String value)
             parameters(Map<String, String> parameters)
+            shouldNotFailBuild(boolean shouldNotFailBuild = true)           // since 1.29
+            pollInterval(int pollInterval)                                  // since 1.29
+            preventRemoteBuildQueue(boolean preventRemoteBuildQueue = true) // since 1.29
+            blockBuildUntilComplete(boolean blockBuildUntilComplete = true) // since 1.29
         }
     }
 }
 ```
 
-Triggers a job on another Jenkins instance. Requires the [Parameterized Remote Trigger Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Remote+Trigger+Plugin).
+Triggers a job on another Jenkins instance. Requires the
+[Parameterized Remote Trigger Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Remote+Trigger+Plugin).
 
 Examples:
 
@@ -2573,12 +2662,14 @@ job {
 ```
 
 ````groovy
-// start the job 'test-flow' on the Jenkins instance named 'test-ci' with three parameters
+// start the job 'test-flow' on the Jenkins instance named 'test-ci' with three parameters,
+// blocking until the build completes.
 job {
     steps {
         remoteTrigger('test-ci', 'test-flow') {
             parameter('VERSION', '$PIPELINE_VERSION')
             parameters(BRANCH: 'feature-A', STAGING_REPO_ID: '41234232')
+            blockBuildUntilComplete()
         }
     }
 }
@@ -4225,3 +4316,46 @@ job {
 ```
 
 (since 1.26)
+
+# Workflow Definitions
+
+## Groovy CPS DSL
+
+```
+job(type: Workflow) {
+    definition {
+        cps {
+            script(String script)
+            sandbox(boolean sandbox = true)
+        }
+    }
+}
+```
+
+Defines a Groovy CPS DSL definition.
+
+```
+def flow = '''node {
+  git url: 'https://github.com/jglick/simple-maven-project-with-tests.git'
+  def mvnHome = tool 'M3'
+  sh "${mvnHome}/bin/mvn -B verify"
+}'''
+job(type: Workflow) {
+    definition {
+        cps {
+            script(flow)
+        }
+    }
+}
+
+job(type: Workflow) {
+    definition {
+        cps {
+            script(readFileFromWorkspace('project-a-workflow.groovy'))
+            sandbox()
+        }
+    }
+}
+```
+
+(since 1.29)

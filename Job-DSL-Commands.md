@@ -54,6 +54,7 @@ job(Map<String, ?> arguments = [:]) {
     // DSL specific methods
     using(String templateName)
     configure(Closure configBlock)
+    previousNames(String regex) // since 1.29
 
     // common options
     batchTask(String name, String script)
@@ -155,9 +156,7 @@ job(Map<String, ?> arguments = [:]) {
         runOnSameNodeAs(String jobName, boolean useSameWorkspace = false)
         rvm(String rubySpecification)
         sshAgent(String credentials)
-        timeout(Closure timeoutClosure)
-        timeout(String type = 'absolute', Closure timeoutClosure = null) // deprecated
-        timeout(Integer timeoutInMinutes, Boolean shouldFailBuild = true) // deprecated
+        timeout(Closure timeoutClosure = null)
         timestamps()
         toolenv(String... tools)
         xvnc(boolean takeScreenshot) // deprecated
@@ -181,7 +180,7 @@ job(Map<String, ?> arguments = [:]) {
                       Closure copyArtifactClosure)
         criticalBlock(Closure stepClosure) // since 1.24
         downstreamParameterized(Closure downstreamClosure)
-        dsl(Closure dslClosure = null)
+        dsl(Closure dslClosure)
         dsl(String scriptText, String removedJobAction = null,
             boolean ignoreExisting = false)
         dsl(Collection<String> externalScripts, String removedJobAction = null,
@@ -209,6 +208,7 @@ job(Map<String, ?> arguments = [:]) {
         rake(String tasksArg, Closure rakeClosure = null) // since 1.25
         remoteTrigger(String remoteJenkinsName, String jobName,
                       Closure remoteTriggerClosure) // since 1.22
+        resolveArtifacts(Closure repositoryConnectorClosure) // since 1.29
         sbt(String sbtName = null, String actions = null, String sbtFlags = null,
             String jvmFlags = null, String subdirPath = null, Closure configure = null)
         shell(String command)
@@ -309,7 +309,7 @@ job(Map<String, ?> arguments = [:]) {
     mavenOpts(String mavenOpts)
     mavenInstallation(String name) // since 1.20
     localRepository(LocalRepositoryLocation location)
-    perModuleEmail(boolean shouldSendEmailPerModule)
+    perModuleEmail(boolean shouldSendEmailPerModule) // deprecated since 1.29
     archivingDisabled(boolean shouldDisableArchiving)
     runHeadless(boolean shouldRunHeadless)
     preBuildSteps(Closure stepsClosure)
@@ -337,6 +337,11 @@ job(Map<String, ?> arguments = [:]) {
     runSequentially(boolean runSequentially = true)
     touchStoneFilter(String expression, boolean continueOnFailure = false)
     combinationFilter(String expression)
+
+    // Workflow options, since 1.29
+    definition {
+      cps(Closure cpsClosure)
+    }
 }
 
 view(Map<String, Object> arguments = [:]) { // since 1.21
@@ -353,6 +358,7 @@ view(Map<String, Object> arguments = [:]) { // since 1.21
     // ListView options
     columns {
         buildButton()
+        claim() // since 1.29
         lastBuildConsole() // since 1.23
         lastDuration()
         lastFailure()
@@ -360,6 +366,10 @@ view(Map<String, Object> arguments = [:]) { // since 1.21
         name()
         status()
         weather()
+    }
+    jobFilters { // since 1.29
+        regex(Closure regexFilterClosure)
+        status(Closure statusFilterClosure)
     }
     jobs {
         name(String jobName)
@@ -463,9 +473,9 @@ myJob.with {
 ```
 
 A job can have optional attributes. Currently only a `type` attribute with value of `Freeform`, `Maven`, `Multijob`,
-`BuildFlow` or `MatrixJob` is supported. When no type is specified, a free-style job will be generated. Some methods
-will only be available in some job types, e.g. `phase` can only be used in Multijob. Each DSL method documents where
-they are relevant.
+`BuildFlow`, `MatrixJob` or `Workflow`is supported. When no type is specified, a free-style job will be generated. Some
+methods will only be available in some job types, e.g. `phase` can only be used in Multijob. Each DSL method documents
+where they are relevant.
 
 ```groovy
 job(type: Maven) {
@@ -601,6 +611,8 @@ job {
 (since 1.15)
 
 # Grab
+
+**WARNING:** Grab support is deprecated, see [[Migration]]
 
 Groovy provides the ability to "grab" dependencies and use them right away, this is called
 [Grape](http://groovy.codehaus.org/Grape). The Job DSL supports this feature, as long as it's provided at the top of the
