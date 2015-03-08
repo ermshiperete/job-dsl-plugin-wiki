@@ -1,21 +1,39 @@
 Welcome to the jenkins-job-dsl wiki!
 
-Highly recommended starting point is the tutorial, [[Tutorial - Using the Jenkins Job DSL]]
+* The formal documentation and full syntax reference is detailed in [[Job DSL Commands]].
+* There are also tips on [[more advanced usage and workflows|User Power Moves]].
+* [The forum](https://groups.google.com/forum/#!forum/job-dsl-plugin) has lots of information, some of which is making its way to the [[FAQ|Frequently Asked Questions]].
+* If you want to get more involved, here's [how to contribute](https://github.com/jenkinsci/job-dsl-plugin/blob/master/CONTRIBUTING.md)...
 
-Once you know how to create a "seed" job from the tutorial, start looking at the [[Real World Examples]] for examples to steal from.  **For formal documentation, the [[Job DSL Commands]]** page has what is available directly in the DSL at this time, and there are also some [[User Power Moves]] you can try to make your life easier.
+## Getting Started
+Highly recommended starting point is [[the tutorial|Tutorial - Using the Jenkins Job DSL]].
 
+Once you know how to create a "seed" job from the tutorial, start looking at the [[real world examples|Real World Examples]] for examples to steal from.
 After you get familiar with some of the commands, try them out at the [Job DSL Playground](http://job-dsl.herokuapp.com/).
 
-If you want to get fancy you'll want to read up on the _configure_ block which gives you direct access to the config.xml, read [[configure block|The Configure Block]]. It's also possible (and easy) to [[define your own DSL commands|Extending the DSL from your Job Scripts]] using monkey patching.
+If you want to get fancy you'll want to read up on [[configure block|The Configure Block]], which gives you direct access to the `config.xml`.
 
-There is a great load of information on [the forum](https://groups.google.com/forum/#!forum/job-dsl-plugin), but some stuff is also making its way into a [[FAQ|Frequently Asked Questions]].
-
-Have a look at the [Jenkins Job DSL Gradle Example](https://github.com/sheehan/job-dsl-gradle-example) to see how to
-organize a SCM repository for Job DSL scripts.
-
-And finally, if you want to get more involved, [here's how...](https://github.com/jenkinsci/job-dsl-plugin/blob/master/CONTRIBUTING.md)
+Have a look at the [Jenkins Job DSL Gradle example](https://github.com/sheehan/job-dsl-gradle-example) to see how to organize a SCM repository for Job DSL scripts.
 
 ## Release Notes
+* 1.30 (March 08 2015)
+ * Added support for [Custom Tools Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Custom+Tools+Plugin)
+ * Added support for [Flaky Test Handler Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Flaky+Test+Handler+Plugin)
+ * Added configure block to the Multijob job context
+ * Added strategy option for the [Git Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin)
+ * Added strategy build chooser for the [Gerrit Trigger](https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger)
+ * Enhanced support for the [Subversion Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Subversion+Plugin)
+ * Added `abortBuild` action for the [Build Timeout](https://wiki.jenkins-ci.org/display/JENKINS/Build-timeout+Plugin)
+ * Deprecated the `failBuild` action with a boolean parameter for the [Build Timeout](https://wiki.jenkins-ci.org/display/JENKINS/Build-timeout+Plugin), see [[Migration]]
+ * Deprecated the `javaposse.jobdsl.dsl.helpers.wrapper.WrapperContext.Timeout` enum, see [[Migration]]
+ * Added support for label parameters from the [NodeLabel Parameter Plugin](https://wiki.jenkins-ci.org/display/JENKINS/NodeLabel+Parameter+Plugin)
+ * Added populateToolInstallations and overrideBuildVariables options for the [EnvInject Plugin](https://wiki.jenkins-ci.org/display/JENKINS/EnvInject+Plugin)
+ * Added groovy option in the wrappers context for the [EnvInject Plugin](https://wiki.jenkins-ci.org/display/JENKINS/EnvInject+Plugin)
+ * Fixed the `notifySuspects` option for the [Jabber Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Jabber+Plugin)
+ * Fixed `extendedEmail` configure block resolve strategy ([JENKINS-27063](https://issues.jenkins-ci.org/browse/JENKINS-27063))
+ * Deprecated some overloaded DSL methods for the [Jabber Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Jabber+Plugin), see [[Migration]]
+ * Introduced new factory methods and deprecated the generic factory and `name` methods, see [[Migration]]
+ * Finding credentials by description is deprecated, see [[Migration]]
 * 1.29 (February 05 2015)
  * Show seed job and template job info in the generated jobs
  * Added [CoreMirror](https://codemirror.net/) support for the DSL script input field

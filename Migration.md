@@ -1,3 +1,153 @@
+## Migrating to 1.30
+
+### Factory and Name Methods
+
+The generic factory methods `job`, `view` and `configFile` have been [[deprecated|Deprecation-Policy]] and replaced by
+concrete ones. The `name` methods have also been deprecated. The name must be specified as argument to the factory
+methods.
+
+DSL prior to 1.30
+```groovy
+job {
+    name('one')
+}
+job(type: Maven) {
+    name('two')
+}
+folder {
+    name('three')
+}
+view {
+    name('four')
+}
+view(type: NestedView) {
+    name('five')
+}
+configFile {
+    name('six')
+}
+configFile(type: MavenSettings) {
+    name('seven')
+}
+```
+
+DSL since 1.30
+```groovy
+freeStyleJob('one') {
+}
+mavenJob('two') {
+}
+folder('three') {
+}
+listView('four') {
+}
+nestedView('five') {
+}
+customConfigFile('six')
+}
+mavenSettingsConfigFile('seven') {
+}
+```
+
+### Jabber Publisher
+
+The `publishJabber` DSL methods with `strategyName` and `channelNotificationName` have been
+[[deprecated|Deprecation-Policy]]. Use the methods of the context instead.
+
+DSL prior to 1.30
+```groovy
+job {
+    publishers {
+        publishJabber('one@example.org', 'ANY_FAILURE')
+        publishJabber('two@example.org', 'STATECHANGE_ONLY', 'BuildParameters')
+    }
+}
+```
+
+DSL since 1.30
+```groovy
+job {
+    publishers {
+        publishJabber('one@example.org' {
+            strategyName('ANY_FAILURE')
+        }
+        publishJabber('two@example.org') {
+            strategyName('STATECHANGE_ONLY')
+            channelNotificationName('BuildParameters')
+        }
+    }
+}
+```
+
+## Finding Credentials by Description
+
+Finding credentials by description has been [[deprecated|Deprecation-Policy]]. The argument passed to the `credentials`
+methods (e.g. for Git or Subversion SCM) has been used to find credentials by comparing the value to the credential's
+description and ID. Using the description can cause problems because it's not enforced that descriptions are unique. But
+it was useful because the ID was a generated UUID that could not be changed and thus was neither portable between
+Jenkins instances nor readable in scripts as a symbolic name would be. Since version 1.21, the credentials plugin
+supports to set the ID to any unique value when creating new credentials. So it's no longer necessary to use the
+description for matching.
+
+DSL prior to 1.30
+```groovy
+job {
+    scm {
+        git {
+            remote {
+                github('account/repo')
+                credentials('GitHub CI Key')
+            }
+        }
+    }
+}
+```
+
+DSL since 1.30
+```groovy
+job {
+    scm {
+        git {
+            remote {
+                github('account/repo')
+                credentials('github-ci-key')
+            }
+        }
+    }
+}
+```
+
+## Migrating to 1.29
+
+### Build Timeout
+
+The `javaposse.jobdsl.dsl.helpers.wrapper.WrapperContext.Timeout` enum has been [[deprecated|Deprecation-Policy]]
+because it's not used by the DSL anymore.
+
+The `failBuild` option with a boolean argument has been [[deprecated|Deprecation-Policy]].
+
+DSL prior to 1.30
+```groovy
+job {
+    wrappers {
+        buildTimeout() {
+            failBuild(true)
+        }
+    }
+}
+```
+
+DSL since 1.30
+```groovy
+job {
+    wrappers {
+        buildTimeout() {
+            failBuild()
+        }
+    }
+}
+```
+
 ## Migrating to 1.29
 
 ### Grab Support
