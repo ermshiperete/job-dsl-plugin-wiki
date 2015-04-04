@@ -1,3 +1,96 @@
+## Migrating to 1.31
+
+### Nested Views
+
+The views closure of the nested view type has been changed to use the same method signatures than the top-level factory
+methods.
+
+DSL prior to 1.31
+```groovy
+nestedView('project-a') {
+    views {
+        view('overview') {
+        }
+        view('pipeline', type: BuildPipelineView) {
+        }
+    }
+}
+```
+
+DSL since 1.31
+```groovy
+nestedView('project-a') {
+    views {
+        listView('overview') {
+        }
+        buildPipelineView('pipeline') {
+        }
+    }
+}
+```
+
+### MultiJob Plugin
+
+Support for version 1.12 and earlier of the MultiJob Plugin is [[deprecated|Deprecation-Policy]] and will be removed.
+
+### Local Maven Repository Location
+
+The `localRepository` method with a `javaposse.jobdsl.dsl.helpers.common.MavenContext.LocalRepositoryLocation` argument
+has been [[deprecated|Deprecation-Policy]] and replaced by a method with a
+`javaposse.jobdsl.dsl.helpers.LocalRepositoryLocation` argument. The values of the enum have been renamed from camel
+case to upper case to follow the naming convention for enum values. The new enum is implicitly imported, but not with
+star import as the new deprecated variant.
+
+DSL prior to 1.31
+```groovy
+mavenJob {
+    localRepository(LocalToWorkspace)
+}
+job {
+    steps {
+        maven {
+            localRepository(LocalToWorkspace)
+        }
+    }
+}
+```
+
+DSL since 1.31
+```groovy
+mavenJob {
+    localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
+}
+job {
+    steps {
+        maven {
+            localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
+        }
+    }
+}
+```
+
+### Permissions
+
+The Permissions enum has been deprecated because it can not reflect all permissions that are available at runtime.
+
+DSL prior to 1.31
+```groovy
+job {
+    permission(Permissions.ItemRead, 'jill')
+    permission('RunUpdate', 'joe')
+}
+```
+
+DSL since 1.31
+```groovy
+job {
+    authorization {
+        permission('hudson.model.Item.Read', 'jill')
+        permission('hudson.model.Run.Update', 'joe')
+    }
+}
+```
+
 ## Migrating to 1.30
 
 ### Factory and Name Methods
@@ -116,8 +209,6 @@ job {
     }
 }
 ```
-
-## Migrating to 1.29
 
 ### Build Timeout
 

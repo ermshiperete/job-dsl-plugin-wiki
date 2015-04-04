@@ -7,8 +7,7 @@ methods imply the creation of a Jenkins item and the closure to the method can b
 The only mandatory option is the item's name.
 
 ```groovy
-job('my-job') {
-}
+job('my-job')
 ```
 
 When defining jobs, views or folders the name is treated as absolute to the Jenkins root by default, but the seed job
@@ -38,26 +37,25 @@ need.)
 The DSL exposes several methods to create jobs of different types.
 
 ```groovy
-job(String name, Closure closure)          // since 1.30, an alias for freeStyleJob
+job(String name, Closure closure = null)          // since 1.30, an alias for freeStyleJob
 
-freeStyleJob(String name, Closure closure) // since 1.30
+freeStyleJob(String name, Closure closure = null) // since 1.30
 
-buildFlowJob(String name, Closure closure) // since 1.30
+buildFlowJob(String name, Closure closure = null) // since 1.30
 
-matrixJob(String name, Closure closure)    // since 1.30
+matrixJob(String name, Closure closure = null)    // since 1.30
 
-mavenJob(String name, Closure closure)     // since 1.30
+mavenJob(String name, Closure closure = null)     // since 1.30
 
-multiJob(String name, Closure closure)     // since 1.30
+multiJob(String name, Closure closure = null)     // since 1.30
 
-workflowJob(String name, Closure closure)  // since 1.30
+workflowJob(String name, Closure closure = null)  // since 1.30
 ```
 
 These methods will return a job object that can be re-used and passed around. E.g.
 
 ```groovy
-def myJob = freeStyleJob('SimpleJob') {
-}
+def myJob = freeStyleJob('SimpleJob')
 myJob.with {
     description 'A Simple Job'
 }
@@ -78,22 +76,24 @@ job(Map<String, ?> arguments = [:], Closure closure) // deprecated since 1.30
 To create views, the DSL provides the following methods.
 
 ```groovy
-listView(String name, Closure closure)             // since 1.30
+listView(String name, Closure closure = null)             // since 1.30
 
-sectionedView(String name, Closure closure)        // since 1.30
+sectionedView(String name, Closure closure = null)        // since 1.30
 
-nestedView(String name, Closure closure)           // since 1.30
+nestedView(String name, Closure closure = null)           // since 1.30
 
-deliveryPipelineView(String name, Closure closure) // since 1.30
+deliveryPipelineView(String name, Closure closure = null) // since 1.30
 
-buildPipelineView(String name, Closure closure)    // since 1.30
+buildPipelineView(String name, Closure closure = null)    // since 1.30
 
-buildMonitorView(String name, Closure closure)     // since 1.30
+buildMonitorView(String name, Closure closure = null)     // since 1.30
+
+categorizedJobsView(String name, Closure closure = null)  // since 1.31
 ```
 
 The view methods behaves like the [job](#job) methods and will return a view object.
 
-See the [[View Reference]] pages for details about view options.
+See the [[View Reference]] page for details about view options.
 
 For compatibility with previous releases, a generic `view` method exists which has an optional `type` attribute to
 specify the type of view to be created. The `type` attribute can have a value of `ListView`, `BuildPipelineView`,
@@ -110,43 +110,27 @@ When the [CloudBees Folders Plugin](https://wiki.jenkins-ci.org/display/JENKINS/
 installed, the DSL can be used to create folders.
 
 ```groovy
-folder(String name) { // since 1.30
-    name(String name) // deprecated since 1.30
+folder(String name, Closure closure = null) // since 1.30
 
-    // DSL specific methods
-    configure(Closure configBlock)
-
-    // common options
-    displayName(String displayName)
-}
-
-folder(Closure folderClosure) // since 1.23, deprecated since 1.30
+folder(Closure folderClosure)               // since 1.23, deprecated since 1.30
 ```
 
 The `folder` methods behaves like the [job](#job) methods and will return a folder object.
 
-Folders will be created before jobs and views to ensure that a folder exists before entries are created.
+See the [[Folder Reference]] page for details about folder options.
 
-```groovy
-folder('project-a') {
-  displayName 'Project A'
-}
-```
+Folders will be created before jobs and views to ensure that a folder exists before entries are created.
 
 Items can be created within folders by using the full path as job name.
 
 ```groovy
-folder('project-a') {
-}
+folder('project-a')
 
-freeStyleJob('project-a/compile') {
-}
+freeStyleJob('project-a/compile')
 
-listView('project-a/pipeline') {
-}
+listView('project-a/pipeline')
 
-folder('project-a/testing') {
-}
+folder('project-a/testing')
 ```
 
 # Config File
@@ -155,9 +139,9 @@ When the [Config File Provider Plugin](https://wiki.jenkins-ci.org/display/JENKI
 installed, the DSL can be used to create configuration files.
 
 ```groovy
-customConfigFile(String name, Closure configFileClosure)        // since 1.30
+customConfigFile(String name, Closure configFileClosure = null)        // since 1.30
 
-mavenSettingsConfigFile(String name, Closure configFileClosure) // since 1.30
+mavenSettingsConfigFile(String name, Closure configFileClosure = null) // since 1.30
 ```
 
 These methods behaves like the [job](#job) methods and will return a config file object.
@@ -166,8 +150,8 @@ Config files will be created before jobs to ensure that the file exists before i
 
 ```groovy
 customConfigFile('my-config') {
-  comment 'My important configuration'
-  content '<some-xml/>'
+  comment('My important configuration')
+  content('<some-xml/>')
 }
 
 mavenSettingsConfigFile('central-mirror') {
