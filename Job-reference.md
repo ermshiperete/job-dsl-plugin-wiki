@@ -166,6 +166,7 @@ freeStyleJob(String name) { // since 1.30
         phase(Closure phaseClosure)
         phase(String name, Closure phaseClosure = null)
         phase(String name, String continuationConditionArg, Closure phaseClosure)
+        powerShell(String command) // since 1.32
         prerequisite(String projectList = '', boolean warningOnly = false) // since 1.19
         publishOverSsh(Closure publishOverSshClosure) // since 1.28
         rake(Closure rakeClosure = null) // since 1.25
@@ -2544,6 +2545,29 @@ sbt(/*standard parameters here*/) {
 }
 ```
 
+### PowerShell
+
+```groovy
+job {
+    steps {
+        powerShell(String command)
+    }
+}
+```
+
+Supports running a Windows PowerShell command as a build step. Requires the
+[PowerShell Plugin](https://wiki.jenkins-ci.org/display/JENKINS/PowerShell+Plugin).
+
+```groovy
+job('example') {
+    steps {
+        powerShell('New-Item C:\\test')
+    }
+}
+```
+
+(since 1.32)
+
 ### Publish Over SSH
 
 ```groovy
@@ -3129,7 +3153,7 @@ job {
 
 ```groovy
 downstreamParameterized(Closure downstreamClosure) {
-    trigger(String projects, String condition = 'ALWAYS', boolean triggerWithNoParameters = false, Map<String, String> blockingThresholds = [:], Closure downstreamTriggerClosure = null) {
+    trigger(String projects, String condition = 'SUCCESS', boolean triggerWithNoParameters = false, Map<String, String> blockingThresholds = [:], Closure downstreamTriggerClosure = null) {
         currentBuild() // Current build parameters
         propertiesFile(String propFile) // Parameters from properties file
         gitRevision(boolean combineQueuedCommits = false) // Pass-through Git commit that was built
@@ -3145,7 +3169,8 @@ downstreamParameterized(Closure downstreamClosure) {
 ```
 
 Supports <a href="https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin">the Parameterized Trigger plugin</a>. The plugin is configured by adding triggers
-to other projects, multiple triggers can be specified. The projects arg is a comma separated list of downstream projects. The condition arg has to be set to "ALWAYS" when using the Parameterized Trigger as a build step rather than a post-build action. The methods inside the downstreamTriggerClosure are optional, though it
+to other projects, multiple triggers can be specified. The projects arg is a comma separated list of downstream projects. The condition arg is one of these
+possible values: SUCCESS, UNSTABLE, UNSTABLE_OR_BETTER, UNSTABLE_OR_WORSE, FAILED.  The methods inside the downstreamTriggerClosure are optional, though it
 makes the most sense to call at least one.  Each one is relatively self documenting, mapping directly to what is seen in the UI. The predefinedProp and
 predefinedProps methods are used to accumulate properties, meaning that they can be called multiple times to build a superset of properties.
 
