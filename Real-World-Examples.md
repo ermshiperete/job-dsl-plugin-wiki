@@ -1,4 +1,4 @@
-This page shows how to use Groovy feature in the DSL for advanced scripting.
+This page shows how to use Groovy features in the DSL for advanced scripting.
 
 
 Variables
@@ -13,7 +13,7 @@ Variables
 Loops
 -----
 
-    def giturl = 'git://github.com/quidryan/aws-sdk-test.git'
+    def giturl = 'https://github.com/quidryan/aws-sdk-test.git'
     for(i in 0..10) {
         job("DSL-Tutorial-1-Test-${i}") {
             scm {
@@ -41,7 +41,7 @@ Multi-line strings
     
     job('PerforceJob') {
         scm {
-            perforce(viewspec)
+            p4(viewspec)
         }
     }
     
@@ -57,7 +57,7 @@ REST API calls
         def jobName = "${project}-${branchName}".replaceAll('/','-')
         job(jobName) {
             scm {
-                git("git://github.com/${project}.git", branchName)
+                git("https://github.com/${project}.git", branchName)
             }
         }
     }
