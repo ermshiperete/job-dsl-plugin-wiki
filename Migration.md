@@ -1,3 +1,130 @@
+## Migrating to 1.33
+
+### Archive Artifacts
+
+The `latestOnly` option is deprecated in newer versions of Jenkins and therefore it's also
+[[deprecated|Deprecation-Policy]] in the DSL and will be removed. Use `logRotator` to configure which artifacts to keep.
+
+DSL prior to 1.33
+```groovy
+job('example-1') {
+    publishers {
+        archiveArtifacts('*.xml', null, true)
+    }
+}
+
+job('example-2') {
+    publishers {
+        archiveArtifacts {
+            pattern('*.xml')
+            latestOnly()
+        }
+    }
+}
+```
+
+DSL since 1.33
+```groovy
+job('example-1') {
+    logRotator(-1, -1, -1, 1)
+    publishers {
+        archiveArtifacts('*.xml')
+    }
+}
+
+job('example-2') {
+    logRotator(-1, -1, -1, 1)
+    publishers {
+        archiveArtifacts {
+            pattern('*.xml')
+        }
+    }
+}
+```
+
+### Copy Artifacts
+
+Support for versions 1.30 and earlier of the Copy Artifact Plugin is [[deprecated|Deprecation-Policy]] and will be
+removed.
+
+All variants of `copyArtifacts` with more than two parameters have been replaced by a nested context and are deprecated.
+
+DSL prior to 1.33
+```groovy
+job('example') {
+    steps {
+        copyArtifacts('other-1', '*.xml') {
+            latestSaved()
+        }
+        copyArtifacts('other-2', '*.txt', 'files') {
+            buildNumber(5)
+        }
+        copyArtifacts('other-3', '*.csv', 'target', true) {
+            latestSuccessful(true)
+        }
+        copyArtifacts('other-4', 'build/*.jar', 'libs', true, true) {
+            upstreamBuild()
+        }
+    }
+}
+```
+
+DSL since 1.33
+```groovy
+job('example') {
+    steps {
+        copyArtifacts('other-1') {
+            includePatterns('*.xml')
+            buildSelector {
+                latestSaved()
+            }
+        }
+        copyArtifacts('other-2') {
+            includePatterns('*.txt')
+            targetDirectory('files')
+            buildSelector {
+                buildNumber(5)
+            }
+        }
+        copyArtifacts('other-3') {
+            includePatterns('*.csv')
+            targetDirectory('target')
+            flatten()
+            buildSelector {
+                latestSuccessful(true)
+            }
+        }
+        copyArtifacts('other-4') {
+            includePatterns('build/*.jar')
+            targetDirectory('libs')
+            flatten()
+            optional()
+            buildSelector {
+                upstreamBuild()
+            }
+        }
+    }
+}
+```
+
+### Robot Framework
+
+Support for versions older than 1.4.3 of the
+[Robot Framework Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Robot+Framework+Plugin) is
+[[deprecated|Deprecation-Policy]] and will be removed.
+
+### Mercurial
+
+Support for versions older than 1.50.1 of the
+[Mercurial Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Mercurial+Plugin) is [[deprecated|Deprecation-Policy]]
+and will be removed.
+
+### Flexible Publish
+
+Support for versions older than 0.13 of the
+[Flexible Publish Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Flexible+Publish+Plugin) is
+[[deprecated|Deprecation-Policy]] and will be removed.
+
 ## Migrating to 1.31
 
 ### Nested Views

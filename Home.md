@@ -16,6 +16,35 @@ If you want to get fancy you'll want to read up on [[configure block|The Configu
 Have a look at the [Jenkins Job DSL Gradle example](https://github.com/sheehan/job-dsl-gradle-example) to see how to organize a SCM repository for Job DSL scripts.
 
 ## Release Notes
+* 1.33 (May 07 2015)
+ * Enhanced support for the [Git Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin)
+   ([JENKINS-27891](https://issues.jenkins-ci.org/browse/JENKINS-27891), [JENKINS-28264](https://issues.jenkins-ci.org/browse/JENKINS-28264))
+ * Added support for the [Build Publisher Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Build+Publisher+Plugin)
+ * Added support for the [Naginator Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Naginator+Plugin)
+ * Added support for the [Sidebar-Link Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Sidebar-Link+Plugin)
+ * Added support for the [Custom Job Icon Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Custom+Job+Icon+Plugin)
+ * Added support for "Build after other projects are built" trigger
+ * Added more options for `archiveArtifacts`
+ * The `latestOnly` option of `archiveArtifacts` is deprecated, see [[Migration]]
+ * Enhanced support for the [Robot Framework Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Robot+Framework+Plugin)
+ * Enhanced support for [RunDeck Plugin](https://wiki.jenkins-ci.org/display/JENKINS/RunDeck+Plugin)
+ * Enhanced support for the [Mercurial Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Mercurial+Plugin)
+ * Support for the older versions of the [Mercurial Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Mercurial+Plugin) is deprecated, see [[Migration]]
+ * Enhanced support for the [Flexible Publish Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Flexible+Publish+Plugin)
+ * Support for the older versions of the [Flexible Publish Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Flexible+Publish+Plugin) is deprecated, see [[Migration]]
+ * Enhanced support for the [Copy Artifact Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin)
+   ([JENKINS-27838](https://issues.jenkins-ci.org/browse/JENKINS-27838), [JENKINS-27894](https://issues.jenkins-ci.org/browse/JENKINS-27894))
+ * Enhanced support for the [GitHub Pull Request Builder Plugin](https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin)
+   ([JENKINS-27932](https://issues.jenkins-ci.org/browse/JENKINS-27932))
+ * Support for the older versions of the [Copy Artifact Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin) is deprecated, see [[Migration]]
+ * Enhanced support for the [Robot Framework Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Robot+Framework+Plugin)
+ * Support for the older versions of the [Robot Framework Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Robot+Framework+Plugin) is deprecated, see [[Migration]]
+ * Variants of `copyArtifacts` with more than two parameters have been replaced and are deprecated, see [[Migration]]
+ * Added a Jenkins extension point for adding DSL methods
+ * Added support for [HipChat Plugin](https://wiki.jenkins-ci.org/display/JENKINS/HipChat+Plugin]
+ * Added support for uploading [user conent](https://wiki.jenkins-ci.org/display/JENKINS/User+Content)
+ * Increased the minimum supported Jenkins version to 1.565
+   ([JENKINS-28167](https://issues.jenkins-ci.org/browse/JENKINS-28167))
 * 1.32 (April 07 2015)
  * Added support for [PowerShell Plugin](https://wiki.jenkins-ci.org/display/JENKINS/PowerShell+Plugin)
    ([JENKINS-27820](https://issues.jenkins-ci.org/browse/JENKINS-27820))
