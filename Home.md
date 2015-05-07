@@ -41,7 +41,7 @@ Have a look at the [Jenkins Job DSL Gradle example](https://github.com/sheehan/j
  * Support for the older versions of the [Robot Framework Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Robot+Framework+Plugin) is deprecated, see [[Migration]]
  * Variants of `copyArtifacts` with more than two parameters have been replaced and are deprecated, see [[Migration]]
  * Added a Jenkins extension point for adding DSL methods
- * Added support for [HipChat Plugin](https://wiki.jenkins-ci.org/display/JENKINS/HipChat+Plugin]
+ * Added support for [HipChat Plugin](https://wiki.jenkins-ci.org/display/JENKINS/HipChat+Plugin)
  * Added support for uploading [user conent](https://wiki.jenkins-ci.org/display/JENKINS/User+Content)
  * Increased the minimum supported Jenkins version to 1.565
    ([JENKINS-28167](https://issues.jenkins-ci.org/browse/JENKINS-28167))
