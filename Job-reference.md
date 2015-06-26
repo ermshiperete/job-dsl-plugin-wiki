@@ -5404,7 +5404,7 @@ job('example-2') {
         flexiblePublish {
             condition {
                 and {
-                    stringsMatch('foo', 'bar')
+                    stringsMatch('foo', 'bar', false)
                 } {
                     status('SUCCESS', 'SUCCESS')
                 }
